@@ -1,36 +1,47 @@
 using System;
+using System.Collections;
+using CustomEventArgs;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    public event EventHandler<OnShootEventArgs> OnShoot;
+    public event EventHandler OnReloadStart; 
+    public event EventHandler OnReloadEnd;
+    
     [SerializeField] private Transform _gunStartPoint;
     [SerializeField] private Transform _gunEndPoint;
+    [SerializeField, Range(0.1F, 4F)] private float _reloadTimeInSeconds;
     
-    private float _shootTimer;
-    private const float SHOOT_TIMER_MAX = 1f;
-    public event EventHandler<OnShootEventArgs> OnShoot;
+    private bool _isReloading = true;
 
     private void Update()
     {
-        _shootTimer += Time.deltaTime;
-        if (!(_shootTimer >= SHOOT_TIMER_MAX)) return;
+        if (_isReloading) return;
         
         Shoot();
-        _shootTimer = 0;
     }
 
     public void Shoot()
     {
         OnShoot?.Invoke(this, new OnShootEventArgs {
             GunEndPointPosition = _gunEndPoint.position,
-            GunStartPointPosition = _gunStartPoint.position
+            GunStartPointPosition = _gunStartPoint.position,
         });
+
+        StartCoroutine(ReloadGunRoutine());
     }
     
-    
-    public class OnShootEventArgs : EventArgs
+    private IEnumerator ReloadGunRoutine()
     {
-        public Vector3 GunStartPointPosition;
-        public Vector3 GunEndPointPosition;
+        _isReloading = true;
+        
+        OnReloadStart?.Invoke(this, EventArgs.Empty);
+        
+        yield return new WaitForSeconds(_reloadTimeInSeconds);
+        
+        _isReloading = false;
+        
+        OnReloadEnd?.Invoke(this, EventArgs.Empty);
     }
 }

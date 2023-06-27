@@ -1,3 +1,4 @@
+using CustomEventArgs;
 using UnityEngine;
 
 public class TurretShootProjectiles : MonoBehaviour
@@ -9,7 +10,7 @@ public class TurretShootProjectiles : MonoBehaviour
         GetComponent<Turret>().OnShoot += TurretShootProjectiles_OnShoot;
     }
     
-    private void TurretShootProjectiles_OnShoot(object sender, Turret.OnShootEventArgs e)
+    private void TurretShootProjectiles_OnShoot(object sender, OnShootEventArgs e)
     {
         var bulletGameObject = Instantiate(_bulletPrefab, e.GunEndPointPosition, Quaternion.identity);
 
