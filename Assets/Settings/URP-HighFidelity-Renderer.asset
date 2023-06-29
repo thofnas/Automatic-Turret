@@ -29,7 +29,7 @@ MonoBehaviour:
     steepAngleThreshold: 0.2
     steepAngleMultiplier: 25
   viewSpaceNormalsTextureSettings:
-    colorFormat: 7
+    colorFormat: 1
     depthBufferBits: 16
     filterMode: 2
     backgroundColor: {r: 0, g: 0, b: 0, a: 1}
