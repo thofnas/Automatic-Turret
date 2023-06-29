@@ -13,7 +13,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform _gunEndPoint;
     [SerializeField, Range(0.1F, 4F)] private float _reloadTimeInSeconds;
     
-    private bool _isReloading = true;
+    private bool _isReloading;
 
     private void Update()
     {

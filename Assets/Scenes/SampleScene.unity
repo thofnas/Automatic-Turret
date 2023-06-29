@@ -172,7 +172,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 223762590}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GunStartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 413083921}
   - component: {fileID: 413083924}
   - component: {fileID: 413083923}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,8 @@ GameObject:
   - component: {fileID: 496401414}
   - component: {fileID: 496401413}
   - component: {fileID: 496401412}
-  m_Layer: 0
+  - component: {fileID: 496401415}
+  m_Layer: 6
   m_Name: Case
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,6 +656,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496401410}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &496401415
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496401410}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 94
+  m_CollisionDetection: 0
 --- !u!1 &693649962
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1456964543}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GunEndPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,10 +946,10 @@ PrefabInstance:
       propertyPath: _turretTransform
       value: 
       objectReference: {fileID: 705442180}
-    - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
+    - target: {fileID: 2324835901176076843, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
-      propertyPath: _rollDelayInSeconds
-      value: 1
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5155054147113448330, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
@@ -983,45 +1011,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5392807126144252744, guid: 806f5c979983afd4f82bde77fe498c53, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6918403545300865139, guid: 806f5c979983afd4f82bde77fe498c53,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2145011657}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 806f5c979983afd4f82bde77fe498c53, type: 3}
---- !u!1 &2145011653 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6918403545300865139, guid: 806f5c979983afd4f82bde77fe498c53,
-    type: 3}
-  m_PrefabInstance: {fileID: 2027421889}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &2145011657
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2145011653}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0

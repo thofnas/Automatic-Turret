@@ -17,8 +17,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        print(_turretTransform.gameObject);
-
         transform.LookAt(_turretTransform);
         Assemble();
     }
@@ -44,7 +42,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.gameObject.transform.parent);
         if (collision.gameObject.transform.parent == _turretTransform)
             Destroy(gameObject);
     }
@@ -52,6 +49,7 @@ public class Enemy : MonoBehaviour, IDamageable
     private IEnumerator RollACubeRoutine(Vector3 anchorPoint, Vector3 axis)
     {
         OnRollStart?.Invoke(this, EventArgs.Empty);
+        
         _isRolling = true;
 
         for (int i = 0; i < (90 / _rollSpeed); i++)
@@ -61,8 +59,11 @@ public class Enemy : MonoBehaviour, IDamageable
         }
         
         yield return new WaitForSeconds(_rollDelayInSeconds);
+        
         OnRollEnd?.Invoke(this, EventArgs.Empty);
+        
         _isRolling = false;
+        
         Assemble();
     }
 }
