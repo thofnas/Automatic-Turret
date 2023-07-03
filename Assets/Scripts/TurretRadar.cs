@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TurretRadar : MonoBehaviour
 {
-    public EventHandler OnEnemySpotted;
+    public static EventHandler OnEnemySpotted;
     
     private void OnTriggerEnter(Collider other)
     {

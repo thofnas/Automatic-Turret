@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
-    public event EventHandler OnRollStart;
-    public event EventHandler OnRollEnd;
+    public static event EventHandler OnRollStart;
+    public static event EventHandler OnRollEnd;
     public static event Action OnDestroyEvent;
 
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;

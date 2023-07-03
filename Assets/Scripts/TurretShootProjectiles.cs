@@ -5,13 +5,10 @@ using UnityEngine;
 public class TurretShootProjectiles : MonoBehaviour
 {
     [SerializeField] private GameObject _bulletPrefab;
-    private Turret _turret;
 
-    private void Awake() => _turret = GetComponent<Turret>();
+    private void OnEnable() => Turret.OnShoot += TurretShootProjectiles_OnShoot;
 
-    private void OnEnable() => _turret.OnShoot += TurretShootProjectiles_OnShoot;
-
-    private void OnDisable() => _turret.OnShoot -= TurretShootProjectiles_OnShoot;
+    private void OnDisable() => Turret.OnShoot -= TurretShootProjectiles_OnShoot;
 
     private void TurretShootProjectiles_OnShoot(object sender, OnShootEventArgs e)
     {

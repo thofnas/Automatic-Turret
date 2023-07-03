@@ -6,20 +6,26 @@ using UnityEngine;
 
 public class Turret : Singleton<Turret>
 {
-    public event EventHandler<OnShootEventArgs> OnShoot;
-    public event EventHandler OnReloadStart; 
-    public event EventHandler OnReloadEnd;
+    public static event EventHandler<OnShootEventArgs> OnShoot;
+    public static event EventHandler OnReloadStart; 
+    public static event EventHandler OnReloadEnd;
+    public static event Action OnRotateStart;
+    public static event Action OnRotateEnd;
+
     public Queue<Transform> EnemyList;
 
-    [Header("")] [SerializeField] private bool _isEnabled = true;
+    [SerializeField] private bool _isEnabled = true;
     
+    [Header("")] 
     [SerializeField] private Transform _gunStartPoint;
     [SerializeField] private Transform _gunEndPoint;
     [SerializeField, Range(0.1F, 4F)] private float _reloadTimeInSeconds;
-    [SerializeField] private Transform _enemyTransform;
-    [SerializeField] private Transform _turretRadarTransform;
 
-    private bool _isReloading;
+    [Header("")] 
+    [SerializeField] private float _rotationSpeed = 2F;
+
+    public bool IsReloading { get; private set; }
+    public bool IsShootingLocked { get; private set; }
 
     protected override void Awake()
     {
@@ -31,13 +37,13 @@ public class Turret : Singleton<Turret>
     private void OnEnable()
     {
         Enemy.OnDestroyEvent += Enemy_OnDestroyEvent;
-        _turretRadarTransform.GetComponent<TurretRadar>().OnEnemySpotted += TurretRadar_OnEnemySpotted;
+        TurretRadar.OnEnemySpotted += TurretRadar_OnEnemySpotted;
     }
     
     private void OnDisable()
     {
         Enemy.OnDestroyEvent -= Enemy_OnDestroyEvent;
-        _turretRadarTransform.GetComponent<TurretRadar>().OnEnemySpotted -= TurretRadar_OnEnemySpotted;
+        TurretRadar.OnEnemySpotted -= TurretRadar_OnEnemySpotted;
     }
 
     private void Enemy_OnDestroyEvent()
@@ -55,20 +61,21 @@ public class Turret : Singleton<Turret>
     {
         if (EnemyList.Count <= 0) return;
         
-        transform.LookAt(EnemyList.Peek());
+        StartCoroutine(RotateTurretRoutine(EnemyList.Peek()));
     }
 
     private void Update()
     {
-        if(!_isEnabled) return;
-        if (_isReloading) return;
-        if (EnemyList.Count <= 0) return;
-
-        Shoot();
+        ShootHandler();
     }
 
-    public void Shoot()
+    public void ShootHandler()
     {
+        if (!_isEnabled) return;
+        if (IsReloading) return;
+        if (IsShootingLocked) return;
+        if (EnemyList.Count <= 0) return;
+        
         OnShoot?.Invoke(this, new OnShootEventArgs {
             GunEndPointPosition = _gunEndPoint.position,
             GunStartPointPosition = _gunStartPoint.position,
@@ -76,16 +83,37 @@ public class Turret : Singleton<Turret>
 
         StartCoroutine(ReloadGunRoutine());
     }
+
+    private IEnumerator RotateTurretRoutine(Transform target)
+    {
+        const float speedMultiplier = 0.25F;
+        float step = _rotationSpeed * Time.deltaTime * speedMultiplier;
+        Quaternion rotationTarget = Quaternion.LookRotation(target.position - transform.position);
+        
+        IsShootingLocked = true;
+        OnRotateStart?.Invoke();
+
+        while (rotationTarget != transform.rotation)
+        {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationTarget, step);
+            step += _rotationSpeed * Time.deltaTime * speedMultiplier;
+
+            yield return null;
+        }
+
+        IsShootingLocked = false;
+        OnRotateEnd?.Invoke();
+    }
     
     private IEnumerator ReloadGunRoutine()
     {
-        _isReloading = true;
+        IsReloading = true;
         
         OnReloadStart?.Invoke(this, EventArgs.Empty);
         
         yield return new WaitForSeconds(_reloadTimeInSeconds);
         
-        _isReloading = false;
+        IsReloading = false;
         
         OnReloadEnd?.Invoke(this, EventArgs.Empty);
     }
