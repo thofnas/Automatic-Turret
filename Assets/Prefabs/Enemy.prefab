@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 5155054147113448330}
   - component: {fileID: -5276530449521385806}
   - component: {fileID: 4629640642851035293}
-  - component: {fileID: 5392807126144252744}
+  - component: {fileID: 202983595681881899}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -154,7 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rollSpeed: 2
   _rollDelayInSeconds: 1
-  _turretTransform: {fileID: 0}
+  _turretTransform: {fileID: 3580037651647430428, guid: c34b3c2a253115c44a7931e6e1752597,
+    type: 3}
 --- !u!65 &4629640642851035293
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -176,7 +177,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5392807126144252744
+--- !u!54 &202983595681881899
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
