@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CustomEventArgs
+namespace _CustomEventArgs
 {
     public class OnShootEventArgs : EventArgs
     {
