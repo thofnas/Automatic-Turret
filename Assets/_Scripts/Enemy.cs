@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
+using _CustomEventArgs;
 using _Interfaces;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
     {
-        public static event EventHandler OnRollStart;
-        public static event EventHandler OnRollEnd;
-        public static event Action OnDestroyEvent;
+        public event EventHandler<OnEnemyDestroyEventArgs> OnEnemyDestroyEvent;
+        public event EventHandler OnRollStart;
+        public event EventHandler OnRollEnd;
 
         [SerializeField, Min(0F)] private float _rollSpeed = 5F;
         [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
@@ -44,7 +45,9 @@ public class Enemy : MonoBehaviour, IDamageable
 
         private void OnDestroy()
         {
-            OnDestroyEvent?.Invoke();
+            OnEnemyDestroyEvent?.Invoke(this, new OnEnemyDestroyEventArgs {
+                Enemy = this
+            });
         }
 
         private void OnCollisionEnter(Collision collision)

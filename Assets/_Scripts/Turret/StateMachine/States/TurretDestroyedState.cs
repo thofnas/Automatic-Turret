@@ -4,15 +4,24 @@ namespace Turret.StateMachine.States
 {
     public class TurretDestroyedState : TurretBaseState
     {
-        public override void EnterState(TurretStateManager turret)
+        public TurretDestroyedState(TurretStateMachine context, TurretStateFactory turretStateFactory)
+            : base(context, turretStateFactory) { }
+
+        public override void EnterState()
         {
         }
-        public override void ExitState(TurretStateManager turret)
+        public override void ExitState()
         {
         }
-        public override void UpdateState(TurretStateManager turret)
+        public override void UpdateState()
+        {
+            CheckSwitchStates();
+        }
+        public override void CheckSwitchStates()
         {
         }
-        public override void OnCollisionEnter(TurretStateManager turret, Collision collision) { }
+        public override void InitializeSubState()
+        {
+        }
     }
 }

@@ -1,107 +1,122 @@
 using System;
 using System.Collections;
 using _CustomEventArgs;
+using _Managers;
 using UnityEngine;
 
 namespace Turret.StateMachine.States
 {
     public class TurretShootingState : TurretBaseState
     {
-        public static event EventHandler<OnShootEventArgs> OnShoot;
-        public static event EventHandler OnReloadStart; 
-        public static event EventHandler OnReloadEnd;
-        public static event EventHandler<OnAimEventArgs> OnAimStart;
+        public TurretShootingState(TurretStateMachine context, TurretStateFactory turretStateFactory)
+            : base(context, turretStateFactory) { }
         
-        private TurretStateManager _turret;
-
-        public override void EnterState(TurretStateManager turret)
+        //events
+        public static event EventHandler<OnShootEventArgs> OnShoot;
+        public static event Action OnAimStart;
+        public static event Action OnAimEnd;
+        public static event Action OnReloadStart; 
+        public static event Action OnReloadEnd;
+        
+        public override void EnterState()
         {
             Debug.Log("Entered Shooting State.");
-            Enemy.OnDestroyEvent += Enemy_OnDestroyEvent;
-            TurretScanner.OnEnemySpotted += TurretScanner_OnEnemySpotted;
-
-            _turret = turret;
+            // Enemy.OnEnemyDestroyEvent += EnemyOnEnemyDestroyEvent;
+            TurretScanner.Instance.OnEnemySpotted += TurretScanner_OnEnemySpotted;
         }
         
-        public override void ExitState(TurretStateManager turret)
+        public override void ExitState()
         {
             Debug.Log("Leaved Shooting State.");
-            Enemy.OnDestroyEvent -= Enemy_OnDestroyEvent;
-            TurretScanner.OnEnemySpotted -= TurretScanner_OnEnemySpotted;
-
-            _turret = null;
+            // Enemy.OnEnemyDestroyEvent -= EnemyOnEnemyDestroyEvent;
+            TurretScanner.Instance.OnEnemySpotted -= TurretScanner_OnEnemySpotted;
         }
 
-        public override void UpdateState(TurretStateManager turret)
+        public override void UpdateState()
         {
-            if (TurretScanner.Instance.EnemyList.Count <= 0)
-            {
-                turret.SwitchState(turret.IdleState);
-                return;
-            }
-            
+            CheckSwitchStates();
             ShootHandler();
         }
         
+        public override void CheckSwitchStates()
+        {
+            if (EnemyManager.Instance.EnemiesInSightList.Count > 0) return;
+            SwitchState(Factory.Idle());
+        }
+        
+        public override void InitializeSubState()
+        {
+        }
+
         public void ShootHandler()
         {
-            if (!TurretStateManager.Instance.IsEnabled) return;
-            if (TurretStateManager.Instance.IsReloading) return;
-            if (TurretStateManager.Instance.IsShootingLocked) return;
+            Debug.Log(Ctx.IsReloading);
+
+            if (!Ctx.IsEnabled) return;
+            if (Ctx.IsReloading) return;
+            if (Ctx.IsShootingLocked) return;
         
             OnShoot?.Invoke(this, new OnShootEventArgs {
-                GunEndPointPosition = TurretStateManager.Instance.GunEndPoint.position,
-                GunStartPointPosition = TurretStateManager.Instance.GunStartPoint.position,
+                GunEndPointPosition = Ctx.GunEndPoint.position,
+                GunStartPointPosition = Ctx.GunStartPoint.position,
             });
-            
-            OnReloadStart?.Invoke(this, EventArgs.Empty);
+
+            Ctx.StartCoroutine(ReloadGunRoutine());
         }
         
-        public void RotateTowardsClosestEnemy(TurretStateManager turret)
-        {
-            if (TurretScanner.Instance.EnemyList.Count <= 0) return;
-            
-            OnAimStart?.Invoke(this,new OnAimEventArgs {
-                Turret = turret
-            });
+        public void RotateTowardsClosestEnemy()
+        { 
+            if (EnemyManager.Instance.EnemiesInSightList.Count <= 0) return;
+
+            Ctx.StartCoroutine(AimTurretRoutine(EnemyManager.Instance.EnemiesInSightList[0].transform));
         }
         
-        public static IEnumerator AimTurretRoutine(Component turret, Transform target)
+        public IEnumerator AimTurretRoutine(Transform target)
         {
             const float speedMultiplier = 0.25F;
-            float step = TurretStateManager.Instance.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
-            Quaternion rotationTarget = Quaternion.LookRotation(target.position - turret.transform.position);
-
-            TurretStateManager.Instance.IsShootingLocked = true;
-
-            while (rotationTarget != turret.transform.rotation)
+            float step = Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
+            Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
+            
+            Ctx.IsShootingLocked = true;
+            
+            Debug.Log(target.position);
+            
+            OnAimStart?.Invoke();
+            
+            while (rotationTarget != Ctx.transform.rotation)
             {
-                turret.transform.rotation = Quaternion.RotateTowards(turret.transform.rotation, rotationTarget, step);
-                step += TurretStateManager.Instance.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
-
+                Ctx.transform.rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
+                step += Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
+            
                 yield return null;
             }
-
-            TurretStateManager.Instance.IsShootingLocked = false;
-        }
-        
-        public static IEnumerator ReloadGunRoutine()
-        {
-            TurretStateManager.Instance.IsReloading = true;
             
-            yield return new WaitForSeconds(TurretStateManager.Instance.ReloadTimeInSeconds);
-        
-            TurretStateManager.Instance.IsReloading = false;
+            Ctx.IsShootingLocked = false;
+            
+            OnAimEnd?.Invoke();
         }
         
-        private void Enemy_OnDestroyEvent()
+        public IEnumerator ReloadGunRoutine()
         {
-            RotateTowardsClosestEnemy(_turret);
+            OnReloadStart?.Invoke();
+            
+            Ctx.IsReloading = true;
+            
+            yield return new WaitForSeconds(Ctx.ReloadTimeInSeconds);
+        
+            Ctx.IsReloading = false;
+            
+            OnReloadEnd?.Invoke();
+        }
+
+        private void EnemyOnEnemyDestroyEvent()
+        {
+            RotateTowardsClosestEnemy();
         }
 
         private void TurretScanner_OnEnemySpotted(object sender, EventArgs e)
         {
-            RotateTowardsClosestEnemy(_turret);
+            RotateTowardsClosestEnemy();
         }
     }
 }

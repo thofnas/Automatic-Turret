@@ -1,26 +1,38 @@
+using _Managers;
 using UnityEngine;
 
 namespace Turret.StateMachine.States
 {
     public class TurretIdleState : TurretBaseState
     {
-        public override void EnterState(TurretStateManager turret)
+        public TurretIdleState(TurretStateMachine context, TurretStateFactory turretStateFactory)
+            : base(context, turretStateFactory) { }
+        
+        public override void EnterState()
         {
             Debug.Log("Entered Idle State.");
         }
         
-        public override void ExitState(TurretStateManager turret)
+        public override void ExitState()
         {
             Debug.Log("Leaved Idle State.");
         }
         
-        public override void UpdateState(TurretStateManager turret)
+        public override void UpdateState()
         {
-            if (TurretScanner.Instance.EnemyList.Count > 0)
-            {
-                turret.SwitchState(turret.ShootingState);
-                return;
-            }
+            CheckSwitchStates();
+        }
+        
+        public override void CheckSwitchStates()
+        {
+            if (EnemyManager.Instance.EnemiesInSightList.Count <= 0) return;
+            
+            SwitchState(Factory.Shooting());
+        }
+        
+        public override void InitializeSubState()
+        {
+            
         }
     }
 }
