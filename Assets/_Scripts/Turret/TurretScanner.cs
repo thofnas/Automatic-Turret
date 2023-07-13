@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
+using _Events;
 using _Managers;
 using UnityEngine;
 
 namespace Turret
 {
-    public class TurretScanner : Singleton<TurretScanner>
+    public class TurretScanner : MonoBehaviour
     {
-        public  EventHandler OnEnemySpotted;
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Enemy enemy))
             {
-                EnemyManager.Instance.AddEnemy(enemy);
-                OnEnemySpotted?.Invoke(this, EventArgs.Empty);
+                //EnemyManager.Instance.AddEnemy(enemy);
+                GameEvents.OnEnemySpotted.Invoke();
             }
         }
     }

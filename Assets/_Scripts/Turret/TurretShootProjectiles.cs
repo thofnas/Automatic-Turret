@@ -1,4 +1,5 @@
 using _CustomEventArgs;
+using _Events;
 using Turret.StateMachine.States;
 using UnityEngine;
 
@@ -8,11 +9,11 @@ namespace Turret
     {
         [SerializeField] private GameObject _bulletPrefab;
 
-        private void OnEnable() => TurretShootingState.OnShoot += TurretShootProjectiles_OnShoot;
+        private void OnEnable() => GameEvents.TurretOnShoot.AddListener(GameEvents_TurretOnShoot);
 
-        private void OnDisable() => TurretShootingState.OnShoot -= TurretShootProjectiles_OnShoot;
+        private void OnDisable() => GameEvents.TurretOnShoot.RemoveListener(GameEvents_TurretOnShoot);
 
-        private void TurretShootProjectiles_OnShoot(object sender, OnShootEventArgs e)
+        private void GameEvents_TurretOnShoot(OnShootEventArgs e)
         {
             GameObject bulletGameObject = Instantiate(_bulletPrefab, e.GunEndPointPosition, Quaternion.identity);
 

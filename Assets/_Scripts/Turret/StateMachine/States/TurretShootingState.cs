@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
-using _CustomEventArgs;
-using _Managers;
 using UnityEngine;
+using _CustomEventArgs;
+using _Events;
+using _Managers;
 
 namespace Turret.StateMachine.States
 {
@@ -10,26 +11,19 @@ namespace Turret.StateMachine.States
     {
         public TurretShootingState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }
-        
-        //events
-        public static event EventHandler<OnShootEventArgs> OnShoot;
-        public static event Action OnAimStart;
-        public static event Action OnAimEnd;
-        public static event Action OnReloadStart; 
-        public static event Action OnReloadEnd;
-        
+
         public override void EnterState()
         {
             Debug.Log("Entered Shooting State.");
             // Enemy.OnEnemyDestroyEvent += EnemyOnEnemyDestroyEvent;
-            TurretScanner.Instance.OnEnemySpotted += TurretScanner_OnEnemySpotted;
+            GameEvents.OnEnemySpotted.AddListener(TurretScanner_OnEnemySpotted);
         }
-        
+
         public override void ExitState()
         {
             Debug.Log("Leaved Shooting State.");
             // Enemy.OnEnemyDestroyEvent -= EnemyOnEnemyDestroyEvent;
-            TurretScanner.Instance.OnEnemySpotted -= TurretScanner_OnEnemySpotted;
+            GameEvents.OnEnemySpotted.RemoveListener(TurretScanner_OnEnemySpotted);
         }
 
         public override void UpdateState()
@@ -50,13 +44,11 @@ namespace Turret.StateMachine.States
 
         public void ShootHandler()
         {
-            Debug.Log(Ctx.IsReloading);
-
             if (!Ctx.IsEnabled) return;
             if (Ctx.IsReloading) return;
             if (Ctx.IsShootingLocked) return;
         
-            OnShoot?.Invoke(this, new OnShootEventArgs {
+            GameEvents.TurretOnShoot.Invoke(new OnShootEventArgs {
                 GunEndPointPosition = Ctx.GunEndPoint.position,
                 GunStartPointPosition = Ctx.GunStartPoint.position,
             });
@@ -78,10 +70,8 @@ namespace Turret.StateMachine.States
             Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
             
             Ctx.IsShootingLocked = true;
-            
-            Debug.Log(target.position);
-            
-            OnAimStart?.Invoke();
+
+            GameEvents.TurretOnAimStart.Invoke();
             
             while (rotationTarget != Ctx.transform.rotation)
             {
@@ -93,12 +83,12 @@ namespace Turret.StateMachine.States
             
             Ctx.IsShootingLocked = false;
             
-            OnAimEnd?.Invoke();
+            GameEvents.TurretOnAimEnd.Invoke();
         }
         
         public IEnumerator ReloadGunRoutine()
         {
-            OnReloadStart?.Invoke();
+            GameEvents.TurretOnReloadStart.Invoke();
             
             Ctx.IsReloading = true;
             
@@ -106,7 +96,7 @@ namespace Turret.StateMachine.States
         
             Ctx.IsReloading = false;
             
-            OnReloadEnd?.Invoke();
+            GameEvents.TurretOnReloadEnd.Invoke();
         }
 
         private void EnemyOnEnemyDestroyEvent()
@@ -114,7 +104,7 @@ namespace Turret.StateMachine.States
             RotateTowardsClosestEnemy();
         }
 
-        private void TurretScanner_OnEnemySpotted(object sender, EventArgs e)
+        private void TurretScanner_OnEnemySpotted()
         {
             RotateTowardsClosestEnemy();
         }
