@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Turret.StateMachine
 {
-    public class TurretStateMachine : MonoBehaviour
+    public class TurretStateMachine : Singleton<TurretStateMachine>
     {
         [SerializeField] private bool _isShootingLocked;
         [SerializeField] private bool _isEnabled = true;
@@ -11,7 +11,6 @@ namespace Turret.StateMachine
         [SerializeField] private Transform _gunStartPoint;
         [SerializeField] private Transform _gunEndPoint;
         [SerializeField] [Range(0.1F, 4F)] private float _reloadTimeInSeconds;
-
         
         // state variables
         private TurretStateFactory _states;
@@ -27,8 +26,9 @@ namespace Turret.StateMachine
         public Transform GunEndPoint { get => _gunEndPoint; }
         public float ReloadTimeInSeconds { get => _reloadTimeInSeconds; }
 
-        protected void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _states = new TurretStateFactory(this);
         }
 
@@ -50,6 +50,6 @@ namespace Turret.StateMachine
             state.EnterState();
         }
 
-        public TurretStateMachine GetTurret() => this;
+        public Transform GetTransform() => transform;
     }
 }

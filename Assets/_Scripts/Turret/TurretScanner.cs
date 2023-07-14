@@ -1,5 +1,4 @@
 using _Events;
-using _Managers;
 using UnityEngine;
 
 namespace Turret
@@ -10,8 +9,7 @@ namespace Turret
         {
             if (other.TryGetComponent(out Enemy enemy))
             {
-                //EnemyManager.Instance.AddEnemy(enemy);
-                GameEvents.OnEnemySpotted.Invoke();
+                GameEvents.OnEnemySpotted.Invoke(enemy);
             }
         }
     }

@@ -42,9 +42,7 @@ public class Enemy : UniqueGameObject, IDamageable
 
     private void OnDestroy()
     {
-        GameEvents.OnEnemyDestroy.Invoke(new OnEnemyDestroyEventArgs {
-            Enemy = this
-        });
+        GameEvents.OnEnemyDestroyed.Invoke(InstanceID);
     }
 
     private void OnCollisionEnter(Collision collision)

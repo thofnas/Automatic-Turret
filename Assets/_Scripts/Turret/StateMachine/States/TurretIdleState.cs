@@ -8,23 +8,15 @@ namespace Turret.StateMachine.States
         public TurretIdleState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }
         
-        public override void EnterState()
-        {
-            Debug.Log("Entered Idle State.");
-        }
-        
-        public override void ExitState()
-        {
-            Debug.Log("Leaved Idle State.");
-        }
-        
-        public override void UpdateState()
-        {
-            CheckSwitchStates();
-        }
-        
+        public override void EnterState() => Debug.Log("Entered Idle State.");
+
+        public override void ExitState() => Debug.Log("Leaved Idle State.");
+
+        public override void UpdateState() => CheckSwitchStates();
+
         public override void CheckSwitchStates()
         {
+            Debug.Log(EnemyManager.Instance.EnemiesInSightList.Count);
             if (EnemyManager.Instance.EnemiesInSightList.Count <= 0) return;
             
             SwitchState(Factory.Shooting());

@@ -15,15 +15,15 @@ namespace Turret.StateMachine.States
         public override void EnterState()
         {
             Debug.Log("Entered Shooting State.");
-            // Enemy.OnEnemyDestroyEvent += EnemyOnEnemyDestroyEvent;
-            GameEvents.OnEnemySpotted.AddListener(TurretScanner_OnEnemySpotted);
+            GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
+            GameEvents.OnEnemySpotted.AddListener(GameEvents_Enemy_OnEnemySpotted);
         }
 
         public override void ExitState()
         {
             Debug.Log("Leaved Shooting State.");
-            // Enemy.OnEnemyDestroyEvent -= EnemyOnEnemyDestroyEvent;
-            GameEvents.OnEnemySpotted.RemoveListener(TurretScanner_OnEnemySpotted);
+            GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
+            GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
         }
 
         public override void UpdateState()
@@ -59,8 +59,9 @@ namespace Turret.StateMachine.States
         public void RotateTowardsClosestEnemy()
         { 
             if (EnemyManager.Instance.EnemiesInSightList.Count <= 0) return;
-
-            Ctx.StartCoroutine(AimTurretRoutine(EnemyManager.Instance.EnemiesInSightList[0].transform));
+            
+            Debug.Log(EnemyManager.Instance.GetClosestEnemy().transform);
+            Ctx.StartCoroutine(AimTurretRoutine(EnemyManager.Instance.GetClosestEnemy().transform));
         }
         
         public IEnumerator AimTurretRoutine(Transform target)
@@ -68,7 +69,7 @@ namespace Turret.StateMachine.States
             const float speedMultiplier = 0.25F;
             float step = Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
             Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
-            
+
             Ctx.IsShootingLocked = true;
 
             GameEvents.TurretOnAimStart.Invoke();
@@ -99,12 +100,12 @@ namespace Turret.StateMachine.States
             GameEvents.TurretOnReloadEnd.Invoke();
         }
 
-        private void EnemyOnEnemyDestroyEvent()
+        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID)
         {
             RotateTowardsClosestEnemy();
         }
 
-        private void TurretScanner_OnEnemySpotted()
+        private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy)
         {
             RotateTowardsClosestEnemy();
         }

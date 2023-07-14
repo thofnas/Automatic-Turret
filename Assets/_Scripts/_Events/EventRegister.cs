@@ -13,15 +13,15 @@ namespace _Events
             public void RemoveListener(Action listener) => CustomAction -= listener;
         }
 
-        public class EventRegister<T>
+        public class EventRegister<T1>
         {
-            private event Action<T> CustomAction = delegate { };
+            private event Action<T1> CustomAction = delegate { };
 
-            public void Invoke(T param) => CustomAction?.Invoke(param);
+            public void Invoke(T1 param) => CustomAction?.Invoke(param);
 
-            public void AddListener(Action<T> listener) => CustomAction += listener;
+            public void AddListener(Action<T1> listener) => CustomAction += listener;
 
-            public void RemoveListener(Action<T> listener) => CustomAction -= listener;
+            public void RemoveListener(Action<T1> listener) => CustomAction -= listener;
         }
     }
 

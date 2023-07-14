@@ -10,14 +10,13 @@ namespace _Events {
         public static readonly EventRegister TurretOnAimEnd = new();
         public static readonly EventRegister TurretOnReloadStart = new(); 
         public static readonly EventRegister TurretOnReloadEnd = new();
-        
-        public static readonly EventRegister OnEnemySpotted = new();
         #endregion
 
         #region Enemy/Enemies
-        public static readonly EventRegister<OnEnemyDestroyEventArgs> OnEnemyDestroy = new();
+        public static readonly EventRegister<Guid> OnEnemyDestroyed = new();
         public static readonly EventRegister<Guid> OnEnemyRollStart = new();
         public static readonly EventRegister<Guid> OnEnemyRollEnd = new();
+        public static readonly EventRegister<Enemy> OnEnemySpotted = new();
         #endregion
     }
 }

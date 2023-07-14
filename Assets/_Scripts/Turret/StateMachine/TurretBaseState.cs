@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Turret.StateMachine
 {
     public abstract class TurretBaseState
