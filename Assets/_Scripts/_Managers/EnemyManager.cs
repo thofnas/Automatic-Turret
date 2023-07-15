@@ -15,14 +15,15 @@ namespace _Managers
             GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
             GameEvents.OnEnemySpotted.AddListener(GameEvents_Enemy_OnEnemySpotted);
         }
-        private void GameEvents_Enemy_OnEnemySpotted(Enemy enemyId)
+        
+        private void OnDisable()
         {
-            AddEnemyToList(enemyId);
+            GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
+            GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
         }
 
         public Enemy GetClosestEnemy()
         {
-            print(TurretStateMachine.Instance);
             Transform turret = TurretStateMachine.Instance.GetTransform();
             float closestDistance = float.PositiveInfinity;
             Enemy closestEnemy = null;
@@ -37,16 +38,30 @@ namespace _Managers
                     closestEnemy = enemy.Value;
                 }
             }
-
+            
             return closestEnemy;
         }
 
         public void AddEnemyToList(Enemy enemy) => EnemiesInSightList.Add(enemy.InstanceID, enemy);
 
+        public void AddEnemyToList(Guid enemyID) => throw new NotImplementedException();
+
         public void RemoveEnemyFromList(Enemy enemy) => EnemiesInSightList.Remove(enemy.InstanceID);
 
         public void RemoveEnemyFromList(Guid enemyID) => EnemiesInSightList.Remove(enemyID);
 
-        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID) => RemoveEnemyFromList(enemyID);
+        public bool HasEnemyInSight(Enemy enemy) => EnemiesInSightList.ContainsValue(enemy);
+
+        public bool HasEnemyInSight(Guid enemyID) => EnemiesInSightList.ContainsKey(enemyID);
+
+        public bool HasEnemyInSight() => EnemiesInSightList.Count > 0;
+
+        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID)
+        {
+            print("Destroyed");
+            RemoveEnemyFromList(enemyID);
+        }
+
+        private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy) => AddEnemyToList(enemy);
     }
 }

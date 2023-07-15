@@ -10,16 +10,16 @@ namespace Turret.StateMachine.States
         
         public override void EnterState() => Debug.Log("Entered Idle State.");
 
-        public override void ExitState() => Debug.Log("Leaved Idle State.");
+        public override void ExitState() { }
 
         public override void UpdateState() => CheckSwitchStates();
 
         public override void CheckSwitchStates()
         {
-            Debug.Log(EnemyManager.Instance.EnemiesInSightList.Count);
-            if (EnemyManager.Instance.EnemiesInSightList.Count <= 0) return;
-            
-            SwitchState(Factory.Shooting());
+            if (EnemyManager.Instance.HasEnemyInSight())
+            {
+                SwitchState(Factory.Aiming());
+            }
         }
         
         public override void InitializeSubState()

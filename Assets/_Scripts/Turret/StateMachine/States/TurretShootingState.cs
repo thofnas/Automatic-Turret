@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using _CustomEventArgs;
@@ -15,16 +14,9 @@ namespace Turret.StateMachine.States
         public override void EnterState()
         {
             Debug.Log("Entered Shooting State.");
-            GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
-            GameEvents.OnEnemySpotted.AddListener(GameEvents_Enemy_OnEnemySpotted);
         }
 
-        public override void ExitState()
-        {
-            Debug.Log("Leaved Shooting State.");
-            GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
-            GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
-        }
+        public override void ExitState() { }
 
         public override void UpdateState()
         {
@@ -34,20 +26,31 @@ namespace Turret.StateMachine.States
         
         public override void CheckSwitchStates()
         {
-            if (EnemyManager.Instance.EnemiesInSightList.Count > 0) return;
-            SwitchState(Factory.Idle());
+            if (!EnemyManager.Instance.HasEnemyInSight())
+            {
+                SwitchState(Factory.Idle());
+            }
+
+            if (!Ctx.IsEnemyInFront(EnemyManager.Instance.GetClosestEnemy()))
+            {
+                SwitchState(Factory.Aiming());
+            }
+            
+            // if (Ctx.IsDestroyed)
+            // {
+            //     SwitchState(Factory.Destroyed());
+            //     return;
+            // }
         }
         
-        public override void InitializeSubState()
-        {
-        }
+        public override void InitializeSubState() { }
 
-        public void ShootHandler()
+        private void ShootHandler()
         {
             if (!Ctx.IsEnabled) return;
             if (Ctx.IsReloading) return;
-            if (Ctx.IsShootingLocked) return;
-        
+            if (Ctx.IsAiming) return;
+
             GameEvents.TurretOnShoot.Invoke(new OnShootEventArgs {
                 GunEndPointPosition = Ctx.GunEndPoint.position,
                 GunStartPointPosition = Ctx.GunStartPoint.position,
@@ -56,38 +59,9 @@ namespace Turret.StateMachine.States
             Ctx.StartCoroutine(ReloadGunRoutine());
         }
         
-        public void RotateTowardsClosestEnemy()
-        { 
-            if (EnemyManager.Instance.EnemiesInSightList.Count <= 0) return;
-            
-            Debug.Log(EnemyManager.Instance.GetClosestEnemy().transform);
-            Ctx.StartCoroutine(AimTurretRoutine(EnemyManager.Instance.GetClosestEnemy().transform));
-        }
         
-        public IEnumerator AimTurretRoutine(Transform target)
-        {
-            const float speedMultiplier = 0.25F;
-            float step = Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
-            Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
-
-            Ctx.IsShootingLocked = true;
-
-            GameEvents.TurretOnAimStart.Invoke();
-            
-            while (rotationTarget != Ctx.transform.rotation)
-            {
-                Ctx.transform.rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
-                step += Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
-            
-                yield return null;
-            }
-            
-            Ctx.IsShootingLocked = false;
-            
-            GameEvents.TurretOnAimEnd.Invoke();
-        }
-        
-        public IEnumerator ReloadGunRoutine()
+        // TODO: Instead here, make IsReloading to change via event in TurretStateMachine
+        private IEnumerator ReloadGunRoutine()
         {
             GameEvents.TurretOnReloadStart.Invoke();
             
@@ -96,18 +70,8 @@ namespace Turret.StateMachine.States
             yield return new WaitForSeconds(Ctx.ReloadTimeInSeconds);
         
             Ctx.IsReloading = false;
-            
+                        
             GameEvents.TurretOnReloadEnd.Invoke();
-        }
-
-        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID)
-        {
-            RotateTowardsClosestEnemy();
-        }
-
-        private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy)
-        {
-            RotateTowardsClosestEnemy();
         }
     }
 }

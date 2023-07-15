@@ -814,9 +814,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6bcffa025c05243a7b2fe5f10d05fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isShootingLocked: 0
   _isEnabled: 1
   _isReloading: 0
+  _isAiming: 0
   _turretRotationSpeed: 2
   _gunStartPoint: {fileID: 756109346}
   _gunEndPoint: {fileID: 1204676810}
@@ -865,7 +865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fa117858b06164e97b866cd3bc736d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemiesInSightList: []
 --- !u!1001 &1858325621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1040,7 +1039,7 @@ PrefabInstance:
     - target: {fileID: 6781345632868137659, guid: c34b3c2a253115c44a7931e6e1752597,
         type: 3}
       propertyPath: m_Name
-      value: RadarField
+      value: ScannerArea
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,6 +1,6 @@
 namespace _Interfaces
 {
-    public interface IDamageable
+    public interface IEnemy
     {
         void Damage();
     }

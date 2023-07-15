@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
-using _CustomEventArgs;
 using _Events;
 using _Interfaces;
 using UnityEngine;
 
-public class Enemy : UniqueGameObject, IDamageable
+public class Enemy : UniqueGameObject, IEnemy
 {
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;

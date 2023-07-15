@@ -12,8 +12,7 @@ namespace Turret.StateMachine
         }
 
         public TurretBaseState Idle() => new TurretIdleState(_context, this);
-        // public TurretBaseState Reloading() => new TurretReloadingState(_context, this);
-        // public TurretBaseState Aiming() => new TurretAimingState(_context, this);
+        public TurretBaseState Aiming() => new TurretAimingState(_context, this);
         public TurretBaseState Shooting() => new TurretShootingState(_context, this);
         public TurretBaseState Destroyed() => new TurretDestroyedState(_context, this);
     }

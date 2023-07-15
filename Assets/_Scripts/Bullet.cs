@@ -25,7 +25,7 @@ using UnityEngine;
 
         private void OnTriggerEnter(Collider bulletCollider)
         {
-            var damageable = bulletCollider.GetComponent<IDamageable>();
+            var damageable = bulletCollider.GetComponent<IEnemy>();
             if (damageable != null)
             {
                 damageable.Damage();
