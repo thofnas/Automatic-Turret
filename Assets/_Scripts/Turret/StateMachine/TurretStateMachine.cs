@@ -10,6 +10,7 @@ namespace Turret.StateMachine
 {
     public class TurretStateMachine : Singleton<TurretStateMachine>
     {
+        #region Serialized Variables
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private bool _isReloading;
         [SerializeField] private bool _isAiming;
@@ -17,12 +18,13 @@ namespace Turret.StateMachine
         [SerializeField] private Transform _gunStartPoint;
         [SerializeField] private Transform _gunEndPoint;
         [SerializeField] [Range(0.1F, 4F)] private float _reloadTimeInSeconds;
+        #endregion
         
         // state variables
         private TurretStateFactory _states;
         private TurretBaseState _currentState;
-        
-        // getters and setters
+
+        #region Getters/setters
         public TurretBaseState CurrentState { get => _currentState; set => _currentState = value; }
         public bool IsEnabled { get => _isEnabled; }
         public bool IsReloading { get => _isReloading; set => _isReloading = value; }
@@ -31,7 +33,9 @@ namespace Turret.StateMachine
         public Transform GunStartPoint { get => _gunStartPoint; }
         public Transform GunEndPoint { get => _gunEndPoint; }
         public float ReloadTimeInSeconds { get => _reloadTimeInSeconds; }
-
+        #endregion
+        
+        #region Unity methods
         protected override void Awake()
         {
             base.Awake();
@@ -53,13 +57,18 @@ namespace Turret.StateMachine
         {
             GameEvents.TurretOnAimStart.AddListener(GameEvents_Turret_OnAimStart);
             GameEvents.TurretOnAimEnd.AddListener(GameEvents_Turret_OnAimEnd);
+            GameEvents.TurretOnReloadStart.AddListener(GameEvents_Turret_OnReloadStart);
+            GameEvents.TurretOnReloadEnd.AddListener(GameEvents_Turret_OnReloadEnd);
         }
-        
+
         private void OnDisable()
         {
             GameEvents.TurretOnAimStart.RemoveListener(GameEvents_Turret_OnAimStart);
             GameEvents.TurretOnAimEnd.RemoveListener(GameEvents_Turret_OnAimEnd);
+            GameEvents.TurretOnReloadStart.RemoveListener(GameEvents_Turret_OnReloadStart);
+            GameEvents.TurretOnReloadEnd.RemoveListener(GameEvents_Turret_OnReloadEnd);
         }
+        #endregion
 
         public bool IsEnemyInFront(Enemy enemy)
         {
@@ -73,9 +82,15 @@ namespace Turret.StateMachine
         }
 
         public Transform GetTransform() => transform;
-        
+
+        #region Events methods
         private void GameEvents_Turret_OnAimStart() => _isAiming = true;
         
         private void GameEvents_Turret_OnAimEnd() => _isAiming = false;
+        
+        private void GameEvents_Turret_OnReloadStart() => _isReloading = true;
+        
+        private void GameEvents_Turret_OnReloadEnd() => _isReloading = false;
+        #endregion
     }
 }

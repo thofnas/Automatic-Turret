@@ -59,18 +59,12 @@ namespace Turret.StateMachine.States
             Ctx.StartCoroutine(ReloadGunRoutine());
         }
         
-        
-        // TODO: Instead here, make IsReloading to change via event in TurretStateMachine
         private IEnumerator ReloadGunRoutine()
         {
             GameEvents.TurretOnReloadStart.Invoke();
-            
-            Ctx.IsReloading = true;
-            
+
             yield return new WaitForSeconds(Ctx.ReloadTimeInSeconds);
-        
-            Ctx.IsReloading = false;
-                        
+
             GameEvents.TurretOnReloadEnd.Invoke();
         }
     }

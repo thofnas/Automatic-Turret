@@ -484,12 +484,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &756109346 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1988953879030487745, guid: c34b3c2a253115c44a7931e6e1752597,
-    type: 3}
-  m_PrefabInstance: {fileID: 2502880843478981093}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,12 +565,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1204676810 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4295803359658873138, guid: c34b3c2a253115c44a7931e6e1752597,
-    type: 3}
-  m_PrefabInstance: {fileID: 2502880843478981093}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1501082631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -796,31 +784,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 806f5c979983afd4f82bde77fe498c53, type: 3}
---- !u!1 &1598471703 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1988676853536030813, guid: c34b3c2a253115c44a7931e6e1752597,
-    type: 3}
-  m_PrefabInstance: {fileID: 2502880843478981093}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1598471707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598471703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e6bcffa025c05243a7b2fe5f10d05fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isEnabled: 1
-  _isReloading: 0
-  _isAiming: 0
-  _turretRotationSpeed: 2
-  _gunStartPoint: {fileID: 756109346}
-  _gunEndPoint: {fileID: 1204676810}
-  _reloadTimeInSeconds: 2
 --- !u!1 &1612512379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,9 +1007,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1988676853536030813, guid: c34b3c2a253115c44a7931e6e1752597,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1598471707}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c34b3c2a253115c44a7931e6e1752597, type: 3}
