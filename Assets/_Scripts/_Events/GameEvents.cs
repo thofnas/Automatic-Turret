@@ -10,6 +10,8 @@ namespace _Events {
         public static readonly EventRegister TurretOnAimEnd = new();
         public static readonly EventRegister TurretOnReloadStart = new(); 
         public static readonly EventRegister TurretOnReloadEnd = new();
+        public static readonly EventRegister OnTurretGotHit = new();
+        public static readonly EventRegister OnTurretDestroyed = new();
         #endregion
 
         #region Enemy/Enemies

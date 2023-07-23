@@ -1,13 +1,14 @@
 using System.Collections;
 using _Events;
 using _Interfaces;
+using _Managers;
+using Turret.StateMachine;
 using UnityEngine;
 
-public class Enemy : UniqueGameObject, IEnemy
+public class Enemy : UniqueGameObject, IDamageable
 {
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
-    [SerializeField] private Transform _turretTransform;
 
     private Vector3 _enemyAnchorPoint;
     private Vector3 _enemyAxis;
@@ -15,7 +16,7 @@ public class Enemy : UniqueGameObject, IEnemy
 
     private void Start()
     {
-        transform.LookAt(_turretTransform);
+        transform.LookAt(GameManager.Instance.Turret.transform);
         Assemble();
     }
 
@@ -28,15 +29,16 @@ public class Enemy : UniqueGameObject, IEnemy
     private void Assemble()
     {
         _enemyAnchorPoint = transform.position
-                            + (Vector3.down + (_turretTransform.position - transform.position).normalized) * 0.5f;
+                            + (Vector3.down + (GameManager.Instance.Turret.transform.position - transform.position).normalized) * 0.5f;
 
-        _enemyAxis = Vector3.Cross(Vector3.up, (_turretTransform.position - transform.position).normalized);
+        _enemyAxis = Vector3.Cross(Vector3.up, (GameManager.Instance.Turret.transform.position - transform.position).normalized);
     }
 
-    public void Damage()
+    public void TakeDamage()
     {
         Destroy(gameObject);
     }
+    public Transform GetTransform() => transform;
 
     private void OnDestroy()
     {
@@ -45,7 +47,7 @@ public class Enemy : UniqueGameObject, IEnemy
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.transform.parent == _turretTransform)
+        if (collision.gameObject.transform.parent == GameManager.Instance.Turret.transform)
             Destroy(gameObject);
     }
 

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _Events;
+using _Interfaces;
 using _Managers;
 using UnityEngine;
 
@@ -11,13 +13,22 @@ namespace Turret.StateMachine.States
             : base(context, turretStateFactory)
         { }
 
+        private IEnumerator _aimRoutine;
+        private Enemy _closestEnemy;
+
         public override void EnterState()
         {
             Debug.Log("Entered Aiming State.");
             RotateTowardsClosestEnemy();
+            GameEvents.TurretOnAimStart.Invoke();
+            GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
         }
 
-        public override void ExitState() => Ctx.StopCoroutine(AimTurretRoutine(null));
+        public override void ExitState()
+        {
+            GameEvents.TurretOnAimEnd.Invoke();
+            GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
+        }
 
         public override void UpdateState() => CheckSwitchStates();
 
@@ -28,7 +39,7 @@ namespace Turret.StateMachine.States
                 SwitchState(Factory.Idle());
             }
 
-            if (Ctx.IsEnemyInFront(EnemyManager.Instance.GetClosestEnemy()))
+            if (Ctx.IsEnemyInFront(_closestEnemy) && !Ctx.IsAiming)
             {
                 SwitchState(Factory.Shooting());
             }
@@ -45,26 +56,37 @@ namespace Turret.StateMachine.States
         private void RotateTowardsClosestEnemy()
         {
             if (!EnemyManager.Instance.HasEnemyInSight()) return;
-            Ctx.StartCoroutine(AimTurretRoutine(EnemyManager.Instance.GetClosestEnemy().transform));
+            _closestEnemy = EnemyManager.Instance.GetClosestEnemy();
+            _aimRoutine = AimTurretRoutine(_closestEnemy.GetTransform());
+            Ctx.StartCoroutine(_aimRoutine);
         }
         
         private IEnumerator AimTurretRoutine(Transform target)
         {
             const float speedMultiplier = 0.25F;
-            float step = Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
+            float step = Ctx.TurretRotationSpeed * speedMultiplier * Time.deltaTime;
             Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
 
-            GameEvents.TurretOnAimStart.Invoke();
-
-            while (rotationTarget != Ctx.transform.rotation)
+            while (Math.Abs(rotationTarget.eulerAngles.y - Ctx.transform.rotation.eulerAngles.y) > TOLERANCE)
             {
-                Ctx.transform.rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
+                Quaternion rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
+                rotation.x = 0;
+                rotation.z = 0;
+                Ctx.transform.rotation = rotation;
                 step += Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
             
                 yield return null;
             }
             
             GameEvents.TurretOnAimEnd.Invoke();
+        }
+        private const double TOLERANCE = 0.01F;
+
+        private void GameEvents_Enemy_OnEnemyDestroyed(Guid obj)
+        {
+            if (!EnemyManager.Instance.HasEnemyInSight(_closestEnemy)) return;
+            Ctx.StopCoroutine(_aimRoutine);
+            RotateTowardsClosestEnemy();
         }
     }
 }

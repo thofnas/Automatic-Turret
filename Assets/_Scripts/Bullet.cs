@@ -25,10 +25,10 @@ using UnityEngine;
 
         private void OnTriggerEnter(Collider bulletCollider)
         {
-            var damageable = bulletCollider.GetComponent<IEnemy>();
+            var damageable = bulletCollider.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.Damage();
+                damageable.TakeDamage();
                 Destroy(gameObject);
             }
         }
