@@ -84,7 +84,7 @@ namespace Turret.StateMachine.States
 
         private void GameEvents_Enemy_OnEnemyDestroyed(Guid obj)
         {
-            if (!EnemyManager.Instance.HasEnemyInSight(_closestEnemy)) return;
+            if (EnemyManager.Instance.GetClosestEnemy() == _closestEnemy) return;
             Ctx.StopCoroutine(_aimRoutine);
             RotateTowardsClosestEnemy();
         }

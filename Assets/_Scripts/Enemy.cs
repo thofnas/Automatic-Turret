@@ -14,6 +14,22 @@ public class Enemy : UniqueGameObject, IDamageable
     private Vector3 _enemyAxis;
     private bool _isRolling;
 
+    public bool IsRolling
+    {
+        get => _isRolling;
+        set
+        {
+            if (_isRolling == value) return;
+            
+            _isRolling = value;
+
+            if (value)
+                GameEvents.OnEnemyRollStart.Invoke(InstanceID);
+            else
+                GameEvents.OnEnemyRollEnd.Invoke(InstanceID);
+        }
+    }
+
     private void Start()
     {
         transform.LookAt(GameManager.Instance.Turret.transform);
@@ -53,9 +69,8 @@ public class Enemy : UniqueGameObject, IDamageable
 
     private IEnumerator RollACubeRoutine(Vector3 anchorPoint, Vector3 axis)
     {
-        GameEvents.OnEnemyRollStart.Invoke(InstanceID);
     
-        _isRolling = true;
+        IsRolling = true;
 
         for (int i = 0; i < (90 / _rollSpeed); i++)
         {
@@ -64,11 +79,9 @@ public class Enemy : UniqueGameObject, IDamageable
         }
     
         yield return new WaitForSeconds(_rollDelayInSeconds);
-    
-        GameEvents.OnEnemyRollEnd.Invoke(InstanceID);
-    
-        _isRolling = false;
-    
+
+        IsRolling = false;
+        
         Assemble();
     }
 }
