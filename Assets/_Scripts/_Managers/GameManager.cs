@@ -8,14 +8,6 @@ namespace _Managers
     {
         [SerializeField] private TurretStateMachine _turret;
         
-        public int TurretHealth { get; }
         public TurretStateMachine Turret { get => _turret; }
-        
-        private int _turretHealth;
-        
-        private void OnEnable()
-        {
-            
-        }
     }
 }

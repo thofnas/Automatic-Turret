@@ -1,3 +1,4 @@
+using System;
 using _Events;
 using _Interfaces;
 using UnityEngine;
@@ -11,6 +12,14 @@ namespace Turret
             if (other.TryGetComponent(out Enemy enemy))
             {
                 GameEvents.OnEnemySpotted.Invoke(enemy);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent(out Enemy enemy))
+            {
+                GameEvents.OnEnemyLost.Invoke(enemy);
             }
         }
     }

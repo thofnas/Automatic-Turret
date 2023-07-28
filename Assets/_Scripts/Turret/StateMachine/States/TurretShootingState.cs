@@ -31,7 +31,7 @@ namespace Turret.StateMachine.States
                 SwitchState(Factory.Idle());
             }
 
-            if (!Ctx.IsEnemyInFront(EnemyManager.Instance.GetClosestEnemy()))
+            if (!Ctx.IsEnemyInFront(EnemyManager.Instance.GetClosestSpottedEnemy()))
             {
                 SwitchState(Factory.Aiming());
             }

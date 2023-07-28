@@ -9,21 +9,37 @@ namespace _Managers
     public class EnemyManager : Singleton<EnemyManager>
     {
         private readonly Dictionary<Guid, Enemy> _enemiesInSightList = new();
+        private readonly List<Enemy> _allEnemiesList = new();
 
         private void OnEnable()
         {
+            GameEvents.OnEnemySpawned.AddListener(GameEvents_Enemy_OnEnemySpawned);
             GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
             GameEvents.OnEnemySpotted.AddListener(GameEvents_Enemy_OnEnemySpotted);
+            GameEvents.OnEnemyLost.AddListener(GameEvents_Enemy_OnEnemyLost);
         }
-        
+
         private void OnDisable()
         {
+            GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnEnemySpawned);
             GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
             GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
+            GameEvents.OnEnemyLost.RemoveListener(GameEvents_Enemy_OnEnemyLost);
+        }
+
+        public void SpawnEnemy()
+        {
+            
         }
         
-        #region Methods helpers
-        public Enemy GetClosestEnemy()
+        #region Methods helpers for all enemies
+        private void AddEnemyToList(Enemy enemy) => _allEnemiesList.Add(enemy);
+
+        private void RemoveEnemyFromList(Enemy enemy) => _allEnemiesList.Remove(enemy);
+        #endregion
+
+        #region Methods helpers for enemies in sight
+        public Enemy GetClosestSpottedEnemy()
         {
             Transform turret = GameManager.Instance.Turret.GetTransform();
             float closestDistance = float.PositiveInfinity;
@@ -43,9 +59,9 @@ namespace _Managers
             return closestEnemy;
         }
         
-        public bool TryGetEnemy(Guid enemyID, out Enemy enemy) => _enemiesInSightList.TryGetValue(enemyID, out enemy);
+        private bool TryGetSpottedEnemy(Guid enemyID, out Enemy enemy) => _enemiesInSightList.TryGetValue(enemyID, out enemy);
 
-        public bool TryGetEnemy(Enemy enemy, out Guid enemyID)
+        private bool TryGetSpottedEnemy(Enemy enemy, out Guid enemyID)
         {
             if (!_enemiesInSightList.ContainsValue(enemy))
             {
@@ -57,13 +73,13 @@ namespace _Managers
             return true;
         }
 
-        public void AddEnemyToList(Enemy enemy) => _enemiesInSightList.Add(enemy.InstanceID, enemy);
+        private void AddEnemyToSpottedList(Enemy enemy) => _enemiesInSightList.Add(enemy.InstanceID, enemy);
 
-        public void AddEnemyToList(Guid enemyID) => throw new NotImplementedException();
+        private void AddEnemyToSpottedList(Guid enemyID) => throw new NotImplementedException();
 
-        public void RemoveEnemyFromList(Enemy enemy) => _enemiesInSightList.Remove(enemy.InstanceID);
+        private void RemoveEnemyFromSpottedList(Enemy enemy) => _enemiesInSightList.Remove(enemy.InstanceID);
 
-        public void RemoveEnemyFromList(Guid enemyID) => _enemiesInSightList.Remove(enemyID);
+        private void RemoveEnemyFromSpottedList(Guid enemyID) => _enemiesInSightList.Remove(enemyID);
 
         public bool HasEnemyInSight(Enemy enemy) => _enemiesInSightList.ContainsValue(enemy);
 
@@ -73,9 +89,22 @@ namespace _Managers
         #endregion
 
         #region Events methods
-        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID) => RemoveEnemyFromList(enemyID);
+        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID)
+        {
+            TryGetSpottedEnemy(enemyID, out Enemy enemy);
+            RemoveEnemyFromSpottedList(enemyID);
+            RemoveEnemyFromList(enemy);
+        }
 
-        private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy) => AddEnemyToList(enemy);
+        private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy)
+        {
+            AddEnemyToList(enemy);
+            print(_allEnemiesList.Count);
+        }
+        
+        private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy) => AddEnemyToSpottedList(enemy);
+
+        private void GameEvents_Enemy_OnEnemyLost(Enemy enemy) => RemoveEnemyFromSpottedList(enemy);
         #endregion
     }
 }

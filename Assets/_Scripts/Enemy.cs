@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using _Events;
 using _Interfaces;
@@ -5,10 +6,12 @@ using _Managers;
 using Turret.StateMachine;
 using UnityEngine;
 
-public class Enemy : UniqueGameObject, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, IHaveID
 {
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
+    
+    public Guid InstanceID { get; } = Guid.NewGuid();
 
     private Vector3 _enemyAnchorPoint;
     private Vector3 _enemyAxis;
@@ -30,6 +33,11 @@ public class Enemy : UniqueGameObject, IDamageable
         }
     }
 
+    private void Awake()
+    {
+        GameEvents.OnEnemySpawned.Invoke(this);
+    }
+
     private void Start()
     {
         transform.LookAt(GameManager.Instance.Turret.transform);
@@ -41,21 +49,7 @@ public class Enemy : UniqueGameObject, IDamageable
         if (_isRolling) return;
         StartCoroutine(RollACubeRoutine(_enemyAnchorPoint, _enemyAxis));
     }
-
-    private void Assemble()
-    {
-        _enemyAnchorPoint = transform.position
-                            + (Vector3.down + (GameManager.Instance.Turret.transform.position - transform.position).normalized) * 0.5f;
-
-        _enemyAxis = Vector3.Cross(Vector3.up, (GameManager.Instance.Turret.transform.position - transform.position).normalized);
-    }
-
-    public void TakeDamage()
-    {
-        Destroy(gameObject);
-    }
-    public Transform GetTransform() => transform;
-
+    
     private void OnDestroy()
     {
         GameEvents.OnEnemyDestroyed.Invoke(InstanceID);
@@ -66,6 +60,21 @@ public class Enemy : UniqueGameObject, IDamageable
         if (collision.gameObject.transform.parent == GameManager.Instance.Turret.transform)
             Destroy(gameObject);
     }
+
+    private void Assemble()
+    {
+        _enemyAnchorPoint = transform.position
+                            + (Vector3.down + (GameManager.Instance.Turret.transform.position - transform.position).normalized) * 0.5f;
+
+        _enemyAxis = Vector3.Cross(Vector3.up, (GameManager.Instance.Turret.transform.position - transform.position).normalized);
+    }
+
+    public void ApplyDamage()
+    {
+        Destroy(gameObject);
+    }
+    
+    public Transform GetTransform() => transform;
 
     private IEnumerator RollACubeRoutine(Vector3 anchorPoint, Vector3 axis)
     {

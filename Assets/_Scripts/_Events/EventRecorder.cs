@@ -2,7 +2,7 @@
 
 namespace _Events
 {
-        public class EventRegister
+        public class EventRecorder
         {
             private event Action CustomAction = delegate { };
 
@@ -13,7 +13,7 @@ namespace _Events
             public void RemoveListener(Action listener) => CustomAction -= listener;
         }
 
-        public class EventRegister<T>
+        public class EventRecorder<T>
         {
             private event Action<T> CustomAction = delegate { };
 

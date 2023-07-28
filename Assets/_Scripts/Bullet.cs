@@ -28,7 +28,7 @@ using UnityEngine;
             var damageable = bulletCollider.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage();
+                damageable.ApplyDamage();
                 Destroy(gameObject);
             }
         }
