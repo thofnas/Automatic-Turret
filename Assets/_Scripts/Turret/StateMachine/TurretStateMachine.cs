@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
-using _Events;
-using _Interfaces;
+using Interfaces;
 using UnityEngine;
 
 namespace Turret.StateMachine

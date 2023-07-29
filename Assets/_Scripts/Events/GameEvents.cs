@@ -1,8 +1,7 @@
 using System;
-using _CustomEventArgs;
-using Waves.StateMachine;
+using CustomEventArgs;
 
-namespace _Events {
+namespace Events {
     public abstract class GameEvents
     {
         #region Turret
@@ -25,7 +24,7 @@ namespace _Events {
         #endregion
 
         #region Wave System
-        public static readonly EventRecorder<WaveBaseState> OnWaveStateChanged = new();
+        public static readonly EventRecorder<string> OnWaveStateChanged = new();
         #endregion
     }
 }

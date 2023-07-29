@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Events
+namespace Events
 {
         public class EventRecorder
         {

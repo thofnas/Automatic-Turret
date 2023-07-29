@@ -1,8 +1,8 @@
 using System.Collections;
+using CustomEventArgs;
 using UnityEngine;
-using _CustomEventArgs;
-using _Events;
-using _Managers;
+using Events;
+using Managers;
 
 namespace Turret.StateMachine.States
 {

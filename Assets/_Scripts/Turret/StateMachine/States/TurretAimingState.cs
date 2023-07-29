@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
-using _Events;
-using _Interfaces;
-using _Managers;
+using Events;
+using Managers;
 using UnityEngine;
 
 namespace Turret.StateMachine.States

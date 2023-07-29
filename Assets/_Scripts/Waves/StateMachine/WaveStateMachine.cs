@@ -1,3 +1,4 @@
+using Events;
 using TMPro;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace Waves.StateMachine
         {
             CurrentState = _states.WaitingForPlayer();
             CurrentState.EnterState();
+            GameEvents.OnWaveStateChanged.Invoke(CurrentState.ToString());
         }
 
         private void Update() => CurrentState.UpdateState();

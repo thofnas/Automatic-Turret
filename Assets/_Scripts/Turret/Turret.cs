@@ -1,6 +1,5 @@
 using System;
-using _CustomEventArgs;
-using _Events;
+using Events;
 using Turret.StateMachine;
 using Turret.StateMachine.States;
 using UnityEngine;

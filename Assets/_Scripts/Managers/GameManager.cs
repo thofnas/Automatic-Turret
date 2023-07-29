@@ -1,8 +1,7 @@
-using _Events;
 using Turret.StateMachine;
 using UnityEngine;
 
-namespace _Managers
+namespace Managers
 {
     public class GameManager : Singleton<GameManager>
     {

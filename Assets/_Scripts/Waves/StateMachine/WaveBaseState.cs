@@ -1,4 +1,5 @@
-using _Events;
+using Events;
+using UnityEngine;
 
 namespace Waves.StateMachine
 {
@@ -12,9 +13,9 @@ namespace Waves.StateMachine
         
         protected readonly WaveStateMachine Ctx;
         protected readonly WaveStateFactory Factory;
-        
+
         public abstract void EnterState();
-        
+
         public abstract void ExitState();
         
         public abstract void UpdateState();
@@ -33,7 +34,7 @@ namespace Waves.StateMachine
 
             Ctx.CurrentState = newState;
             
-            GameEvents.OnWaveStateChanged.Invoke(newState);
+            GameEvents.OnWaveStateChanged.Invoke(Ctx.CurrentState.ToString());
         }
         
         protected void SetSuperState(){}

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Interfaces
+namespace Interfaces
 {
     public interface IHaveID
     {

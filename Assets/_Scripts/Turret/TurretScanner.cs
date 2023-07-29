@@ -1,6 +1,5 @@
 using System;
-using _Events;
-using _Interfaces;
+using Events;
 using UnityEngine;
 
 namespace Turret

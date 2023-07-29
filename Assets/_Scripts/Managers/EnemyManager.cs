@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Events;
+using Events;
+using Managers;
 using UnityEngine;
 
-namespace _Managers
+namespace Managers
 {
     public class EnemyManager : Singleton<EnemyManager>
     {
