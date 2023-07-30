@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Turret.StateMachine.States
 {
     public class TurretDestroyedState : TurretBaseState

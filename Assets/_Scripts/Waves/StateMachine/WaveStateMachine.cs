@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Events;
 using UnityEngine;
@@ -7,18 +6,16 @@ namespace Waves.StateMachine
 {
     public class WaveStateMachine : MonoBehaviour
     {
-        [SerializeField] private List<WaveSO> _waves;
-        [SerializeField] private Transform _enemySpawnPoint;
         public int EnemiesToSpawnCount { get; private set; }
-
         public int CurrentWave { get; protected set; } = 0;
         public Transform EnemySpawnPoint { get => _enemySpawnPoint; }
-        
-        public List<WaveSO> GetWaves() => _waves;
-        
+        public WaveBaseState CurrentState { get; set; }
+
+        [SerializeField] private List<WaveSO> _waves;
+        [SerializeField] private Transform _enemySpawnPoint;
+
         // state variables
         private WaveStateFactory _states;
-        public WaveBaseState CurrentState { get; set; }
         
         public void Initialize()
         {
@@ -27,13 +24,20 @@ namespace Waves.StateMachine
             EnemiesToSpawnCount = _waves[0].EnemiesData[0].EnemyQuantity;
             
             CurrentState = _states.WaitingForPlayer();
+            
             CurrentState.EnterState();
+            
             GameEvents.OnWaveStateChanged.Invoke(CurrentState.ToString());
         }
 
+        public List<WaveSO> GetWaves() => _waves;
+
+        public Transform GetTransform() => transform;
+        
         #region Unity methods
         private void Update() => CurrentState.UpdateState();
 
+        
         private void OnEnable()
         {
             GameEvents.OnEnemySpawned.AddListener(GameEvents_Enemy_OnEnemySpawned);
@@ -46,18 +50,8 @@ namespace Waves.StateMachine
         }
         #endregion
         
-        private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy)
-        {
-            EnemiesToSpawnCount--;
-        }
-        
-        
-        private void GameEvents_Waves_OnWaveEnded()
-        {
-            EnemiesToSpawnCount = _waves[0].EnemiesData[0].EnemyQuantity;
-        }
+        private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy) => EnemiesToSpawnCount--;
 
-
-        public Transform GetTransform() => transform;
+        private void GameEvents_Waves_OnWaveEnded() => EnemiesToSpawnCount = _waves[0].EnemiesData[0].EnemyQuantity;
     }
 }

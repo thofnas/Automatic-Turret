@@ -7,30 +7,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable, IHaveID
 {
+    public Guid InstanceID { get; } = Guid.NewGuid();
+    
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
-    
-    public Guid InstanceID { get; } = Guid.NewGuid();
 
     private Vector3 _enemyAnchorPoint;
     private Vector3 _enemyAxis;
     private bool _isRolling;
-
-    public bool IsRolling
-    {
-        get => _isRolling;
-        set
-        {
-            if (_isRolling == value) return;
-            
-            _isRolling = value;
-
-            if (value)
-                GameEvents.OnEnemyRollStart.Invoke(InstanceID);
-            else
-                GameEvents.OnEnemyRollEnd.Invoke(InstanceID);
-        }
-    }
 
     private void Start()
     {
@@ -44,10 +28,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
         StartCoroutine(RollACubeRoutine(_enemyAnchorPoint, _enemyAxis));
     }
     
-    private void OnDestroy()
-    {
-        GameEvents.OnEnemyDestroyed.Invoke(this);
-    }
+    private void OnDestroy() => GameEvents.OnEnemyDestroyed.Invoke(this);
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -73,7 +54,9 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     private IEnumerator RollACubeRoutine(Vector3 anchorPoint, Vector3 axis)
     {
     
-        IsRolling = true;
+        _isRolling = true;
+        
+        GameEvents.OnEnemyRollStart.Invoke(InstanceID);
 
         for (int i = 0; i < (90 / _rollSpeed); i++)
         {
@@ -83,8 +66,10 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     
         yield return new WaitForSeconds(_rollDelayInSeconds);
 
-        IsRolling = false;
+        _isRolling = false;
         
+        GameEvents.OnEnemyRollEnd.Invoke(InstanceID);
+
         Assemble();
     }
 }

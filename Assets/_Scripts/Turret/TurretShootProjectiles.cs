@@ -1,6 +1,5 @@
 using CustomEventArgs;
 using Events;
-using Turret.StateMachine.States;
 using UnityEngine;
 
 namespace Turret
@@ -18,6 +17,7 @@ namespace Turret
             GameObject bulletGameObject = Instantiate(_bulletPrefab, e.GunEndPointPosition, Quaternion.identity);
 
             Vector3 shootDir = (e.GunEndPointPosition - e.GunStartPointPosition).normalized;
+            
             bulletGameObject.GetComponent<Bullet>().Setup(shootDir);
         }
     }

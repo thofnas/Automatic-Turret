@@ -4,6 +4,6 @@ namespace Interfaces
 {
     public interface IHaveID
     {
-        public Guid InstanceID { get; }
+        Guid InstanceID { get; }
     }
 }

@@ -1,11 +1,9 @@
-using System;
 using Events;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using Waves.StateMachine;
 
-namespace _UserInterface
+namespace UserInterface
 {
     public class GameUI : MonoBehaviour
     {

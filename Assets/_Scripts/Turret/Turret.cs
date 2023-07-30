@@ -1,7 +1,4 @@
-using System;
 using Events;
-using Turret.StateMachine;
-using Turret.StateMachine.States;
 using UnityEngine;
 
 namespace Turret
@@ -53,6 +50,5 @@ namespace Turret
         
         private void GameEvents_Turret_OnReloadEnd() => _isReloading = false;
         #endregion
-
     }
 }

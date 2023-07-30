@@ -1,5 +1,4 @@
 ﻿using Events;
-using Waves.StateMachine;
 
 namespace Waves.StateMachine.States
 {

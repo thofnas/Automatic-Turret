@@ -1,5 +1,3 @@
-using System;
-using Managers;
 using Turret.StateMachine;
 using UnityEngine;
 using Waves.StateMachine;
