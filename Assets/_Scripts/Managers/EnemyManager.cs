@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Events;
@@ -27,16 +28,25 @@ namespace Managers
             GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
             GameEvents.OnEnemyLost.RemoveListener(GameEvents_Enemy_OnEnemyLost);
         }
-
-        public void SpawnEnemy()
+        
+        public static IEnumerator SpawnEnemiesRoutine(Vector3 position, Enemy enemyPrefab, float delay, int count)
         {
+            yield return new WaitForSeconds(delay);
             
+            for (int i = 0; i < count; i++)
+            {
+                Enemy enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+                GameEvents.OnEnemySpawned.Invoke(enemy);
+                yield return new WaitForSeconds(delay);
+            }
         }
         
         #region Methods helpers for all enemies
         private void AddEnemyToList(Enemy enemy) => _allEnemiesList.Add(enemy);
 
         private void RemoveEnemyFromList(Enemy enemy) => _allEnemiesList.Remove(enemy);
+
+        public bool IsAnyEnemyExists() => _allEnemiesList.Count > 0;
         #endregion
 
         #region Methods helpers for enemies in sight
@@ -48,6 +58,8 @@ namespace Managers
 
             foreach (var enemy in _enemiesInSightList)
             {
+                if (enemy.Value == null) continue;
+                
                 float distance = Vector3.Distance(enemy.Value.transform.position, turret.position);
         
                 if (distance <= closestDistance)
@@ -90,10 +102,9 @@ namespace Managers
         #endregion
 
         #region Events methods
-        private void GameEvents_Enemy_OnEnemyDestroyed(Guid enemyID)
+        private void GameEvents_Enemy_OnEnemyDestroyed(Enemy enemy)
         {
-            TryGetSpottedEnemy(enemyID, out Enemy enemy);
-            RemoveEnemyFromSpottedList(enemyID);
+            RemoveEnemyFromSpottedList(enemy);
             RemoveEnemyFromList(enemy);
         }
 

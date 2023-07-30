@@ -42,8 +42,6 @@ namespace Turret.StateMachine.States
             //     return;
             // }
         }
-        
-        public override void InitializeSubState() { }
 
         private void ShootHandler()
         {

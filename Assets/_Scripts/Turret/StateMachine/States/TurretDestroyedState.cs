@@ -23,8 +23,5 @@ namespace Turret.StateMachine.States
         public override void CheckSwitchStates()
         {
         }
-        public override void InitializeSubState()
-        {
-        }
     }
 }

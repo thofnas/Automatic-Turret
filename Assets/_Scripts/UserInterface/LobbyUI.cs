@@ -1,9 +1,8 @@
-﻿using System;
-using Events;
+﻿using Events;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _UserInterface
+namespace UserInterface
 {
     public class LobbyUI : MonoBehaviour
     {

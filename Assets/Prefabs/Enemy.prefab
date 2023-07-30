@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rollSpeed: 2
-  _rollDelayInSeconds: 1
+  _rollDelayInSeconds: 0.5
 --- !u!65 &4629640642851035293
 BoxCollider:
   m_ObjectHideFlags: 0

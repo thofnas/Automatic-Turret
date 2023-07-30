@@ -18,10 +18,6 @@ namespace Turret.StateMachine
         public abstract void UpdateState();
         
         public abstract void CheckSwitchStates();
-        
-        public abstract void InitializeSubState();
-        
-        public void UpdateStates(){}
 
         protected void SwitchState(TurretBaseState newState)
         {
@@ -31,9 +27,5 @@ namespace Turret.StateMachine
 
             Ctx.CurrentState = newState;
         }
-        
-        protected void SetSuperState(){}
-        
-        protected void SetSubState(){}
     }
 }

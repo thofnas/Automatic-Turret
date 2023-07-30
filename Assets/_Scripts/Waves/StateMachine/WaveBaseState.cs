@@ -22,8 +22,6 @@ namespace Waves.StateMachine
         
         public abstract void CheckSwitchStates();
         
-        public abstract void InitializeSubState();
-        
         public void UpdateStates(){}
 
         protected void SwitchState(WaveBaseState newState)
@@ -36,9 +34,5 @@ namespace Waves.StateMachine
             
             GameEvents.OnWaveStateChanged.Invoke(Ctx.CurrentState.ToString());
         }
-        
-        protected void SetSuperState(){}
-        
-        protected void SetSubState(){}
     }
 }

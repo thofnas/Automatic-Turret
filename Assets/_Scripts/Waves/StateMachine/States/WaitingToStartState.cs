@@ -15,19 +15,13 @@ namespace Waves.StateMachine.States
         {
             UIEvents.OnStartWaveButtonClick.RemoveListener(UIEvents_OnStartWaveButtonClick);
         }
-        public override void UpdateState()
-        {
-        }
-        public override void CheckSwitchStates()
-        {
-        }
-        public override void InitializeSubState()
-        {
-        }
+        public override void UpdateState() => CheckSwitchStates();
+        
+        public override void CheckSwitchStates() { }
         
         private void UIEvents_OnStartWaveButtonClick()
         {
-            SwitchState(Factory.Spawning());
+            SwitchState(Factory.SpawningEnemies());
         }
     }
 }

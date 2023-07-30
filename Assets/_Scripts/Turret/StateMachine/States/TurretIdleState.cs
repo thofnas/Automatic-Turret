@@ -21,10 +21,5 @@ namespace Turret.StateMachine.States
                 SwitchState(Factory.Aiming());
             }
         }
-        
-        public override void InitializeSubState()
-        {
-            
-        }
     }
 }

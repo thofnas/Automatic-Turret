@@ -3,7 +3,6 @@ using System.Collections;
 using Events;
 using Interfaces;
 using Managers;
-using Turret.StateMachine;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable, IHaveID
@@ -33,11 +32,6 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
         }
     }
 
-    private void Awake()
-    {
-        GameEvents.OnEnemySpawned.Invoke(this);
-    }
-
     private void Start()
     {
         transform.LookAt(GameManager.Instance.Turret.transform);
@@ -52,7 +46,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     
     private void OnDestroy()
     {
-        GameEvents.OnEnemyDestroyed.Invoke(InstanceID);
+        GameEvents.OnEnemyDestroyed.Invoke(this);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -73,7 +67,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     {
         Destroy(gameObject);
     }
-    
+
     public Transform GetTransform() => transform;
 
     private IEnumerator RollACubeRoutine(Vector3 anchorPoint, Vector3 axis)

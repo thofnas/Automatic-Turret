@@ -27,6 +27,7 @@ namespace Turret.StateMachine.States
         {
             GameEvents.TurretOnAimEnd.Invoke();
             GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
+            if (_aimRoutine != null) Ctx.StopCoroutine(_aimRoutine);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -49,12 +50,11 @@ namespace Turret.StateMachine.States
             //     return;
             // }
         }
-        
-        public override void InitializeSubState() { }
-        
+
         private void RotateTowardsClosestEnemy()
         {
             if (!EnemyManager.Instance.HasEnemyInSight()) return;
+            
             _closestEnemy = EnemyManager.Instance.GetClosestSpottedEnemy();
             _aimRoutine = AimTurretRoutine(_closestEnemy.GetTransform());
             Ctx.StartCoroutine(_aimRoutine);
@@ -66,24 +66,25 @@ namespace Turret.StateMachine.States
             float step = Ctx.TurretRotationSpeed * speedMultiplier * Time.deltaTime;
             Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
 
-            while (Math.Abs(rotationTarget.eulerAngles.y - Ctx.transform.rotation.eulerAngles.y) > TOLERANCE)
+            while (Quaternion.Angle(Ctx.transform.rotation, Quaternion.LookRotation(target.position - Ctx.transform.position)) > TOLERANCE)
             {
                 Quaternion rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
                 rotation.x = 0;
                 rotation.z = 0;
                 Ctx.transform.rotation = rotation;
                 step += Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
-            
+
                 yield return null;
             }
-            
+
             GameEvents.TurretOnAimEnd.Invoke();
         }
         private const double TOLERANCE = 0.01F;
 
-        private void GameEvents_Enemy_OnEnemyDestroyed(Guid obj)
+        private void GameEvents_Enemy_OnEnemyDestroyed(Enemy enemy)
         {
             if (EnemyManager.Instance.GetClosestSpottedEnemy() == _closestEnemy) return;
+            
             Ctx.StopCoroutine(_aimRoutine);
             RotateTowardsClosestEnemy();
         }

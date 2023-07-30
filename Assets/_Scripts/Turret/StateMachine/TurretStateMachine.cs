@@ -10,24 +10,21 @@ namespace Turret.StateMachine
         // state variables
         private TurretStateFactory _states;
         public TurretBaseState CurrentState { get; set; }
-
-        #region Unity methods
-        private void Awake()
+        
+        public void Initialize()
         {
             _states = new TurretStateFactory(this);
-        }
-
-        private void Start()
-        {
+            
             CurrentState = _states.Idle();
             CurrentState.EnterState();
         }
 
+        #region Unity methods
         private void Update() => CurrentState.UpdateState();
 
         #endregion
 
-        public bool IsEnemyInFront(IDamageable damageable)
+        public bool IsEnemyInFront(Enemy enemy)
         {
             Vector3 direction = transform.forward; // Get the forward direction of the turret
             var turretScannerCollider = TurretScanner.Instance.GetComponent<Collider>();
@@ -35,7 +32,7 @@ namespace Turret.StateMachine
 
             RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, maxDistance);
 
-            return hits.Any(hit => hit.collider.GetComponent<IDamageable>() == damageable);
+            return hits.Any(hit => hit.collider.GetComponent<Enemy>() == enemy);
         }
 
         public Transform GetTransform() => transform;
