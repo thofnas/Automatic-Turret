@@ -1,5 +1,4 @@
 using System.Collections;
-using CustomEventArgs;
 using UnityEngine;
 using Events;
 using Managers;
@@ -49,10 +48,7 @@ namespace Turret.StateMachine.States
             if (Ctx.IsReloading) return;
             if (Ctx.IsAiming) return;
 
-            GameEvents.TurretOnShoot.Invoke(new OnShootEventArgs {
-                GunEndPointPosition = Ctx.GunEndPoint.position,
-                GunStartPointPosition = Ctx.GunStartPoint.position,
-            });
+            GameEvents.TurretOnShoot.Invoke(Ctx.GunEndPoint);
 
             Ctx.StartCoroutine(ReloadGunRoutine());
         }

@@ -1,4 +1,3 @@
-using CustomEventArgs;
 using Events;
 using UnityEngine;
 
@@ -12,11 +11,11 @@ namespace Turret
 
         private void OnDisable() => GameEvents.TurretOnShoot.RemoveListener(GameEvents_TurretOnShoot);
 
-        private void GameEvents_TurretOnShoot(OnShootEventArgs e)
+        private void GameEvents_TurretOnShoot(Transform gunEndPoint)
         {
-            GameObject bulletGameObject = Instantiate(_bulletPrefab, e.GunEndPointPosition, Quaternion.identity);
+            GameObject bulletGameObject = Instantiate(_bulletPrefab, gunEndPoint.position, Quaternion.identity);
 
-            Vector3 shootDir = (e.GunEndPointPosition - e.GunStartPointPosition).normalized;
+            Vector3 shootDir = gunEndPoint.transform.forward;
             
             bulletGameObject.GetComponent<Bullet>().Setup(shootDir);
         }

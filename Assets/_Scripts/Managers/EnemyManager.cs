@@ -31,11 +31,11 @@ namespace Managers
             GameEvents.OnEnemyLost.RemoveListener(GameEvents_Enemy_OnEnemyLost);
         }
         
-        public static IEnumerator SpawnEnemiesRoutine(Enemy enemyPrefab, float delay, int count)
+        public static IEnumerator SpawnEnemiesRoutine(Enemy enemyPrefab, float delay, int amount)
         {
             yield return new WaitForSeconds(delay);
             
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < amount; i++)
             {
                 Vector3 spawnPosition 
                     = Utilities.GetRandomPointAtDistance(
@@ -118,12 +118,8 @@ namespace Managers
             RemoveEnemyFromList(enemy);
         }
 
-        private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy)
-        {
-            AddEnemyToList(enemy);
-            print(_allEnemiesList.Count);
-        }
-        
+        private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy) => AddEnemyToList(enemy);
+
         private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy) => AddEnemyToSpottedList(enemy);
 
         private void GameEvents_Enemy_OnEnemyLost(Enemy enemy) => RemoveEnemyFromSpottedList(enemy);

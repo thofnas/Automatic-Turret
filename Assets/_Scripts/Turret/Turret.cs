@@ -11,7 +11,6 @@ namespace Turret
         [SerializeField] private bool _isReloading;
         [SerializeField] private bool _isAiming;
         [SerializeField, Range(0.1F, 7.0F)] private float _turretRotationSpeed = 2F;
-        [SerializeField] private Transform _gunStartPoint;
         [SerializeField] private Transform _gunEndPoint;
         [SerializeField] [Range(0.1F, 4.0F)] private float _reloadTimeInSeconds;
         #endregion
@@ -22,7 +21,6 @@ namespace Turret
         public bool IsReloading { get => _isReloading; set => _isReloading = value; }
         public bool IsAiming { get => _isAiming; set => _isAiming = value; }
         public float TurretRotationSpeed { get => _turretRotationSpeed; }
-        public Transform GunStartPoint { get => _gunStartPoint; }
         public Transform GunEndPoint { get => _gunEndPoint; }
         public float ReloadTimeInSeconds { get => _reloadTimeInSeconds; }
         #endregion

@@ -1096,7 +1096,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74117f645ca87544896e430b75e9a316, type: 2}
+  - {fileID: 2100000, guid: 9fe0a856a63e8634ebc7077bc570ea68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1341,12 +1341,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!4 &797844923 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1988953879030487745, guid: c34b3c2a253115c44a7931e6e1752597,
-    type: 3}
-  m_PrefabInstance: {fileID: 2502880843478981093}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,8 +1656,8 @@ MonoBehaviour:
   _isEnabled: 1
   _isReloading: 0
   _isAiming: 0
-  _turretRotationSpeed: 1
-  _gunStartPoint: {fileID: 797844923}
+  _turretRotationSpeed: 2
+  _gunStartPoint: {fileID: 0}
   _gunEndPoint: {fileID: 1484742356}
   _reloadTimeInSeconds: 1.5
 --- !u!1 &1096581543
@@ -1712,7 +1706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waves:
   - {fileID: 11400000, guid: 319deb3384ed0fb4eac9e8eb4fd63a64, type: 2}
-  _enemySpawnPoint: {fileID: 0}
+  - {fileID: 11400000, guid: a48c271b66278f049990eee331b917dd, type: 2}
 --- !u!1 &1137049936
 GameObject:
   m_ObjectHideFlags: 2
@@ -2414,6 +2408,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4295803359658873138, guid: c34b3c2a253115c44a7931e6e1752597,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295803359658873138, guid: c34b3c2a253115c44a7931e6e1752597,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295803359658873138, guid: c34b3c2a253115c44a7931e6e1752597,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5196025637040991576, guid: c34b3c2a253115c44a7931e6e1752597,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2435,7 +2444,8 @@ PrefabInstance:
       value: ScannerArea
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8624065830670517657, guid: c34b3c2a253115c44a7931e6e1752597, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1988676853536030813, guid: c34b3c2a253115c44a7931e6e1752597,

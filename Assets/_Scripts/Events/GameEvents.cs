@@ -1,11 +1,11 @@
 using System;
-using CustomEventArgs;
+using UnityEngine;
 
 namespace Events {
     public abstract class GameEvents
     {
         #region Turret
-        public static readonly EventRecorder<OnShootEventArgs> TurretOnShoot = new();
+        public static readonly EventRecorder<Transform> TurretOnShoot = new();
         public static readonly EventRecorder TurretOnAimStart = new();
         public static readonly EventRecorder TurretOnAimEnd = new();
         public static readonly EventRecorder TurretOnReloadStart = new(); 

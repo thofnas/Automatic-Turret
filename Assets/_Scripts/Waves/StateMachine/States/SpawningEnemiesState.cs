@@ -15,11 +15,12 @@ namespace Waves.StateMachine.States
         {
             _spawnDelay = Ctx.GetCurrentWaveData().SpawnDelay;
             _prefab = Ctx.GetCurrentWaveData().EnemiesData[0].EnemyPrefab;
+            int amountToSpawn = Ctx.EnemiesToSpawnCount;
             
             _spawnEnemiesRoutine =
                 EnemyManager.SpawnEnemiesRoutine(_prefab, _spawnDelay, Ctx.EnemiesToSpawnCount);
             
-            Ctx.StartCoroutine(_spawnEnemiesRoutine);
+            if (Ctx != null) Ctx.StartCoroutine(_spawnEnemiesRoutine);
         }
 
         public override void ExitState() => Ctx.StopCoroutine(_spawnEnemiesRoutine);

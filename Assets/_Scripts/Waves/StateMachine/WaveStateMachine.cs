@@ -7,24 +7,11 @@ namespace Waves.StateMachine
 {
     public class WaveStateMachine : MonoBehaviour
     {
-        public int EnemiesToSpawnCount
-        {
-            get => _enemiesToSpawnCount;
-            private set
-            {
-                if (_enemiesToSpawnCount + value < 0)
-                    throw new ArgumentOutOfRangeException();
-
-                _enemiesToSpawnCount = value;
-            }
-        }
-        public int CurrentWave { get; protected set; } = 0;
-        public Transform EnemySpawnPoint { get => _enemySpawnPoint; }
+        public int EnemiesToSpawnCount { get; private set; }
+        public int CurrentWaveID { get; protected set; }
         public WaveBaseState CurrentState { get; set; }
 
         [SerializeField] private List<WaveSO> _waves;
-        [SerializeField] private Transform _enemySpawnPoint;
-        private int _enemiesToSpawnCount;
 
         // state variables
         private WaveStateFactory _states;
@@ -42,7 +29,7 @@ namespace Waves.StateMachine
             GameEvents.OnWaveStateChanged.Invoke(CurrentState.ToString());
         }
 
-        public WaveSO GetCurrentWaveData() => _waves[CurrentWave];
+        public WaveSO GetCurrentWaveData() => _waves[CurrentWaveID];
 
         #region Unity methods
         private void Update() => CurrentState.UpdateState();
@@ -61,6 +48,10 @@ namespace Waves.StateMachine
         
         private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy) => EnemiesToSpawnCount--;
 
-        private void GameEvents_Waves_OnWaveEnded() => EnemiesToSpawnCount = _waves[0].EnemiesData[0].EnemyQuantity;
+        private void GameEvents_Waves_OnWaveEnded()
+        {
+            CurrentWaveID++;
+            EnemiesToSpawnCount = GetCurrentWaveData().EnemiesData[0].EnemyQuantity;
+        }
     }
 }
