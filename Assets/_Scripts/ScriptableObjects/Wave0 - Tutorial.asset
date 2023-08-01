@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0255450625c41f3af003c98c54a8acf, type: 3}
   m_Name: Wave0 - Tutorial
   m_EditorClassIdentifier: 
-  EnemiesData:
-  - EnemyPrefab: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
-      type: 3}
-    EnemyQuantity: 3
-  SpawnDelay: 2
+  SubWaves:
+  - EnemiesData:
+    - EnemyPrefab: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
+        type: 3}
+      EnemyQuantity: 3
+    SpawnDelay: 1
+  - EnemiesData:
+    - EnemyPrefab: {fileID: -5276530449521385806, guid: b6fd45ddd84ad8a4b8d1d2c0f4a31626,
+        type: 3}
+      EnemyQuantity: 2
+    SpawnDelay: 1

@@ -16,6 +16,7 @@ namespace Events {
 
         #region Enemy/Enemies
         public static readonly EventRecorder<Enemy> OnEnemySpawned = new();
+        public static readonly EventRecorder OnAllEnemiesSpawned = new();
         public static readonly EventRecorder<Enemy> OnEnemyDestroyed = new();
         public static readonly EventRecorder<Guid> OnEnemyRollStart = new();
         public static readonly EventRecorder<Guid> OnEnemyRollEnd = new();
@@ -25,7 +26,10 @@ namespace Events {
 
         #region Wave System
         public static readonly EventRecorder<string> OnWaveStateChanged = new();
+        public static readonly EventRecorder OnWaveStarted = new();
         public static readonly EventRecorder OnWaveEnded = new();
+        public static readonly EventRecorder OnSubWaveStarted = new();
+        public static readonly EventRecorder OnSubWaveEnded = new();
         #endregion
     }
 }

@@ -7,8 +7,10 @@ namespace Waves.StateMachine
 {
     public class WaveStateMachine : MonoBehaviour
     {
-        public int EnemiesToSpawnCount { get; private set; }
-        public int CurrentWaveID { get; protected set; }
+        public int CurrentWaveID { get; private set; }
+        public int CurrentSubWaveID { get; private set; }
+        public int CurrentSubWaveIDMax { get; private set; }
+        public bool OnAllEnemiesSpawned { get; private set; }
         public WaveBaseState CurrentState { get; set; }
 
         [SerializeField] private List<WaveSO> _waves;
@@ -20,38 +22,59 @@ namespace Waves.StateMachine
         {
             _states = new WaveStateFactory(this);
 
-            EnemiesToSpawnCount = GetCurrentWaveData().EnemiesData[0].EnemyQuantity;
-            
-            CurrentState = _states.WaitingForPlayer();
+            CurrentState = _states.WaitingToStartWave();
             
             CurrentState.EnterState();
+
+            ResetWaveData();
             
             GameEvents.OnWaveStateChanged.Invoke(CurrentState.ToString());
         }
 
         public WaveSO GetCurrentWaveData() => _waves[CurrentWaveID];
 
+        public SubWave GetCurrentSubWaveData() => GetCurrentWaveData().SubWaves[CurrentSubWaveID];
+
         #region Unity methods
         private void Update() => CurrentState.UpdateState();
 
         private void OnEnable()
         {
-            GameEvents.OnEnemySpawned.AddListener(GameEvents_Enemy_OnEnemySpawned);
+            GameEvents.OnAllEnemiesSpawned.AddListener(GameEvents_Enemy_OnAllEnemiesSpawned);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Waves_OnWaveEnded);
+            GameEvents.OnSubWaveEnded.AddListener(GameEvents_Waves_OnSubWaveEnded);
         }
+        
         private void OnDisable()
         {
-            GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnEnemySpawned);
+            GameEvents.OnAllEnemiesSpawned.RemoveListener(GameEvents_Enemy_OnAllEnemiesSpawned);
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Waves_OnWaveEnded);
+            GameEvents.OnSubWaveEnded.RemoveListener(GameEvents_Waves_OnSubWaveEnded);
         }
         #endregion
-        
-        private void GameEvents_Enemy_OnEnemySpawned(Enemy enemy) => EnemiesToSpawnCount--;
 
+        private void ResetWaveData()
+        {
+            OnAllEnemiesSpawned = false;
+            CurrentSubWaveID = 0;
+            CurrentSubWaveIDMax = GetCurrentWaveData().SubWaves.Count - 1;
+        }
+
+        private void GameEvents_Enemy_OnAllEnemiesSpawned()
+        {
+            OnAllEnemiesSpawned = true;
+        }
+
+        private void GameEvents_Waves_OnSubWaveEnded()
+        {
+            CurrentSubWaveID++;
+            OnAllEnemiesSpawned = false;
+        }
+        
         private void GameEvents_Waves_OnWaveEnded()
         {
             CurrentWaveID++;
-            EnemiesToSpawnCount = GetCurrentWaveData().EnemiesData[0].EnemyQuantity;
+            ResetWaveData();
         }
     }
 }

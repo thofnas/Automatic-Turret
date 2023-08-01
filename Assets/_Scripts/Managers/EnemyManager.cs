@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Events;
 using UnityEngine;
+using Waves;
 
 namespace Managers
 {
     public class EnemyManager : Singleton<EnemyManager>
     {
-        private const float MIN_DISTANCE_TO_SPAWN_ENEMY = 10f;
-        private const float MAX_DISTANCE_TO_SPAWN_ENEMY = 13f;
+        public const float MIN_DISTANCE_TO_SPAWN_ENEMY = 10f;
+        public const float MAX_DISTANCE_TO_SPAWN_ENEMY = 13f;
         
         private readonly Dictionary<Guid, Enemy> _enemiesInSightList = new();
         private readonly List<Enemy> _allEnemiesList = new();
@@ -30,27 +31,15 @@ namespace Managers
             GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
             GameEvents.OnEnemyLost.RemoveListener(GameEvents_Enemy_OnEnemyLost);
         }
-        
-        public static IEnumerator SpawnEnemiesRoutine(Enemy enemyPrefab, float delay, int amount)
-        {
-            yield return new WaitForSeconds(delay);
-            
-            for (int i = 0; i < amount; i++)
-            {
-                Vector3 spawnPosition 
-                    = Utilities.GetRandomPointAtDistance(
-                        GameManager.Instance.Turret.GetTransform().position, 
-                        MAX_DISTANCE_TO_SPAWN_ENEMY, 
-                        MIN_DISTANCE_TO_SPAWN_ENEMY);
 
-                spawnPosition.y = 0 + enemyPrefab.transform.localScale.y / 2;
-                
-                Enemy enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-                GameEvents.OnEnemySpawned.Invoke(enemy);
-                yield return new WaitForSeconds(delay);
-            }
+        public void SpawnEnemy(Enemy enemyPrefab, Vector3 spawnPosition, Quaternion rotation)
+        {
+            spawnPosition.y = 0 + enemyPrefab.transform.localScale.y / 2;
+
+            Enemy enemy = Instantiate(enemyPrefab, spawnPosition, rotation);
+            GameEvents.OnEnemySpawned.Invoke(enemy);
         }
-        
+
         #region Methods helpers for all enemies
         private void AddEnemyToList(Enemy enemy) => _allEnemiesList.Add(enemy);
 
@@ -62,7 +51,7 @@ namespace Managers
         #region Methods helpers for enemies in sight
         public Enemy GetClosestSpottedEnemy()
         {
-            Transform turret = GameManager.Instance.Turret.GetTransform();
+            Transform turret = GameManager.Instance.TurretStateMachine.GetTransform();
             float closestDistance = float.PositiveInfinity;
             Enemy closestEnemy = null;
 

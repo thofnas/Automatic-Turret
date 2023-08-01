@@ -10,14 +10,19 @@ namespace Waves.StateMachine.States
         
         public override void EnterState() { }
 
-        public override void ExitState() => GameEvents.OnWaveEnded.Invoke();
+        public override void ExitState() => GameEvents.OnSubWaveEnded.Invoke();
 
         public override void UpdateState() => CheckSwitchStates();
 
         public override void CheckSwitchStates()
         {
-            if (!EnemyManager.Instance.IsAnyEnemyExists())
-                SwitchState(Factory.WaitingForPlayer());
+            //wave ends if all enemies defeated and it was the last subwave
+            if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID >= Ctx.CurrentSubWaveIDMax)
+                SwitchState(Factory.WaitingToStartWave());
+
+            // start new subwave if they should be
+            if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID < Ctx.CurrentSubWaveIDMax)
+                SwitchState(Factory.SpawningEnemies());
         }
     }
 }

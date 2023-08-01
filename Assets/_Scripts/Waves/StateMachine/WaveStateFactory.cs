@@ -13,6 +13,6 @@ namespace Waves.StateMachine
 
         public WaveBaseState SpawningEnemies() => new SpawningEnemiesState(_context, this);
         public WaveBaseState WaitingForDefeatedEnemies() => new WaitingForDefeatedEnemiesState(_context, this);
-        public WaveBaseState WaitingForPlayer() => new WaitingToStartState(_context, this);
+        public WaveBaseState WaitingToStartWave() => new WaitingToStartWaveState(_context, this);
     }
 }

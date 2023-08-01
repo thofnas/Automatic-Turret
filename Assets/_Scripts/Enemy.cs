@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
 
     private void Start()
     {
-        transform.LookAt(GameManager.Instance.Turret.transform);
+        transform.LookAt(GameManager.Instance.TurretStateMachine.transform);
         Assemble();
     }
 
@@ -32,16 +32,16 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.transform.parent == GameManager.Instance.Turret.transform)
+        if (collision.gameObject.transform.parent == GameManager.Instance.TurretStateMachine.transform)
             Destroy(gameObject);
     }
 
     private void Assemble()
     {
         _enemyAnchorPoint = transform.position
-                            + (Vector3.down + (GameManager.Instance.Turret.transform.position - transform.position).normalized) * 0.5f;
+                            + (Vector3.down + (GameManager.Instance.TurretStateMachine.transform.position - transform.position).normalized) * 0.5f;
 
-        _enemyAxis = Vector3.Cross(Vector3.up, (GameManager.Instance.Turret.transform.position - transform.position).normalized);
+        _enemyAxis = Vector3.Cross(Vector3.up, (GameManager.Instance.TurretStateMachine.transform.position - transform.position).normalized);
     }
 
     public void ApplyDamage()

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Utilities
@@ -12,4 +14,6 @@ public static class Utilities
 
         return point;
     }
+    
+    public static List<T> ShuffleList<T> (IEnumerable<T> list) => list.OrderBy(a => new System.Random().Next()).ToList();
 }
