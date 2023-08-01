@@ -11,6 +11,7 @@ using UnityEngine;
             }
 
             Instance = this as T;
+            transform.SetParent(null);
             DontDestroyOnLoad(this);
         }
     }

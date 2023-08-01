@@ -10,12 +10,8 @@ namespace Waves.StateMachine.States
         
         public override void EnterState() { }
 
-        public override void ExitState()
-        {
-            GameEvents.OnWaveEnded.Invoke();
-            Debug.Log(EnemyManager.Instance.HasEnemyInSight());
-        }
-        
+        public override void ExitState() => GameEvents.OnWaveEnded.Invoke();
+
         public override void UpdateState() => CheckSwitchStates();
 
         public override void CheckSwitchStates()

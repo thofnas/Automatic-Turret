@@ -9,6 +9,9 @@ namespace Managers
 {
     public class EnemyManager : Singleton<EnemyManager>
     {
+        private const float MIN_DISTANCE_TO_SPAWN_ENEMY = 10f;
+        private const float MAX_DISTANCE_TO_SPAWN_ENEMY = 13f;
+        
         private readonly Dictionary<Guid, Enemy> _enemiesInSightList = new();
         private readonly List<Enemy> _allEnemiesList = new();
 
@@ -28,13 +31,21 @@ namespace Managers
             GameEvents.OnEnemyLost.RemoveListener(GameEvents_Enemy_OnEnemyLost);
         }
         
-        public static IEnumerator SpawnEnemiesRoutine(Vector3 position, Enemy enemyPrefab, float delay, int count)
+        public static IEnumerator SpawnEnemiesRoutine(Enemy enemyPrefab, float delay, int count)
         {
             yield return new WaitForSeconds(delay);
             
             for (int i = 0; i < count; i++)
             {
-                Enemy enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+                Vector3 spawnPosition 
+                    = Utilities.GetRandomPointAtDistance(
+                        GameManager.Instance.Turret.GetTransform().position, 
+                        MAX_DISTANCE_TO_SPAWN_ENEMY, 
+                        MIN_DISTANCE_TO_SPAWN_ENEMY);
+
+                spawnPosition.y = 0 + enemyPrefab.transform.localScale.y / 2;
+                
+                Enemy enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
                 GameEvents.OnEnemySpawned.Invoke(enemy);
                 yield return new WaitForSeconds(delay);
             }

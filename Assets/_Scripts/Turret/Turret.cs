@@ -6,6 +6,7 @@ namespace Turret
     public class Turret : MonoBehaviour
     {
         #region Serialized Variables
+        [SerializeField] private Transform _turretScanner;
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private bool _isReloading;
         [SerializeField] private bool _isAiming;
@@ -16,6 +17,7 @@ namespace Turret
         #endregion
         
         #region Getters/setters
+        public Transform TurretScanner { get => _turretScanner; }
         public bool IsEnabled { get => _isEnabled; }
         public bool IsReloading { get => _isReloading; set => _isReloading = value; }
         public bool IsAiming { get => _isAiming; set => _isAiming = value; }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Turret
 {
-    public class TurretScanner : Singleton<TurretScanner>
+    public class TurretScanner : MonoBehaviour
     {
         private void OnTriggerEnter(Collider other)
         {

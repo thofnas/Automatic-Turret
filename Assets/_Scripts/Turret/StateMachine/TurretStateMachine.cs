@@ -27,7 +27,7 @@ namespace Turret.StateMachine
         public bool IsEnemyInFront(Enemy enemy)
         {
             Vector3 direction = transform.forward; // Get the forward direction of the turret
-            var turretScannerCollider = TurretScanner.Instance.GetComponent<Collider>();
+            var turretScannerCollider = TurretScanner.GetComponent<Collider>();
             float maxDistance = turretScannerCollider.bounds.extents.magnitude; // Set the maximum distance to cast the ray
 
             RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, maxDistance);
