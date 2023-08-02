@@ -152,8 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5551a8869cf78824e860664ed91668ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyManager: {fileID: 1612512381}
   _turretStateMachine: {fileID: 1006642759}
+  _turretShootProjectiles: {fileID: 1006642760}
   _waveStateMachine: {fileID: 1096581545}
+  _lobbyUI: {fileID: 1741193533}
+  _gameUI: {fileID: 1347346969}
 --- !u!4 &111858364
 Transform:
   m_ObjectHideFlags: 0
@@ -1725,6 +1729,18 @@ MonoBehaviour:
   _turretRotationSpeed: 2
   _gunEndPoint: {fileID: 1484742356}
   _reloadTimeInSeconds: 1.5
+--- !u!114 &1006642760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8210018051263852195, guid: c34b3c2a253115c44a7931e6e1752597,
+    type: 3}
+  m_PrefabInstance: {fileID: 2502880843478981093}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006642754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084249f9b49c67d4aacba684858764e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1042175517
 GameObject:
   m_ObjectHideFlags: 0

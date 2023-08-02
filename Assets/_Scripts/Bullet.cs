@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private const float BULLET_SPEED = 10f;
+    private const float BULLET_SPEED = 5f;
     private const float LIFE_TIME = 3f;
     private Vector3 _shootDir;
 

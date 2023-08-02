@@ -25,7 +25,7 @@ namespace Turret
         public float ReloadTimeInSeconds { get => _reloadTimeInSeconds; }
         #endregion
         
-        private void OnEnable()
+        private void Awake()
         {
             GameEvents.TurretOnAimStart.AddListener(GameEvents_Turret_OnAimStart);
             GameEvents.TurretOnAimEnd.AddListener(GameEvents_Turret_OnAimEnd);
@@ -33,7 +33,7 @@ namespace Turret
             GameEvents.TurretOnReloadEnd.AddListener(GameEvents_Turret_OnReloadEnd);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             GameEvents.TurretOnAimStart.RemoveListener(GameEvents_Turret_OnAimStart);
             GameEvents.TurretOnAimEnd.RemoveListener(GameEvents_Turret_OnAimEnd);

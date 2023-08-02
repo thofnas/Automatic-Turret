@@ -16,7 +16,7 @@ namespace Managers
         private readonly Dictionary<Guid, Enemy> _enemiesInSightList = new();
         private readonly List<Enemy> _allEnemiesList = new();
 
-        private void OnEnable()
+        public void Initialize()
         {
             GameEvents.OnEnemySpawned.AddListener(GameEvents_Enemy_OnEnemySpawned);
             GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
@@ -24,7 +24,7 @@ namespace Managers
             GameEvents.OnEnemyLost.AddListener(GameEvents_Enemy_OnEnemyLost);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnEnemySpawned);
             GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);

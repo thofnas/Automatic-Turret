@@ -7,9 +7,9 @@ namespace Turret
     {
         [SerializeField] private GameObject _bulletPrefab;
 
-        private void OnEnable() => GameEvents.TurretOnShoot.AddListener(GameEvents_TurretOnShoot);
+        public void Initialize() => GameEvents.TurretOnShoot.AddListener(GameEvents_TurretOnShoot);
 
-        private void OnDisable() => GameEvents.TurretOnShoot.RemoveListener(GameEvents_TurretOnShoot);
+        private void OnDestroy() => GameEvents.TurretOnShoot.RemoveListener(GameEvents_TurretOnShoot);
 
         private void GameEvents_TurretOnShoot(Transform gunEndPoint)
         {

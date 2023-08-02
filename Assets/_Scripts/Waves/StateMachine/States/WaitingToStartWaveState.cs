@@ -9,11 +9,11 @@ namespace Waves.StateMachine.States
         public override void EnterState()
         {
             GameEvents.OnWaveEnded.Invoke();
-            UIEvents.OnStartWaveButtonClick.AddListener(UIEvents_OnStartWaveButtonClick);
+            UIEvents.OnStartWaveButtonClick.AddListener(UIEvents_Waves_OnStartWaveButtonClick);
         }
         public override void ExitState()
         {
-            UIEvents.OnStartWaveButtonClick.RemoveListener(UIEvents_OnStartWaveButtonClick);
+            UIEvents.OnStartWaveButtonClick.RemoveListener(UIEvents_Waves_OnStartWaveButtonClick);
             GameEvents.OnWaveStarted.Invoke();
         }
         
@@ -21,7 +21,7 @@ namespace Waves.StateMachine.States
 
         public override void CheckSwitchStates() { }
         
-        private void UIEvents_OnStartWaveButtonClick()
+        private void UIEvents_Waves_OnStartWaveButtonClick()
         {
             SwitchState(Factory.SpawningEnemies());
         }

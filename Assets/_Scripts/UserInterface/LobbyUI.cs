@@ -8,12 +8,12 @@ namespace UserInterface
     {
         [SerializeField] private Button _startWaveButton;
 
-        private void OnEnable()
+        public void Initialize()
         {
             _startWaveButton.onClick.AddListener(() => UIEvents.OnStartWaveButtonClick.Invoke());
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _startWaveButton.onClick.RemoveAllListeners();
         }

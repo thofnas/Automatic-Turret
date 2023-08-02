@@ -12,7 +12,7 @@ namespace UserInterface
         [SerializeField] private TextMeshProUGUI _currentWaveCount;
         [SerializeField] private TextMeshProUGUI _currentSubWaveCount;
 
-        private void OnEnable()
+        public void Initialize()
         {
             GameEvents.OnWaveStateChanged.AddListener(GameEvents_Waves_OnWaveStateChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
@@ -21,7 +21,7 @@ namespace UserInterface
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Wave_OnSubWaveEnded);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             GameEvents.OnWaveStateChanged.RemoveListener(GameEvents_Waves_OnWaveStateChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
