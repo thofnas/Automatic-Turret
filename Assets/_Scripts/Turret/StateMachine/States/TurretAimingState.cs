@@ -56,7 +56,7 @@ namespace Turret.StateMachine.States
             
             _closestEnemy = EnemyManager.Instance.GetClosestSpottedEnemy();
             _aimRoutine = AimTurretRoutine(_closestEnemy.GetTransform());
-            if (Ctx != null) Ctx.StartCoroutine(_aimRoutine);
+            Ctx.StartCoroutine(_aimRoutine);
         }
         
         private IEnumerator AimTurretRoutine(Transform target)
@@ -84,7 +84,7 @@ namespace Turret.StateMachine.States
         {
             if (EnemyManager.Instance.GetClosestSpottedEnemy() == _closestEnemy) return;
             
-            if (Ctx != null) Ctx.StopCoroutine(_aimRoutine);
+            Ctx.StopCoroutine(_aimRoutine);
             RotateTowardsClosestEnemy();
         }
     }

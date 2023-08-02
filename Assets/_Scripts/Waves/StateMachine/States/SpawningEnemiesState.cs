@@ -18,7 +18,7 @@ namespace Waves.StateMachine.States
             
             _spawnEnemiesRoutine = SpawnEnemiesRoutine();
             
-            if (Ctx != null) Ctx.StartCoroutine(_spawnEnemiesRoutine);
+            Ctx.StartCoroutine(_spawnEnemiesRoutine);
         }
 
         public override void ExitState() => Ctx.StopCoroutine(_spawnEnemiesRoutine);
@@ -40,7 +40,7 @@ namespace Waves.StateMachine.States
             
             foreach (Enemy enemy in shuffledEnemies)
             {
-                Vector3 randomSpawnPosition = Utilities.GetRandomPointAtDistance(
+                Vector3 randomSpawnPosition = Utilities.GetRandomPositionAtDistance(
                     GameManager.Instance.TurretStateMachine.GetTransform().position,
                     EnemyManager.MAX_DISTANCE_TO_SPAWN_ENEMY,
                     EnemyManager.MIN_DISTANCE_TO_SPAWN_ENEMY);

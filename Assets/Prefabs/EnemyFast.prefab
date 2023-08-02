@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: -5276530449521385806}
   - component: {fileID: 4629640642851035293}
   - component: {fileID: 202983595681881899}
+  - component: {fileID: 5475894058590580856}
   m_Layer: 7
   m_Name: EnemyFast
   m_TagString: Untagged
@@ -180,3 +181,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5475894058590580856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918403545300865139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43093c3b697fc84428a6bea4738808ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemPrefab: {fileID: 6913318947873864021, guid: 28c3060e59db7ed41ae5e93b8c946c79,
+    type: 3}
+  _spawnQuantity: 7
+  _minDistance: 1.85
+  _maxDistance: 3.18
+  _durationOfMoving: 1

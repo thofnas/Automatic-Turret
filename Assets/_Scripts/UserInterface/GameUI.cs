@@ -1,3 +1,4 @@
+using System;
 using Events;
 using Managers;
 using TMPro;
@@ -19,6 +20,11 @@ namespace UserInterface
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
             GameEvents.OnSubWaveStarted.AddListener(GameEvents_Wave_OnSubWaveStarted);
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Wave_OnSubWaveEnded);
+        }
+
+        private void Start()
+        {
+            UpdateGameUIText();
         }
 
         private void OnDestroy()

@@ -17,11 +17,10 @@ public class Bootstrap : MonoBehaviour
     // execution order
     private void Awake()
     {
-        _enemyManager.Initialize();
-        _turretStateMachine.Initialize();
-        _turretShootProjectiles.Initialize();
         _waveStateMachine.Initialize();
+        _turretStateMachine.Initialize();
+        _enemyManager.Initialize();
+        _turretShootProjectiles.Initialize();
         _lobbyUI.Initialize();
-        _gameUI.Initialize();
-    }
+        _gameUI.Initialize();}
 }

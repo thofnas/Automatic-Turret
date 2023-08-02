@@ -5,6 +5,7 @@ using Interfaces;
 using Managers;
 using UnityEngine;
 
+[RequireComponent(typeof(ItemDropController))]
 public class Enemy : MonoBehaviour, IDamageable, IHaveID
 {
     public Guid InstanceID { get; } = Guid.NewGuid();
@@ -12,9 +13,15 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
 
+    private ItemDropController _itemDropController;
     private Vector3 _enemyAnchorPoint;
     private Vector3 _enemyAxis;
     private bool _isRolling;
+
+    private void Awake()
+    {
+        _itemDropController = GetComponent<ItemDropController>();
+    }
 
     private void Start()
     {
@@ -28,7 +35,10 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
         StartCoroutine(RollACubeRoutine(_enemyAnchorPoint, _enemyAxis));
     }
     
-    private void OnDestroy() => GameEvents.OnEnemyDestroyed.Invoke(this);
+    private void OnDestroy()
+    {
+        GameEvents.OnEnemyDestroyed.Invoke(this);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -46,6 +56,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
 
     public void ApplyDamage()
     {
+        _itemDropController.DropItems(EasingEquations.Cubic.EaseOut, EasingEquations.Bounce.EaseOut);
         Destroy(gameObject);
     }
 
