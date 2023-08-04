@@ -69,7 +69,7 @@ public static class Utilities
         
         return didHit;
     }
-    
+
     public static Vector3 GetRandomPositionAtDistance(Vector3 objectPosition, float maxDistance, float minDistance = 0)
     {
         float randomAngle = Random.Range(0f, 360f);

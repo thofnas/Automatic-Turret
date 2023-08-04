@@ -196,6 +196,6 @@ MonoBehaviour:
   _itemPrefab: {fileID: 6913318947873864021, guid: 28c3060e59db7ed41ae5e93b8c946c79,
     type: 3}
   _spawnQuantity: 7
-  _minDistance: 1.85
-  _maxDistance: 3.18
-  _durationOfMoving: 1
+  _minDistance: 1
+  _maxDistance: 2
+  _durationOfMoving: 0.7

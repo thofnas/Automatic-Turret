@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using Events;
 using Interfaces;
 using Managers;
 using UnityEngine;
 
-[RequireComponent(typeof(ItemDropController))]
+[RequireComponent(typeof(ItemSpawner))]
 public class Enemy : MonoBehaviour, IDamageable, IHaveID
 {
     public Guid InstanceID { get; } = Guid.NewGuid();
@@ -13,14 +14,14 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
 
-    private ItemDropController _itemDropController;
+    private ItemSpawner _itemSpawner;
     private Vector3 _enemyAnchorPoint;
     private Vector3 _enemyAxis;
     private bool _isRolling;
 
     private void Awake()
     {
-        _itemDropController = GetComponent<ItemDropController>();
+        _itemSpawner = GetComponent<ItemSpawner>();
     }
 
     private void Start()
@@ -56,7 +57,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
 
     public void ApplyDamage()
     {
-        _itemDropController.DropItems(EasingEquations.Cubic.EaseOut, EasingEquations.Bounce.EaseOut);
+        _itemSpawner.SpawnItems(Ease.Flash, Ease.OutBounce);
         Destroy(gameObject);
     }
 

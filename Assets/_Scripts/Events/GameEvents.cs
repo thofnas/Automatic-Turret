@@ -28,8 +28,13 @@ namespace Events {
         public static readonly EventRecorder<string> OnWaveStateChanged = new();
         public static readonly EventRecorder OnWaveStarted = new();
         public static readonly EventRecorder OnWaveEnded = new();
+        public static readonly EventRecorder OnWaveWon = new();
+        public static readonly EventRecorder OnWaveLost = new();
         public static readonly EventRecorder OnSubWaveStarted = new();
         public static readonly EventRecorder OnSubWaveEnded = new();
         #endregion
+        
+        public static readonly EventRecorder OnItemPicked = new();
+        public static readonly EventRecorder OnGearAmountChanged = new();
     }
 }

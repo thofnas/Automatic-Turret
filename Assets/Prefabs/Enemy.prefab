@@ -148,9 +148,9 @@ MonoBehaviour:
   _itemPrefab: {fileID: 6913318947873864021, guid: 28c3060e59db7ed41ae5e93b8c946c79,
     type: 3}
   _spawnQuantity: 5
-  _minDistance: 1.62
-  _maxDistance: 3.49
-  _durationOfMoving: 0.95
+  _minDistance: 1
+  _maxDistance: 2
+  _durationOfMoving: 0.7
 --- !u!65 &4629640642851035293
 BoxCollider:
   m_ObjectHideFlags: 0

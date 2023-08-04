@@ -43,6 +43,11 @@ namespace Turret.StateMachine.States
                 SwitchState(Factory.Shooting());
             }
 
+            if (Ctx.TurretHealth <= 0)
+            {
+                SwitchState(Factory.Destroyed());
+            }
+
             // if (Ctx.IsDestroyed)
             // {
             //     SwitchState(Factory.Destroyed());
@@ -84,7 +89,7 @@ namespace Turret.StateMachine.States
         {
             if (EnemyManager.Instance.GetClosestSpottedEnemy() == _closestEnemy) return;
             
-            Ctx.StopCoroutine(_aimRoutine);
+            if (Ctx != null) Ctx.StopCoroutine(_aimRoutine);
             RotateTowardsClosestEnemy();
         }
     }

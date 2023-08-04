@@ -1,19 +1,17 @@
-using System;
 using Events;
 using Managers;
-using TMPro;
+using Turret.StateMachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace UserInterface
+namespace UserInterface.StateMachine.States
 {
-    public class GameUI : MonoBehaviour
+    public class UIPlayScreenState : UIBaseState
     {
-        [SerializeField] private TextMeshProUGUI _stateTestText;
-        [SerializeField] private TextMeshProUGUI _currentWaveCount;
-        [SerializeField] private TextMeshProUGUI _currentSubWaveCount;
+        public UIPlayScreenState(UIStateMachine context, UIStateFactory uiStateFactory)
+            : base(context, uiStateFactory) { }
 
-        public void Initialize()
+        public override void EnterState()
         {
             GameEvents.OnWaveStateChanged.AddListener(GameEvents_Waves_OnWaveStateChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
@@ -22,12 +20,7 @@ namespace UserInterface
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Wave_OnSubWaveEnded);
         }
 
-        private void Start()
-        {
-            UpdateGameUIText();
-        }
-
-        private void OnDestroy()
+        public override void ExitState()
         {
             GameEvents.OnWaveStateChanged.RemoveListener(GameEvents_Waves_OnWaveStateChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
@@ -36,21 +29,33 @@ namespace UserInterface
             GameEvents.OnSubWaveEnded.RemoveListener(GameEvents_Wave_OnSubWaveEnded);
         }
 
+        public override void UpdateState() => CheckSwitchStates();
+
+        public override void CheckSwitchStates() { }
+
+        public override void EnableElement() => Ctx.PlayScreenUITransform.gameObject.SetActive(true);
+        
+        public override void DisableElement() => Ctx.PlayScreenUITransform.gameObject.SetActive(false);
+
         private void UpdateGameUIText()
         {
-            _currentWaveCount.text = GameManager.Instance.WaveStateMachine.CurrentWaveID == 0 
+            Ctx.CurrentWaveCount.text = GameManager.Instance.WaveStateMachine.CurrentWaveID == 0 
                 ? "Tutorial" 
                 : GameManager.Instance.WaveStateMachine.CurrentWaveID.ToString();
 
-            _currentSubWaveCount.text 
+            Ctx.CurrentSubWaveCount.text
                 = $"{GameManager.Instance.WaveStateMachine.CurrentSubWaveID + 1} / {GameManager.Instance.WaveStateMachine.CurrentSubWaveIDMax + 1}";
         }
         
-        private void GameEvents_Waves_OnWaveStateChanged(string str) => _stateTestText.text = str.ToSafeString();
+        private void GameEvents_Waves_OnWaveStateChanged(string str) => Ctx.StateTestText.text = str.ToSafeString();
 
         private void GameEvents_Wave_OnWaveStarted() => UpdateGameUIText();
-
-        private void GameEvents_Wave_OnWaveEnded() => UpdateGameUIText();
+        
+        private void GameEvents_Wave_OnWaveEnded()
+        {
+            UpdateGameUIText();
+            SwitchState(Factory.UILobby());
+        }
 
         private void GameEvents_Wave_OnSubWaveStarted() => UpdateGameUIText();
 

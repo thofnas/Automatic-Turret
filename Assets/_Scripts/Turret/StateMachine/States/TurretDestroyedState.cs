@@ -1,3 +1,5 @@
+using Events;
+
 namespace Turret.StateMachine.States
 {
     public class TurretDestroyedState : TurretBaseState
@@ -7,19 +9,21 @@ namespace Turret.StateMachine.States
 
         public override void EnterState()
         {
+            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
         }
-        
+
         public override void ExitState()
         {
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
         }
         
-        public override void UpdateState()
+        public override void UpdateState() => CheckSwitchStates();
+
+        public override void CheckSwitchStates() { }
+
+        private void GameEvents_Wave_OnEnded()
         {
-            CheckSwitchStates();
-        }
-        
-        public override void CheckSwitchStates()
-        {
+            SwitchState(Factory.Idle());
         }
     }
 }

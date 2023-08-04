@@ -14,14 +14,19 @@ namespace Waves.StateMachine.States
 
         public override void EnterState()
         {
+            GameEvents.OnTurretDestroyed.AddListener(GameEvents_Turret_OnDestroyed);
             GameEvents.OnSubWaveStarted.Invoke();
             
             _spawnEnemiesRoutine = SpawnEnemiesRoutine();
             
-            Ctx.StartCoroutine(_spawnEnemiesRoutine);
+            if (Ctx != null) Ctx.StartCoroutine(_spawnEnemiesRoutine);
         }
 
-        public override void ExitState() => Ctx.StopCoroutine(_spawnEnemiesRoutine);
+        public override void ExitState()
+        {
+            GameEvents.OnTurretDestroyed.RemoveListener(GameEvents_Turret_OnDestroyed);
+            Ctx.StopCoroutine(_spawnEnemiesRoutine);
+        }
 
         public override void UpdateState() => CheckSwitchStates();
 
@@ -67,5 +72,7 @@ namespace Waves.StateMachine.States
 
             return list;
         }
+        
+        private void GameEvents_Turret_OnDestroyed() => SwitchState(Factory.WaitingToStartWave());
     }
 }

@@ -6,6 +6,7 @@ namespace Turret
     public class Turret : MonoBehaviour
     {
         #region Serialized Variables
+        [SerializeField, Min(1)] private int _turretHealthMax = 3;
         [SerializeField] private Transform _turretScanner;
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private bool _isReloading;
@@ -16,6 +17,7 @@ namespace Turret
         #endregion
         
         #region Getters/setters
+        public int TurretHealth { get; private set; }
         public Transform TurretScanner { get => _turretScanner; }
         public bool IsEnabled { get => _isEnabled; }
         public bool IsReloading { get => _isReloading; set => _isReloading = value; }
@@ -27,10 +29,13 @@ namespace Turret
         
         private void Awake()
         {
+            ResetTurret();
             GameEvents.TurretOnAimStart.AddListener(GameEvents_Turret_OnAimStart);
             GameEvents.TurretOnAimEnd.AddListener(GameEvents_Turret_OnAimEnd);
             GameEvents.TurretOnReloadStart.AddListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.AddListener(GameEvents_Turret_OnReloadEnd);
+            GameEvents.OnTurretGotHit.AddListener(GameEvents_Turret_OnGotHit);
+            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
         }
 
         private void OnDestroy()
@@ -39,6 +44,12 @@ namespace Turret
             GameEvents.TurretOnAimEnd.RemoveListener(GameEvents_Turret_OnAimEnd);
             GameEvents.TurretOnReloadStart.RemoveListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.RemoveListener(GameEvents_Turret_OnReloadEnd);
+            GameEvents.OnTurretGotHit.RemoveListener(GameEvents_Turret_OnGotHit);
+        }
+
+        private void ResetTurret()
+        {
+            TurretHealth = _turretHealthMax;
         }
         
         #region Events methods
@@ -49,6 +60,10 @@ namespace Turret
         private void GameEvents_Turret_OnReloadStart() => _isReloading = true;
         
         private void GameEvents_Turret_OnReloadEnd() => _isReloading = false;
+        
+        private void GameEvents_Turret_OnGotHit() => TurretHealth--;
+        
+        private void GameEvents_Wave_OnWaveEnded() => ResetTurret();
         #endregion
     }
 }
