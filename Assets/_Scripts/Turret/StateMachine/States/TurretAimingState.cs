@@ -34,25 +34,13 @@ namespace Turret.StateMachine.States
         public override void CheckSwitchStates()
         {
             if (!EnemyManager.Instance.HasEnemyInSight())
-            {
                 SwitchState(Factory.Idle());
-            }
 
             if (Ctx.IsEnemyInFront(_closestEnemy) && !Ctx.IsAiming)
-            {
                 SwitchState(Factory.Shooting());
-            }
 
-            if (Ctx.TurretHealth <= 0)
-            {
+            if (Ctx.IsDestroyed)
                 SwitchState(Factory.Destroyed());
-            }
-
-            // if (Ctx.IsDestroyed)
-            // {
-            //     SwitchState(Factory.Destroyed());
-            //     return;
-            // }
         }
 
         private void RotateTowardsClosestEnemy()
@@ -61,7 +49,7 @@ namespace Turret.StateMachine.States
             
             _closestEnemy = EnemyManager.Instance.GetClosestSpottedEnemy();
             _aimRoutine = AimTurretRoutine(_closestEnemy.GetTransform());
-            Ctx.StartCoroutine(_aimRoutine);
+            if (Ctx != null) Ctx.StartCoroutine(_aimRoutine);
         }
         
         private IEnumerator AimTurretRoutine(Transform target)

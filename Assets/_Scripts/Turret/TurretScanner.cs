@@ -17,7 +17,7 @@ namespace Turret
         {
             if (other.TryGetComponent(out Enemy enemy))
             {
-                GameEvents.OnEnemyLost.Invoke(enemy);
+                GameEvents.OnEnemyLostFromView.Invoke(enemy);
             }
         }
     }

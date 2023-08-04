@@ -7,15 +7,16 @@ namespace UserInterface.StateMachine
 {
     public class UIStateMachine : MonoBehaviour
     {
+        [Header("Play Screen")]
         [SerializeField] private Transform _playScreenUITransform;
-        public TextMeshProUGUI StateTestText;
-        public TextMeshProUGUI CurrentWaveCount;
         public TextMeshProUGUI CurrentSubWaveCount;
-        public TextMeshProUGUI CollectedGearsCount;
-
+        public TextMeshProUGUI CollectedGearsAmount;
+        [Header("Lobby Screen")]
         [SerializeField] private Transform _lobbyScreenUITransform;
+        public TextMeshProUGUI CurrentWaveCount;
         public TextMeshProUGUI TotalGearsCount;
         public Button StartWaveButton;
+        [Header("Other")] public Transform ScreenDimmingTransform;
         
         //get/set
         public Transform PlayScreenUITransform { get => _playScreenUITransform; }

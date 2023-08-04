@@ -11,13 +11,14 @@ namespace Turret
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private bool _isReloading;
         [SerializeField] private bool _isAiming;
-        [SerializeField, Range(0.1F, 7.0F)] private float _turretRotationSpeed = 2F;
+        [SerializeField, Range(0.1F, 20.0F)] private float _turretRotationSpeed = 2F;
         [SerializeField] private Transform _gunEndPoint;
         [SerializeField] [Range(0.1F, 4.0F)] private float _reloadTimeInSeconds;
         #endregion
         
         #region Getters/setters
         public int TurretHealth { get; private set; }
+        public bool IsDestroyed { get; private set; }
         public Transform TurretScanner { get => _turretScanner; }
         public bool IsEnabled { get => _isEnabled; }
         public bool IsReloading { get => _isReloading; set => _isReloading = value; }
@@ -45,11 +46,13 @@ namespace Turret
             GameEvents.TurretOnReloadStart.RemoveListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.RemoveListener(GameEvents_Turret_OnReloadEnd);
             GameEvents.OnTurretGotHit.RemoveListener(GameEvents_Turret_OnGotHit);
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
         }
 
         private void ResetTurret()
         {
             TurretHealth = _turretHealthMax;
+            IsDestroyed = false;
         }
         
         #region Events methods
@@ -61,8 +64,12 @@ namespace Turret
         
         private void GameEvents_Turret_OnReloadEnd() => _isReloading = false;
         
-        private void GameEvents_Turret_OnGotHit() => TurretHealth--;
-        
+        private void GameEvents_Turret_OnGotHit()
+        {
+            TurretHealth--;
+            if (TurretHealth <= 0) IsDestroyed = true;
+        }
+
         private void GameEvents_Wave_OnWaveEnded() => ResetTurret();
         #endregion
     }

@@ -10,14 +10,16 @@ namespace UserInterface.StateMachine.States
         
         public override void EnterState() {
             Ctx.StartWaveButton.onClick.AddListener(() => UIEvents.OnStartWaveButtonClicked.Invoke());
-            GameEvents.OnGearAmountChanged.AddListener(GameEvents_Item_OnGearAmountChanged);
+            GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
+            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
         }
 
         public override void ExitState() {
             Ctx.StartWaveButton.onClick.RemoveAllListeners();
-            GameEvents.OnGearAmountChanged.RemoveListener(GameEvents_Item_OnGearAmountChanged);
+            GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -28,14 +30,15 @@ namespace UserInterface.StateMachine.States
         
         public override void DisableElement() => Ctx.LobbyScreenUITransform.gameObject.SetActive(false);
 
-        private void GameEvents_Item_OnGearAmountChanged()
+        private void UpdateUI()
         {
-            Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearCount.ToString();
+            Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearAmount.ToString();
         }
-        
-        private void GameEvents_Wave_OnWaveStarted()
-        {
-            SwitchState(Factory.UIGame());
-        }
+
+        private void GameEvents_Item_OnTotalGearAmountChanged() => UpdateUI();
+
+        private void GameEvents_Wave_OnWaveEnded() => UpdateUI();
+
+        private void GameEvents_Wave_OnWaveStarted() => SwitchState(Factory.UIGame());
     }
 }

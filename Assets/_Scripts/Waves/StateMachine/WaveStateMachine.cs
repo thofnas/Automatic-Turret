@@ -27,8 +27,6 @@ namespace Waves.StateMachine
             CurrentState.EnterState();
 
             ResetWaveData();
-            
-            GameEvents.OnWaveStateChanged.Invoke(CurrentState.ToString());
         }
 
         public WaveSO GetCurrentWaveData() => _waves[CurrentWaveID];
@@ -43,13 +41,17 @@ namespace Waves.StateMachine
             GameEvents.OnAllEnemiesSpawned.AddListener(GameEvents_Enemy_OnAllEnemiesSpawned);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Waves_OnWaveEnded);
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Waves_OnSubWaveEnded);
+            GameEvents.OnWaveWon.AddListener(GameEvents_Waves_OnWon);
+            GameEvents.OnWaveLost.AddListener(GameEvents_Waves_OnLost);
         }
-        
+
         private void OnDisable()
         {
             GameEvents.OnAllEnemiesSpawned.RemoveListener(GameEvents_Enemy_OnAllEnemiesSpawned);
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Waves_OnWaveEnded);
             GameEvents.OnSubWaveEnded.RemoveListener(GameEvents_Waves_OnSubWaveEnded);
+            GameEvents.OnWaveWon.RemoveListener(GameEvents_Waves_OnWon);
+            GameEvents.OnWaveLost.RemoveListener(GameEvents_Waves_OnLost);
         }
         #endregion
 
@@ -71,10 +73,10 @@ namespace Waves.StateMachine
             OnAllEnemiesSpawned = false;
         }
         
-        private void GameEvents_Waves_OnWaveEnded()
-        {
-            CurrentWaveID++;
-            ResetWaveData();
-        }
+        private void GameEvents_Waves_OnWaveEnded() => ResetWaveData();
+
+        private void GameEvents_Waves_OnWon() => CurrentWaveID++;
+        
+        private void GameEvents_Waves_OnLost() => ResetWaveData();
     }
 }

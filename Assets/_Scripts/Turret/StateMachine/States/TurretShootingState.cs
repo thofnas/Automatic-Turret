@@ -35,11 +35,10 @@ namespace Turret.StateMachine.States
                 SwitchState(Factory.Aiming());
             }
             
-            // if (Ctx.IsDestroyed)
-            // {
-            //     SwitchState(Factory.Destroyed());
-            //     return;
-            // }
+            if (Ctx.IsDestroyed)
+            {
+                SwitchState(Factory.Destroyed());
+            }
         }
 
         private void ShootHandler()

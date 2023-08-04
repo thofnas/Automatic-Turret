@@ -10,6 +10,7 @@ namespace Turret.StateMachine.States
         public override void EnterState()
         {
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
+            GameEvents.OnTurretDestroyed.Invoke();
         }
 
         public override void ExitState()

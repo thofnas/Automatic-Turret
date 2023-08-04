@@ -73,6 +73,10 @@ namespace Waves.StateMachine.States
             return list;
         }
         
-        private void GameEvents_Turret_OnDestroyed() => SwitchState(Factory.WaitingToStartWave());
+        private void GameEvents_Turret_OnDestroyed()
+        {
+            GameEvents.OnWaveLost.Invoke();
+            SwitchState(Factory.WaitingToStartWave());
+        }
     }
 }

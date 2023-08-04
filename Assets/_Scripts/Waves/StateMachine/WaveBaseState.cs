@@ -31,8 +31,6 @@ namespace Waves.StateMachine
             newState.EnterState();
 
             Ctx.CurrentState = newState;
-            
-            GameEvents.OnWaveStateChanged.Invoke(Ctx.CurrentState.ToString());
         }
     }
 }

@@ -22,11 +22,14 @@ namespace Waves.StateMachine.States
 
         public override void CheckSwitchStates()
         {
-            if ( GameManager.Instance.TurretStateMachine.TurretHealth <= 0) return;
+            if (GameManager.Instance.TurretStateMachine.IsDestroyed) return;
             
             //wave ends if all enemies defeated and it was the last subwave
             if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID >= Ctx.CurrentSubWaveIDMax)
+            {
+                GameEvents.OnWaveWon.Invoke();
                 SwitchState(Factory.WaitingToStartWave());
+            }
 
             // start new subwave if they should be
             if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID < Ctx.CurrentSubWaveIDMax)

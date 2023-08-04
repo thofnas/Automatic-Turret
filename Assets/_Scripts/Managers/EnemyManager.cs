@@ -21,7 +21,8 @@ namespace Managers
             GameEvents.OnEnemySpawned.AddListener(GameEvents_Enemy_OnEnemySpawned);
             GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
             GameEvents.OnEnemySpotted.AddListener(GameEvents_Enemy_OnEnemySpotted);
-            GameEvents.OnEnemyLost.AddListener(GameEvents_Enemy_OnEnemyLost);
+            GameEvents.OnEnemyLostFromView.AddListener(GameEvents_Enemy_OnLostFromView);
+            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
         }
 
         private void OnDestroy()
@@ -29,7 +30,8 @@ namespace Managers
             GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnEnemySpawned);
             GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
             GameEvents.OnEnemySpotted.RemoveListener(GameEvents_Enemy_OnEnemySpotted);
-            GameEvents.OnEnemyLost.RemoveListener(GameEvents_Enemy_OnEnemyLost);
+            GameEvents.OnEnemyLostFromView.RemoveListener(GameEvents_Enemy_OnLostFromView);
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
         }
 
         public void SpawnEnemy(Enemy enemyPrefab, Vector3 spawnPosition, Quaternion rotation)
@@ -38,6 +40,16 @@ namespace Managers
 
             Enemy enemy = Instantiate(enemyPrefab, spawnPosition, rotation);
             GameEvents.OnEnemySpawned.Invoke(enemy);
+        }
+
+        private void ClearAllEnemies()
+        {
+            foreach (Enemy enemy in _allEnemiesList)
+            {
+                Destroy(enemy.gameObject);  
+            }
+            _allEnemiesList.Clear();
+            _enemiesInSightList.Clear();
         }
 
         #region Methods helpers for all enemies
@@ -111,7 +123,9 @@ namespace Managers
 
         private void GameEvents_Enemy_OnEnemySpotted(Enemy enemy) => AddEnemyToSpottedList(enemy);
 
-        private void GameEvents_Enemy_OnEnemyLost(Enemy enemy) => RemoveEnemyFromSpottedList(enemy);
+        private void GameEvents_Enemy_OnLostFromView(Enemy enemy) => RemoveEnemyFromSpottedList(enemy);
+        
+        private void GameEvents_Wave_OnEnded() => ClearAllEnemies();
         #endregion
     }
 }

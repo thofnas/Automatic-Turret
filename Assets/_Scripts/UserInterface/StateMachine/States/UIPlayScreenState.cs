@@ -13,20 +13,20 @@ namespace UserInterface.StateMachine.States
 
         public override void EnterState()
         {
-            GameEvents.OnWaveStateChanged.AddListener(GameEvents_Waves_OnWaveStateChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
             GameEvents.OnSubWaveStarted.AddListener(GameEvents_Wave_OnSubWaveStarted);
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Wave_OnSubWaveEnded);
+            GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_Item_OnCollectedGearAmountChanged);
         }
 
         public override void ExitState()
         {
-            GameEvents.OnWaveStateChanged.RemoveListener(GameEvents_Waves_OnWaveStateChanged);
-            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
+            GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
-            GameEvents.OnSubWaveStarted.AddListener(GameEvents_Wave_OnSubWaveStarted);
+            GameEvents.OnSubWaveStarted.RemoveListener(GameEvents_Wave_OnSubWaveStarted);
             GameEvents.OnSubWaveEnded.RemoveListener(GameEvents_Wave_OnSubWaveEnded);
+            GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_Item_OnCollectedGearAmountChanged);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -45,9 +45,9 @@ namespace UserInterface.StateMachine.States
 
             Ctx.CurrentSubWaveCount.text
                 = $"{GameManager.Instance.WaveStateMachine.CurrentSubWaveID + 1} / {GameManager.Instance.WaveStateMachine.CurrentSubWaveIDMax + 1}";
+
+            Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
         }
-        
-        private void GameEvents_Waves_OnWaveStateChanged(string str) => Ctx.StateTestText.text = str.ToSafeString();
 
         private void GameEvents_Wave_OnWaveStarted() => UpdateGameUIText();
         
@@ -60,5 +60,7 @@ namespace UserInterface.StateMachine.States
         private void GameEvents_Wave_OnSubWaveStarted() => UpdateGameUIText();
 
         private void GameEvents_Wave_OnSubWaveEnded() => UpdateGameUIText();
+        
+        private void GameEvents_Item_OnCollectedGearAmountChanged() => Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
     }
 }

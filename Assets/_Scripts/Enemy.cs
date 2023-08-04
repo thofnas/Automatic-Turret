@@ -6,7 +6,7 @@ using Interfaces;
 using Managers;
 using UnityEngine;
 
-[RequireComponent(typeof(ItemSpawner))]
+[RequireComponent(typeof(ItemDropper))]
 public class Enemy : MonoBehaviour, IDamageable, IHaveID
 {
     public Guid InstanceID { get; } = Guid.NewGuid();
@@ -14,15 +14,12 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
     [SerializeField, Min(0F)] private float _rollSpeed = 5F;
     [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
 
-    private ItemSpawner _itemSpawner;
+    private ItemDropper _itemDropper;
     private Vector3 _enemyAnchorPoint;
     private Vector3 _enemyAxis;
     private bool _isRolling;
 
-    private void Awake()
-    {
-        _itemSpawner = GetComponent<ItemSpawner>();
-    }
+    private void Awake() => _itemDropper = GetComponent<ItemDropper>();
 
     private void Start()
     {
@@ -36,15 +33,13 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
         StartCoroutine(RollACubeRoutine(_enemyAnchorPoint, _enemyAxis));
     }
     
-    private void OnDestroy()
-    {
-        GameEvents.OnEnemyDestroyed.Invoke(this);
-    }
+    private void OnDestroy() => GameEvents.OnEnemyDestroyed.Invoke(this);
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.transform.parent == GameManager.Instance.TurretStateMachine.transform)
-            Destroy(gameObject);
+        if (collision.gameObject.transform.parent != GameManager.Instance.TurretStateMachine.transform) return;
+        GameEvents.OnTurretGotHit.Invoke();
+        Destroy(gameObject);
     }
 
     private void Assemble()
@@ -57,7 +52,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHaveID
 
     public void ApplyDamage()
     {
-        _itemSpawner.SpawnItems(Ease.Flash, Ease.OutBounce);
+        _itemDropper.DropItems(Ease.Flash, Ease.OutBounce);
         Destroy(gameObject);
     }
 
