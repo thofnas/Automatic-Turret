@@ -1,20 +1,22 @@
-using System;
 using UnityEngine;
 
-public class ItemGrabber : MonoBehaviour
+namespace Item
 {
-    [SerializeField] private LayerMask _grabbableLayerMask;
-    [SerializeField, Min(1f)] private float _radius;
-
-    private void Update()
+    public class ItemGrabber : MonoBehaviour
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _radius, _grabbableLayerMask);
+        [SerializeField] private LayerMask _grabbableLayerMask;
+        [SerializeField, Min(1f)] private float _radius;
 
-        foreach (Collider collider in colliders)
+        private void Update()
         {
-            if (collider.TryGetComponent(out Item.Item item))
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _radius, _grabbableLayerMask);
+
+            foreach (Collider collider in colliders)
             {
-                item.PickUp();
+                if (collider.TryGetComponent(out global::Item.Item item))
+                {
+                    item.PickUp();
+                }
             }
         }
     }

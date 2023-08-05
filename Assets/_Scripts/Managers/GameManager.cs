@@ -15,6 +15,7 @@ namespace Managers
         [SerializeField] private TurretStateMachine _turretStateMachine;
         [SerializeField] private WaveStateMachine _waveStateMachine;
         [SerializeField] private Transform _groundTransform;
+        [SerializeField] private int _startingMoneyAmount;
         
         public TurretStateMachine TurretStateMachine { get => _turretStateMachine; }
         public WaveStateMachine WaveStateMachine { get => _waveStateMachine; }
@@ -55,6 +56,7 @@ namespace Managers
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnWon);
+            TotalGearAmount = _startingMoneyAmount;
         }
 
         private void OnDestroy() => GameEvents.OnItemPicked.RemoveListener(GameEvents_Item_OnItemPicked);

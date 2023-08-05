@@ -39,9 +39,6 @@ namespace UserInterface.StateMachine.States
 
         private void UpdateGameUIText()
         {
-            Ctx.CurrentWaveCount.text = GameManager.Instance.WaveStateMachine.CurrentWaveID == 0 
-                ? "Tutorial" 
-                : GameManager.Instance.WaveStateMachine.CurrentWaveID.ToString();
 
             Ctx.CurrentSubWaveCount.text
                 = $"{GameManager.Instance.WaveStateMachine.CurrentSubWaveID + 1} / {GameManager.Instance.WaveStateMachine.CurrentSubWaveIDMax + 1}";

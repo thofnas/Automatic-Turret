@@ -16,7 +16,8 @@ namespace UserInterface.StateMachine
         public TextMeshProUGUI CurrentWaveCount;
         public TextMeshProUGUI TotalGearsCount;
         public Button StartWaveButton;
-        [Header("Other")] public Transform ScreenDimmingTransform;
+        public Button UpgradeHealthButton;
+        public TextMeshProUGUI HealthLevel;
         
         //get/set
         public Transform PlayScreenUITransform { get => _playScreenUITransform; }

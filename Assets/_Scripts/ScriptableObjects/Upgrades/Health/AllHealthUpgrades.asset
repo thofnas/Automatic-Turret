@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: AllHealthUpgrades
+  m_EditorClassIdentifier: Assembly-CSharp:Turret:Upgrades
+  UpgradesList:
+  - {fileID: 11400000, guid: 0a1b571854389544983d474770a3ec0e, type: 2}
+  - {fileID: 11400000, guid: cfafa1d89336a2a4aa81fb655abc4463, type: 2}
+  - {fileID: 11400000, guid: 2026694a813a16f43869df5afcfd9e33, type: 2}
+  - {fileID: 11400000, guid: a1cf91c962332e947b04c2ec3eb29c29, type: 2}
+  - {fileID: 11400000, guid: fdf65de33c9fbc34bbfb13c7b2522312, type: 2}
