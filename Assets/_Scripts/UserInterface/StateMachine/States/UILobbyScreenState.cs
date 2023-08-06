@@ -1,3 +1,4 @@
+using CustomEventArgs;
 using Events;
 using Managers;
 using Turret;
@@ -15,6 +16,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
+            GameEvents.OnStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
         }
 
         public override void ExitState() {
@@ -23,6 +25,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
+            GameEvents.OnStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -39,11 +42,19 @@ namespace UserInterface.StateMachine.States
 
         private void UpdateUI()
         {
-            Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearAmount.ToString();
-            
             Ctx.CurrentWaveCount.text = GameManager.Instance.WaveStateMachine.CurrentWaveID == 0 
                 ? "Tutorial" 
                 : GameManager.Instance.WaveStateMachine.CurrentWaveID.ToString();
+
+            UpdateUpgradesUI();
+        }
+        
+        private void UpdateUpgradesUI()
+        {
+            Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearAmount.ToString();
+
+            Ctx.HealthLevelText.text =
+                UpgradeManager.Instance.GetUpgrades(Stat.AmountOfHealth).GetCurrentUpgradeLevel().ToString();
         }
 
         private void GameEvents_Item_OnTotalGearAmountChanged() => UpdateUI();
@@ -51,5 +62,7 @@ namespace UserInterface.StateMachine.States
         private void GameEvents_Wave_OnWaveEnded() => UpdateUI();
 
         private void GameEvents_Wave_OnWaveStarted() => SwitchState(Factory.UIGame());
+
+        private void GameEvents_Upgrade_OnStatUpg(OnStatUpgradeEventArgs onStatUpgradeEventArgs) => UpdateUpgradesUI();
     }
 }

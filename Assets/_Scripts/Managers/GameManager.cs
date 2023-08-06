@@ -1,4 +1,5 @@
 using System;
+using CustomEventArgs;
 using Events;
 using Turret.StateMachine;
 using UnityEngine;
@@ -56,6 +57,11 @@ namespace Managers
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnWon);
+            GameEvents.OnStatUpgraded.AddListener(GameEvents_Stats_OnUpgrade);
+        }
+
+        public void Start()
+        {
             TotalGearAmount = _startingMoneyAmount;
         }
 
@@ -74,5 +80,7 @@ namespace Managers
             TotalGearAmount += CollectedGearAmount;
             CollectedGearAmount = 0;
         }
+
+        private void GameEvents_Stats_OnUpgrade(OnStatUpgradeEventArgs upgrade) => TotalGearAmount -= upgrade.Price;
     }
 }

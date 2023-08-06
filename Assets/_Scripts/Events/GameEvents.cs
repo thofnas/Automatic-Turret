@@ -1,5 +1,5 @@
 using System;
-using Turret;
+using CustomEventArgs;
 using UnityEngine;
 
 namespace Events {
@@ -13,7 +13,7 @@ namespace Events {
         public static readonly EventRecorder TurretOnReloadEnd = new();
         public static readonly EventRecorder OnTurretGotHit = new();
         public static readonly EventRecorder OnTurretDestroyed = new();
-        public static readonly EventRecorder<Stat> OnStatUpgraded = new();
+        public static readonly EventRecorder<OnStatUpgradeEventArgs> OnStatUpgraded = new();
         #endregion
 
         #region Enemy/Enemies

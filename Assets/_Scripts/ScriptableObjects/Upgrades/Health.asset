@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae57a7750a66bd1469fa960c6ac18b66, type: 3}
-  m_Name: Lvl2
+  m_Name: Health
   m_EditorClassIdentifier: 
-  TurretStatsDictionary:
-    m_keys: 01000000
-    m_values:
-    - 5
+  _selectedStat: 0
+  _upgradesList:
+  - NewStatValue: 3
+    Price: 15
+  - NewStatValue: 4
+    Price: 30
+  - NewStatValue: 5
+    Price: 45
