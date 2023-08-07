@@ -17,7 +17,7 @@ namespace Turret
     }
 
     [CreateAssetMenu(menuName = "Upgrades")]
-    public class Upgrades : ScriptableObject
+    public class TurretUpgrades : ScriptableObject
     {
         [SerializeField] private Stat _selectedStat;
         [SerializeField] private List<Upgrade> _upgradesList = new();

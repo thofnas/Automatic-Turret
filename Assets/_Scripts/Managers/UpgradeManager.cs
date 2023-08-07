@@ -6,7 +6,7 @@ namespace Managers
 {
     public class UpgradeManager : Singleton<UpgradeManager>
     {
-        [Serializable] public class AllTurretUpgrades : SerializableDictionary<Stat, Upgrades> {}
+        [Serializable] public class AllTurretUpgrades : SerializableDictionary<Stat, TurretUpgrades> {}
         public AllTurretUpgrades AllTurretUpgradesDictionary = new();
 
         public void Initialize()
@@ -27,9 +27,9 @@ namespace Managers
             }
         }
 
-        public Upgrades GetUpgrades(Stat stat)
+        public TurretUpgrades GetUpgrades(Stat stat)
         {
-            if (!AllTurretUpgradesDictionary.TryGetValue(stat, out Upgrades turretUpgrades)) throw new NullReferenceException();
+            if (!AllTurretUpgradesDictionary.TryGetValue(stat, out TurretUpgrades turretUpgrades)) throw new NullReferenceException();
             return turretUpgrades;
         }
         
