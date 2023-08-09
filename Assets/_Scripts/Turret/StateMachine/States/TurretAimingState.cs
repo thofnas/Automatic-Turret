@@ -55,7 +55,8 @@ namespace Turret.StateMachine.States
         private IEnumerator AimTurretRoutine(Transform target)
         {
             const float speedMultiplier = 0.25F;
-            float step = Ctx.TurretRotationSpeed * speedMultiplier * Time.deltaTime;
+            float rotationSpeed = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.RotationSpeed);
+            float step = rotationSpeed * speedMultiplier * Time.deltaTime;
             Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
 
             while (Quaternion.Angle(Ctx.transform.rotation, Quaternion.LookRotation(target.position - Ctx.transform.position)) > TOLERANCE)
@@ -64,7 +65,7 @@ namespace Turret.StateMachine.States
                 rotation.x = 0;
                 rotation.z = 0;
                 Ctx.transform.rotation = rotation;
-                step += Ctx.TurretRotationSpeed * Time.deltaTime * speedMultiplier;
+                step += rotationSpeed * Time.deltaTime * speedMultiplier;
 
                 yield return null;
             }

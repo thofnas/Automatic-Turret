@@ -56,7 +56,7 @@ namespace Turret.StateMachine.States
         {
             GameEvents.TurretOnReloadStart.Invoke();
 
-            yield return new WaitForSeconds(Ctx.ReloadTimeInSeconds);
+            yield return new WaitForSeconds(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ReloadTime));
 
             GameEvents.TurretOnReloadEnd.Invoke();
         }

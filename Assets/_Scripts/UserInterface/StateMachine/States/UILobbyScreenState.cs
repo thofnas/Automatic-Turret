@@ -51,10 +51,15 @@ namespace UserInterface.StateMachine.States
         
         private void UpdateUpgradesUI()
         {
+            TurretUpgrades healthUpgrades = UpgradeManager.Instance.GetUpgradesForStat(Stat.AmountOfHealth);
+            
             Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearAmount.ToString();
 
-            Ctx.HealthLevelText.text =
-                UpgradeManager.Instance.GetUpgrades(Stat.AmountOfHealth).GetCurrentUpgradeLevel().ToString();
+            Ctx.HealthCurrentLevelText.text = healthUpgrades.GetCurrentUpgradeLevel().ToString();
+
+            Ctx.HealthNextLevelPriceText.text = healthUpgrades.TryGetNextUpgrade(out Upgrade upgrade) 
+                ? upgrade.UpgradePrice.ToString() 
+                : "MAX";
         }
 
         private void GameEvents_Item_OnTotalGearAmountChanged() => UpdateUI();

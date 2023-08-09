@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UserInterface.StateMachine
@@ -16,7 +17,8 @@ namespace UserInterface.StateMachine
         public TextMeshProUGUI TotalGearsCount;
         public Button StartWaveButton;
         public Button UpgradeHealthButton;
-        public TextMeshProUGUI HealthLevelText;
+        [FormerlySerializedAs("HealthLevelText")] public TextMeshProUGUI HealthCurrentLevelText;
+        public TextMeshProUGUI HealthNextLevelPriceText;
         
         //get/set
         public Transform PlayScreenUITransform { get => _playScreenUITransform; }

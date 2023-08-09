@@ -1,4 +1,6 @@
+using System;
 using Events;
+using Managers;
 using UnityEngine;
 
 namespace Turret
@@ -6,12 +8,10 @@ namespace Turret
     public class Turret : MonoBehaviour
     {
         #region Serialized Variables
-        [SerializeField, Min(1)] private int _turretHealthMax = 3;
         [SerializeField] private Transform _turretScanner;
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private bool _isReloading;
         [SerializeField] private bool _isAiming;
-        [SerializeField, Range(0.1F, 20.0F)] private float _turretRotationSpeed = 2F;
         [SerializeField] private Transform _gunEndPoint;
         [SerializeField] [Range(0.1F, 4.0F)] private float _reloadTimeInSeconds;
         #endregion
@@ -23,9 +23,7 @@ namespace Turret
         public bool IsEnabled { get => _isEnabled; }
         public bool IsReloading { get => _isReloading; set => _isReloading = value; }
         public bool IsAiming { get => _isAiming; set => _isAiming = value; }
-        public float TurretRotationSpeed { get => _turretRotationSpeed; }
         public Transform GunEndPoint { get => _gunEndPoint; }
-        public float ReloadTimeInSeconds { get => _reloadTimeInSeconds; }
         #endregion
         
         private void Awake()
@@ -51,7 +49,7 @@ namespace Turret
 
         private void ResetTurret()
         {
-            TurretHealth = _turretHealthMax;
+            TurretHealth = Mathf.RoundToInt(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.AmountOfHealth));
             IsDestroyed = false;
         }
         

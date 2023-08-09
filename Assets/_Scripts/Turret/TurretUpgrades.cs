@@ -12,8 +12,8 @@ namespace Turret
     [Serializable]
     public class Upgrade
     {
-        public float NewStatValue;
-        public int Price;
+        [FormerlySerializedAs("AmountToUpgradeBaseValue")] [FormerlySerializedAs("NewStatValue")] public float NumberThatUpgradesBaseValue;
+        [FormerlySerializedAs("Price")] public int UpgradePrice;
     }
 
     [CreateAssetMenu(menuName = "Upgrades")]
@@ -35,8 +35,8 @@ namespace Turret
             _appliedUpgradesList.Add(upgrade);
             GameEvents.OnStatUpgraded.Invoke(new OnStatUpgradeEventArgs { 
                 Stat = _selectedStat,
-                NewStatValue = upgrade.NewStatValue,
-                Price = upgrade.Price
+                NewStatValue = upgrade.NumberThatUpgradesBaseValue,
+                Price = upgrade.UpgradePrice
             });
         }
         
@@ -44,7 +44,7 @@ namespace Turret
         {
             TryGetNextUpgrade(out Upgrade upgrade);
 
-            if (GameManager.Instance.TotalGearAmount - upgrade.Price < 0)
+            if (GameManager.Instance.TotalGearAmount - upgrade.UpgradePrice < 0)
             {
                 Debug.Log($"Not enough money for {_selectedStat}");
                 return false;
@@ -67,9 +67,16 @@ namespace Turret
             return false;
         }
 
-        public Upgrade GetCurrentUpgrade() => _appliedUpgradesList.LastOrDefault();
+        public bool TryGetCurrentUpgrade(out Upgrade upgrade)
+        {
+            upgrade = _appliedUpgradesList.LastOrDefault();
+            return upgrade != null;
+        }
 
-        public int GetCurrentUpgradeLevel() => _appliedUpgradesList.IndexOf(GetCurrentUpgrade()) + 1;
+        public int GetCurrentUpgradeLevel() => 
+            TryGetCurrentUpgrade(out Upgrade upgrade) 
+                ? _appliedUpgradesList.IndexOf(upgrade) + 1 
+                : 0;
 
         public void ResetAppliedUpgrades() => _appliedUpgradesList.Clear();
     }

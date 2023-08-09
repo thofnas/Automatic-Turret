@@ -1,6 +1,7 @@
 using System;
 using Events;
 using Turret;
+using UnityEngine;
 
 namespace Managers
 {
@@ -8,6 +9,7 @@ namespace Managers
     {
         [Serializable] public class AllTurretUpgrades : SerializableDictionary<Stat, TurretUpgrades> {}
         public AllTurretUpgrades AllTurretUpgradesDictionary = new();
+        [SerializeField] private TurretBaseStats _turretBaseStats;
 
         public void Initialize()
         {
@@ -27,15 +29,25 @@ namespace Managers
             }
         }
 
-        public TurretUpgrades GetUpgrades(Stat stat)
+        public TurretUpgrades GetUpgradesForStat(Stat stat)
         {
             if (!AllTurretUpgradesDictionary.TryGetValue(stat, out TurretUpgrades turretUpgrades)) throw new NullReferenceException();
             return turretUpgrades;
         }
         
+        public float GetTurretUpgradedStat(Stat stat)
+        {
+            _turretBaseStats.TurretBaseStatsDictionary.TryGetValue(stat, out float baseValue);
+
+            if (!GetUpgradesForStat(stat).TryGetCurrentUpgrade(out Upgrade upgrade))
+                return baseValue;
+            
+            return upgrade.NumberThatUpgradesBaseValue + baseValue;
+        }
+
         private void UIEvents_Upgrade_OnButtonClicked(Stat stat)
         {
-            GetUpgrades(stat).UpgradeStat();
+            GetUpgradesForStat(stat).UpgradeStat();
         }
     }
 }
