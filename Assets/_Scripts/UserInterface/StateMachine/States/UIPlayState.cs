@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace UserInterface.StateMachine.States
 {
-    public class UIPlayScreenState : UIBaseState
+    public class UIPlayState : UIState
     {
-        public UIPlayScreenState(UIStateMachine context, UIStateFactory uiStateFactory)
+        public UIPlayState(UIStateMachine context, UIStateFactory uiStateFactory)
             : base(context, uiStateFactory) { }
 
         public override void EnterState()
@@ -18,6 +18,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnSubWaveStarted.AddListener(GameEvents_Wave_OnSubWaveStarted);
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Wave_OnSubWaveEnded);
             GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_Item_OnCollectedGearAmountChanged);
+            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
         }
 
         public override void ExitState()
@@ -27,6 +28,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnSubWaveStarted.RemoveListener(GameEvents_Wave_OnSubWaveStarted);
             GameEvents.OnSubWaveEnded.RemoveListener(GameEvents_Wave_OnSubWaveEnded);
             GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_Item_OnCollectedGearAmountChanged);
+            GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -59,5 +61,11 @@ namespace UserInterface.StateMachine.States
         private void GameEvents_Wave_OnSubWaveEnded() => UpdateGameUIText();
         
         private void GameEvents_Item_OnCollectedGearAmountChanged() => Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
+        
+        
+        private void GameEvents_Wave_OnLost()
+        {
+            SwitchState(Factory.UIWaveLost());
+        }
     }
 }

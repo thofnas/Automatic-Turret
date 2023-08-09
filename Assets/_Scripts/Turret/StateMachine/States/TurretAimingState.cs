@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Turret.StateMachine.States
 {
-    public class TurretAimingState : TurretBaseState
+    public class TurretAimingState : TurretState
     {
         public TurretAimingState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory)

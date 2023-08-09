@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Waves.StateMachine.States
 {
-    public class SpawningEnemiesState : WaveBaseState
+    public class SpawningEnemiesState : WaveState
     {
         public SpawningEnemiesState(WaveStateMachine currentContext, WaveStateFactory turretStateFactory) : base(currentContext, turretStateFactory) { }
         

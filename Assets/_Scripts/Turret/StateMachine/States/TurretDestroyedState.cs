@@ -2,7 +2,7 @@ using Events;
 
 namespace Turret.StateMachine.States
 {
-    public class TurretDestroyedState : TurretBaseState
+    public class TurretDestroyedState : TurretState
     {
         public TurretDestroyedState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }

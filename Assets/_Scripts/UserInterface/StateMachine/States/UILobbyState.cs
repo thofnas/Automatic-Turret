@@ -5,9 +5,9 @@ using Turret;
 
 namespace UserInterface.StateMachine.States
 {
-    public class UILobbyScreenState : UIBaseState
+    public class UILobbyState : UIState
     {
-        public UILobbyScreenState(UIStateMachine context, UIStateFactory uiStateFactory)
+        public UILobbyState(UIStateMachine context, UIStateFactory uiStateFactory)
             : base(context, uiStateFactory) { }
         
         public override void EnterState() {
@@ -17,6 +17,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
             GameEvents.OnStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
+            EnableElement();
         }
 
         public override void ExitState() {
@@ -32,11 +33,7 @@ namespace UserInterface.StateMachine.States
 
         public override void CheckSwitchStates() { }
         
-        public override void EnableElement()
-        {
-            Ctx.LobbyScreenUITransform.gameObject.SetActive(true);
-            UpdateUI();
-        }
+        public override void EnableElement() => Ctx.LobbyScreenUITransform.gameObject.SetActive(true);
 
         public override void DisableElement() => Ctx.LobbyScreenUITransform.gameObject.SetActive(false);
 

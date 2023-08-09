@@ -7,7 +7,7 @@ namespace Turret.StateMachine
     {
         // state variables
         private TurretStateFactory _states;
-        public TurretBaseState CurrentState { get; set; }
+        public TurretState CurrentState { get; set; }
         
         public void Initialize()
         {

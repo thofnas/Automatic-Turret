@@ -5,7 +5,7 @@ using Managers;
 
 namespace Turret.StateMachine.States
 {
-    public class TurretShootingState : TurretBaseState
+    public class TurretShootingState : TurretState
     {
         public TurretShootingState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }

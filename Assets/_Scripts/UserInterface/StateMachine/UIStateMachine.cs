@@ -17,8 +17,13 @@ namespace UserInterface.StateMachine
         public TextMeshProUGUI TotalGearsCount;
         public Button StartWaveButton;
         public Button UpgradeHealthButton;
-        [FormerlySerializedAs("HealthLevelText")] public TextMeshProUGUI HealthCurrentLevelText;
+        public TextMeshProUGUI HealthCurrentLevelText;
         public TextMeshProUGUI HealthNextLevelPriceText;
+        [Header("Wave Won/Lost Screen")] 
+        [SerializeField] private Transform _waveResultsParentScreenUI;
+        [SerializeField] private Transform _waveWonScreenUI;
+        [SerializeField] private Transform _waveLostScreenUI;
+
         
         //get/set
         public Transform PlayScreenUITransform { get => _playScreenUITransform; }
@@ -26,7 +31,7 @@ namespace UserInterface.StateMachine
 
         // state variables
         private UIStateFactory _states;
-        public UIBaseState CurrentState { get; set; }
+        public UIState CurrentState { get; set; }
         
         public void Initialize()
         {

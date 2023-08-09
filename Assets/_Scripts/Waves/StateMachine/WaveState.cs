@@ -1,25 +1,27 @@
-namespace Turret.StateMachine
+namespace Waves.StateMachine
 {
-    public abstract class TurretBaseState
+    public abstract class WaveState
     {
-        public TurretBaseState(TurretStateMachine currentContext, TurretStateFactory turretStateFactory)
+        public WaveState(WaveStateMachine currentContext, WaveStateFactory turretStateFactory)
         {
             Ctx = currentContext;
             Factory = turretStateFactory;
         }
         
-        protected readonly TurretStateMachine Ctx;
-        protected readonly TurretStateFactory Factory;
-        
+        protected readonly WaveStateMachine Ctx;
+        protected readonly WaveStateFactory Factory;
+
         public abstract void EnterState();
-        
+
         public abstract void ExitState();
         
         public abstract void UpdateState();
         
         public abstract void CheckSwitchStates();
+        
+        public void UpdateStates(){}
 
-        protected void SwitchState(TurretBaseState newState)
+        protected void SwitchState(WaveState newState)
         {
             ExitState();
             

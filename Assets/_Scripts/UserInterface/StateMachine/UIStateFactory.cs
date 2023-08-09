@@ -11,7 +11,8 @@ namespace UserInterface.StateMachine
             _context = currentContext;
         }
 
-        public UIBaseState UIGame() => new UIPlayScreenState(_context, this);
-        public UIBaseState UILobby() => new UILobbyScreenState(_context, this);
+        public UIState UIGame() => new UIPlayState(_context, this);
+        public UIState UILobby() => new UILobbyState(_context, this);
+        public UIState UIWaveLost() => new UIWaveLostState(_context, this);
     }
 }

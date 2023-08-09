@@ -1,8 +1,8 @@
 namespace UserInterface.StateMachine
 {
-    public abstract class UIBaseState
+    public abstract class UIState
     {
-        public UIBaseState(UIStateMachine currentContext, UIStateFactory turretStateFactory)
+        public UIState(UIStateMachine currentContext, UIStateFactory turretStateFactory)
         {
             Ctx = currentContext;
             Factory = turretStateFactory;
@@ -23,7 +23,7 @@ namespace UserInterface.StateMachine
 
         public abstract void DisableElement();
 
-        protected void SwitchState(UIBaseState newState)
+        protected void SwitchState(UIState newState)
         {
             ExitState();
 

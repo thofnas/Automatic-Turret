@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Turret.StateMachine.States
 {
-    public class TurretIdleState : TurretBaseState
+    public class TurretIdleState : TurretState
     {
         public TurretIdleState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }

@@ -1,9 +1,7 @@
-using System;
 using CustomEventArgs;
 using Events;
 using Turret.StateMachine;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Waves.StateMachine;
 
 namespace Managers

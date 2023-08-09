@@ -11,7 +11,7 @@ namespace Waves.StateMachine
         public int CurrentSubWaveID { get; private set; }
         public int CurrentSubWaveIDMax { get; private set; }
         public bool OnAllEnemiesSpawned { get; private set; }
-        public WaveBaseState CurrentState { get; set; }
+        public WaveState CurrentState { get; set; }
 
         [SerializeField] private List<WaveSO> _waves;
 

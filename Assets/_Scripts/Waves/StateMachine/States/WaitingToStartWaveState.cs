@@ -3,14 +3,13 @@ using Managers;
 
 namespace Waves.StateMachine.States
 {
-    public class WaitingToStartWaveState : WaveBaseState
+    public class WaitingToStartWaveState : WaveState
     {
         public WaitingToStartWaveState(WaveStateMachine currentContext, WaveStateFactory turretStateFactory) : base(currentContext, turretStateFactory) { }
         
         public override void EnterState()
         {
             UIEvents.OnStartWaveButtonClicked.AddListener(UIEvents_Waves_OnStartWaveButtonClick);
-            GameEvents.OnWaveEnded.Invoke();
         }
         public override void ExitState()
         {

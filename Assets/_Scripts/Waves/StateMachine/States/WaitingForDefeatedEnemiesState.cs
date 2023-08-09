@@ -3,7 +3,7 @@ using Managers;
 
 namespace Waves.StateMachine.States
 {
-    public class WaitingForDefeatedEnemiesState : WaveBaseState
+    public class WaitingForDefeatedEnemiesState : WaveState
     {
         public WaitingForDefeatedEnemiesState(WaveStateMachine currentContext, WaveStateFactory turretStateFactory) : base(currentContext, turretStateFactory) { }
 
@@ -28,7 +28,7 @@ namespace Waves.StateMachine.States
             if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID >= Ctx.CurrentSubWaveIDMax)
             {
                 GameEvents.OnWaveWon.Invoke();
-                SwitchState(Factory.WaitingToStartWave());
+                SwitchState(Factory.WaitingToFinishWave());
             }
 
             // start new subwave if they should be
@@ -39,7 +39,7 @@ namespace Waves.StateMachine.States
         private void GameEvents_Turret_OnDestroyed()
         {
             GameEvents.OnWaveLost.Invoke();
-            SwitchState(Factory.WaitingToStartWave());
+            SwitchState(Factory.WaitingToFinishWave());
         }
     }
 }

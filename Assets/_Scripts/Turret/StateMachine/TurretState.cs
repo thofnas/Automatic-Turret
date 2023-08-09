@@ -1,30 +1,25 @@
-using Events;
-using UnityEngine;
-
-namespace Waves.StateMachine
+namespace Turret.StateMachine
 {
-    public abstract class WaveBaseState
+    public abstract class TurretState
     {
-        public WaveBaseState(WaveStateMachine currentContext, WaveStateFactory turretStateFactory)
+        public TurretState(TurretStateMachine currentContext, TurretStateFactory turretStateFactory)
         {
             Ctx = currentContext;
             Factory = turretStateFactory;
         }
         
-        protected readonly WaveStateMachine Ctx;
-        protected readonly WaveStateFactory Factory;
-
+        protected readonly TurretStateMachine Ctx;
+        protected readonly TurretStateFactory Factory;
+        
         public abstract void EnterState();
-
+        
         public abstract void ExitState();
         
         public abstract void UpdateState();
         
         public abstract void CheckSwitchStates();
-        
-        public void UpdateStates(){}
 
-        protected void SwitchState(WaveBaseState newState)
+        protected void SwitchState(TurretState newState)
         {
             ExitState();
             

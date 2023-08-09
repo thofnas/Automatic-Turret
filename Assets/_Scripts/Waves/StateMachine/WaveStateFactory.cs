@@ -11,8 +11,9 @@ namespace Waves.StateMachine
             _context = currentContext;
         }
 
-        public WaveBaseState SpawningEnemies() => new SpawningEnemiesState(_context, this);
-        public WaveBaseState WaitingForDefeatedEnemies() => new WaitingForDefeatedEnemiesState(_context, this);
-        public WaveBaseState WaitingToStartWave() => new WaitingToStartWaveState(_context, this);
+        public WaveState SpawningEnemies() => new SpawningEnemiesState(_context, this);
+        public WaveState WaitingForDefeatedEnemies() => new WaitingForDefeatedEnemiesState(_context, this);
+        public WaveState WaitingToStartWave() => new WaitingToStartWaveState(_context, this);
+        public WaveState WaitingToFinishWave() => new WaitingToFinishWaveState(_context, this);
     }
 }
