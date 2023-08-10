@@ -1,6 +1,7 @@
+using System;
+using Events;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UserInterface.StateMachine
@@ -9,6 +10,7 @@ namespace UserInterface.StateMachine
     {
         [Header("Play Screen")]
         [SerializeField] private Transform _playScreenUITransform;
+        public TextMeshProUGUI HealthText;
         public TextMeshProUGUI CurrentSubWaveCount;
         public TextMeshProUGUI CollectedGearsAmount;
         [Header("Lobby Screen")]
@@ -19,15 +21,20 @@ namespace UserInterface.StateMachine
         public Button UpgradeHealthButton;
         public TextMeshProUGUI HealthCurrentLevelText;
         public TextMeshProUGUI HealthNextLevelPriceText;
-        [Header("Wave Won/Lost Screen")] 
-        [SerializeField] private Transform _waveResultsParentScreenUI;
-        [SerializeField] private Transform _waveWonScreenUI;
-        [SerializeField] private Transform _waveLostScreenUI;
+        [Header("Wave Results Screen")] 
+        [SerializeField] private Transform _waveResultsParentScreenUITransform;
+        [SerializeField] private Transform _waveWonScreenUITransform;
+        [SerializeField] private Transform _waveLostScreenUITransform;
+        public Button ReturnToLobbyButton;
+        public TextMeshProUGUI WaveWonText;
+        public TextMeshProUGUI WaveLostText;
 
-        
         //get/set
         public Transform PlayScreenUITransform { get => _playScreenUITransform; }
         public Transform LobbyScreenUITransform { get => _lobbyScreenUITransform; }
+        public Transform WaveResultsParentScreenUITransform { get => _waveResultsParentScreenUITransform; }
+        public Transform WaveWonScreenUITransform { get => _waveWonScreenUITransform; }
+        public Transform WaveLostScreenUITransform { get => _waveLostScreenUITransform; }
 
         // state variables
         private UIStateFactory _states;
@@ -40,11 +47,28 @@ namespace UserInterface.StateMachine
             CurrentState = _states.UILobby();
             
             CurrentState.EnterState();
+            
+            CurrentState.EnableElement();
+        }
+
+        private void Start()
+        {
+            GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
+            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
+        }
+
+        private void OnDestroy()
+        {
+            GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
+            GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
         }
 
         #region Unity methods
         private void Update() => CurrentState.UpdateState();
 
         #endregion
+
+        private void GameEvents_Wave_OnWon() => WaveWonScreenUITransform.gameObject.SetActive(true);
+        private void GameEvents_Wave_OnLost() => WaveLostScreenUITransform.gameObject.SetActive(true);
     }
 }

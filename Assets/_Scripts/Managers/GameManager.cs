@@ -1,3 +1,4 @@
+using System;
 using CustomEventArgs;
 using Events;
 using Turret.StateMachine;
@@ -54,7 +55,7 @@ namespace Managers
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
-            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnWon);
+            GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
             GameEvents.OnStatUpgraded.AddListener(GameEvents_Stats_OnUpgrade);
         }
 
@@ -63,20 +64,33 @@ namespace Managers
             TotalGearAmount = _startingMoneyAmount;
         }
 
-        private void OnDestroy() => GameEvents.OnItemPicked.RemoveListener(GameEvents_Item_OnItemPicked);
+        private void OnDestroy()
+        {
+            GameEvents.OnItemPicked.RemoveListener(GameEvents_Item_OnItemPicked);
+            GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
+            GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
+            GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
+            GameEvents.OnStatUpgraded.RemoveListener(GameEvents_Stats_OnUpgrade);
+        }
+
 
         private void GameEvents_Item_OnItemPicked() => CollectedGearAmount++;
 
         private void GameEvents_Wave_OnStarted() => IsPlaying = true;
 
-        private void GameEvents_Wave_OnEnded() => IsPlaying = false;
+        private void GameEvents_Wave_OnEnded()
+        {
+            TotalGearAmount += CollectedGearAmount;
+            CollectedGearAmount = 0;
+            IsPlaying = false;
+        }
 
         private void GameEvents_Wave_OnLost() => CollectedGearAmount = 0;
         
         private void GameEvents_Wave_OnWon()
         {
-            TotalGearAmount += CollectedGearAmount;
-            CollectedGearAmount = 0;
+
         }
 
         private void GameEvents_Stats_OnUpgrade(OnStatUpgradeEventArgs upgrade) => TotalGearAmount -= upgrade.Price;

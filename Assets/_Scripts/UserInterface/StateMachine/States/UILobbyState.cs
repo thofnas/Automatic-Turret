@@ -9,15 +9,17 @@ namespace UserInterface.StateMachine.States
     {
         public UILobbyState(UIStateMachine context, UIStateFactory uiStateFactory)
             : base(context, uiStateFactory) { }
+
+        private bool _isUpdated;
         
-        public override void EnterState() {
+        public override void EnterState()
+        {
+            _isUpdated = false;
             Ctx.StartWaveButton.onClick.AddListener(() => UIEvents.OnStartWaveButtonClicked.Invoke());
             Ctx.UpgradeHealthButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.AmountOfHealth));
             GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
-            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
             GameEvents.OnStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
-            EnableElement();
         }
 
         public override void ExitState() {
@@ -25,11 +27,19 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeHealthButton.onClick.RemoveAllListeners();
             GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
-            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
             GameEvents.OnStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
         }
 
-        public override void UpdateState() => CheckSwitchStates();
+        public override void UpdateState()
+        {
+            CheckSwitchStates();
+
+            if (!_isUpdated && Ctx.LobbyScreenUITransform.gameObject.activeSelf)
+            {
+                UpdateUI();
+                _isUpdated = true;
+            }
+        }
 
         public override void CheckSwitchStates() { }
         
@@ -60,8 +70,6 @@ namespace UserInterface.StateMachine.States
         }
 
         private void GameEvents_Item_OnTotalGearAmountChanged() => UpdateUI();
-
-        private void GameEvents_Wave_OnWaveEnded() => UpdateUI();
 
         private void GameEvents_Wave_OnWaveStarted() => SwitchState(Factory.UIGame());
 

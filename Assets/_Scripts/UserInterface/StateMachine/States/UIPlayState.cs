@@ -1,7 +1,8 @@
+using System;
+using System.Globalization;
 using Events;
 using Managers;
-using Turret.StateMachine;
-using Unity.VisualScripting;
+using Turret;
 using UnityEngine;
 
 namespace UserInterface.StateMachine.States
@@ -19,6 +20,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Wave_OnSubWaveEnded);
             GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_Item_OnCollectedGearAmountChanged);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
+            GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
         }
 
         public override void ExitState()
@@ -29,6 +31,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnSubWaveEnded.RemoveListener(GameEvents_Wave_OnSubWaveEnded);
             GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_Item_OnCollectedGearAmountChanged);
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
+            GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -46,6 +49,8 @@ namespace UserInterface.StateMachine.States
                 = $"{GameManager.Instance.WaveStateMachine.CurrentSubWaveID + 1} / {GameManager.Instance.WaveStateMachine.CurrentSubWaveIDMax + 1}";
 
             Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
+            
+            Ctx.HealthText.text = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.AmountOfHealth).ToString(CultureInfo.CurrentCulture);
         }
 
         private void GameEvents_Wave_OnWaveStarted() => UpdateGameUIText();
@@ -60,12 +65,11 @@ namespace UserInterface.StateMachine.States
 
         private void GameEvents_Wave_OnSubWaveEnded() => UpdateGameUIText();
         
-        private void GameEvents_Item_OnCollectedGearAmountChanged() => Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
-        
-        
-        private void GameEvents_Wave_OnLost()
-        {
-            SwitchState(Factory.UIWaveLost());
-        }
+        private void GameEvents_Item_OnCollectedGearAmountChanged() =>
+            Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
+
+        private void GameEvents_Wave_OnLost() => SwitchState(Factory.UIResults());
+
+        private void GameEvents_Wave_OnWon() => SwitchState(Factory.UIResults());
     }
 }

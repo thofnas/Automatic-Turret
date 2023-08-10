@@ -1,5 +1,6 @@
-﻿using Events;
-using Managers;
+﻿using DG.Tweening;
+using Events;
+using UnityEngine;
 
 namespace Waves.StateMachine.States
 {
@@ -9,6 +10,8 @@ namespace Waves.StateMachine.States
         
         public override void EnterState()
         {
+            Debug.Log(Time.timeScale);
+            Time.timeScale = 1;
             UIEvents.OnStartWaveButtonClicked.AddListener(UIEvents_Waves_OnStartWaveButtonClick);
         }
         public override void ExitState()

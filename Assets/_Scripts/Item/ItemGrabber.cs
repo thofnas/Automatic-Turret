@@ -13,7 +13,7 @@ namespace Item
 
             foreach (Collider collider in colliders)
             {
-                if (collider.TryGetComponent(out global::Item.Item item))
+                if (collider.TryGetComponent(out Item item))
                 {
                     item.PickUp();
                 }
