@@ -26,9 +26,9 @@ public class ItemDropper : MonoBehaviour
             newItem.DOMoveX(targetPosition.x, _durationOfMoving).SetEase(easeXZ);
             newItem.DOMoveZ(targetPosition.z, _durationOfMoving).SetEase(easeXZ);
             newItem.DOMoveY(targetPosition.y, _durationOfMoving).SetEase(easeY);
-            newItem.DORotate(Random.rotation.eulerAngles, _durationOfMoving / 2, RotateMode.FastBeyond360).OnComplete(() =>
+            newItem.DORotate(Random.rotation.eulerAngles, _durationOfMoving * 0.5f, RotateMode.FastBeyond360).OnComplete(() =>
             {
-                newItem.DORotate(Quaternion.identity.eulerAngles, _durationOfMoving / 2);
+                newItem.DORotate(Quaternion.identity.eulerAngles, _durationOfMoving * 0.5f);
             });
         }
     }
