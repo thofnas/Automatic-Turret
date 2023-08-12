@@ -33,7 +33,7 @@ namespace Turret
                 return;
             
             _appliedUpgradesList.Add(upgrade);
-            GameEvents.OnStatUpgraded.Invoke(new OnStatUpgradeEventArgs { 
+            GameEvents.OnTurretStatUpgraded.Invoke(new OnStatUpgradeEventArgs { 
                 Stat = _selectedStat,
                 NewStatValue = upgrade.NumberThatUpgradesBaseValue,
                 Price = upgrade.UpgradePrice

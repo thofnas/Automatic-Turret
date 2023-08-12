@@ -19,7 +19,7 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeHealthButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.AmountOfHealth));
             GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
-            GameEvents.OnStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
+            GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
         }
 
         public override void ExitState() {
@@ -27,7 +27,7 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeHealthButton.onClick.RemoveAllListeners();
             GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
-            GameEvents.OnStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
+            GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
         }
 
         public override void UpdateState()

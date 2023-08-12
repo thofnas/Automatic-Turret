@@ -10,7 +10,6 @@ namespace Waves.StateMachine.States
         
         public override void EnterState()
         {
-            Debug.Log(Time.timeScale);
             Time.timeScale = 1;
             UIEvents.OnStartWaveButtonClicked.AddListener(UIEvents_Waves_OnStartWaveButtonClick);
         }

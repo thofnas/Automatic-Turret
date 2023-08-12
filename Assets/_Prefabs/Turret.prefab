@@ -95,6 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3580037651647430428}
   - component: {fileID: 8210018051263852195}
+  - component: {fileID: 8404540326385137798}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -133,6 +134,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 5276152185921554175, guid: 4942a4b311a8538498b8a03a920b2800,
     type: 3}
+--- !u!114 &8404540326385137798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988676853536030813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6bcffa025c05243a7b2fe5f10d05fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _turretScanner: {fileID: 5044576588454816447}
+  _isEnabled: 1
+  _isReloading: 0
+  _isAiming: 0
+  _gunEndPoint: {fileID: 4295803359658873138}
+  _reloadTimeInSeconds: 0.31
 --- !u!1 &2839438890473802981
 GameObject:
   m_ObjectHideFlags: 0

@@ -233,7 +233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 923a2157dbf2403dabb284d95b1e0cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gearMaterial: {fileID: 2100000, guid: b1bf2bd75373926469cdbff422d3bb25, type: 2}
+  _gearMeshes:
+  - {fileID: 5060573366228520840}
+  - {fileID: 1861425934649758011}
+  - {fileID: 5690138930674716075}
 --- !u!1 &3168635008457680834
 GameObject:
   m_ObjectHideFlags: 0

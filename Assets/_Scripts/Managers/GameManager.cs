@@ -56,7 +56,7 @@ namespace Managers
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
             GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
-            GameEvents.OnStatUpgraded.AddListener(GameEvents_Stats_OnUpgrade);
+            GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Stats_OnUpgrade);
         }
 
         public void Start()
@@ -71,7 +71,7 @@ namespace Managers
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
             GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
-            GameEvents.OnStatUpgraded.RemoveListener(GameEvents_Stats_OnUpgrade);
+            GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Stats_OnUpgrade);
         }
 
 

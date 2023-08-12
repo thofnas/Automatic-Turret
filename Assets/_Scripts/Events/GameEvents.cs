@@ -13,7 +13,7 @@ namespace Events {
         public static readonly EventRecorder TurretOnReloadEnd = new();
         public static readonly EventRecorder OnTurretGotHit = new();
         public static readonly EventRecorder OnTurretDestroyed = new();
-        public static readonly EventRecorder<OnStatUpgradeEventArgs> OnStatUpgraded = new();
+        public static readonly EventRecorder<OnStatUpgradeEventArgs> OnTurretStatUpgraded = new();
         #endregion
 
         #region Enemy/Enemies
