@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Events;
 using UnityEngine;
 
@@ -11,40 +9,40 @@ namespace Item
         private const float ANIMATION_DURATION = 0.4f;
         private static readonly int Opacity = Shader.PropertyToID("_Opacity");
 
-        [SerializeField] private List<MeshRenderer> _gearMeshes;
-        private readonly List<Material> _gearMaterials = new();
+        [SerializeField] private MeshRenderer _gearMesh;
+        private MaterialPropertyBlock _materialPropertyBlock;
         private bool _isPicked;
         private bool _areMaterialsLoaded;
+        
 
         private void Start()
         {
-            foreach (Material material in _gearMeshes.SelectMany(gearMesh => gearMesh.materials))
-            {
-                if (material == null) continue;
-                _gearMaterials.Add(material);
-            }
-
-            _areMaterialsLoaded = true;
+            _materialPropertyBlock = new MaterialPropertyBlock();
         }
 
         public void PickUp()
         {
-            if (_isPicked || !_areMaterialsLoaded) return;
+            if (_isPicked) return;
             _isPicked = true;
-            
+
             transform.DOKill();
-            
+
             GameEvents.OnItemPicked.Invoke();
 
             transform.DOMoveY(Vector3.up.y, ANIMATION_DURATION)
                 .SetEase(Ease.OutSine)
-                .OnComplete(() => Destroy(gameObject));
+                .OnComplete(() => Destroy(gameObject))
+                .SetUpdate(true);
 
-            _gearMaterials.ForEach(gearMaterial =>
+
+
+            DOVirtual.Float(0f, 1f, ANIMATION_DURATION, opacity =>
             {
-                gearMaterial.DOFloat(1f, Opacity, ANIMATION_DURATION)
-                    .SetEase(Ease.OutSine);
-            });
+                _materialPropertyBlock.SetFloat(Opacity, opacity);
+                _gearMesh.SetPropertyBlock(_materialPropertyBlock);
+
+            }).SetEase(Ease.OutSine)
+                .SetUpdate(true);;
         }
     }
 }

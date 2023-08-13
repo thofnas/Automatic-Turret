@@ -6216,6 +6216,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 6163638070091541449, guid: c34b3c2a253115c44a7931e6e1752597,
+        type: 3}
+      propertyPath: _scannerVisualEffect
+      value: 
+      objectReference: {fileID: 1857721705}
     - target: {fileID: 6781345632868137659, guid: c34b3c2a253115c44a7931e6e1752597,
         type: 3}
       propertyPath: m_Name

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Events;
 using Managers;
+using Turret;
 using UnityEngine;
 
 namespace Waves.StateMachine.States
@@ -40,16 +41,21 @@ namespace Waves.StateMachine.States
         public IEnumerator SpawnEnemiesRoutine()
         {
             SubWave subWave = Ctx.GetCurrentSubWaveData();
+            float turretViewRange = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange);
+
+            float maxDistance = turretViewRange + EnemyManager.MAX_DISTANCE_TO_SPAWN_ENEMY;
+            float minDistance = turretViewRange + EnemyManager.MIN_DISTANCE_TO_SPAWN_ENEMY;
+            
             yield return new WaitForSeconds(subWave.SpawnDelay);
 
             List<Enemy> shuffledEnemies = Utilities.ShuffleList(FlattenEnemyData(subWave.EnemiesData));
-            
+
             foreach (Enemy enemy in shuffledEnemies)
             {
                 Vector3 randomSpawnPosition = Utilities.GetRandomPositionAtDistance(
                     GameManager.Instance.TurretStateMachine.GetTransform().position,
-                    EnemyManager.MAX_DISTANCE_TO_SPAWN_ENEMY,
-                    EnemyManager.MIN_DISTANCE_TO_SPAWN_ENEMY);
+                    maxDistance,
+                    minDistance);
                 
                 EnemyManager.Instance.SpawnEnemy(enemy, randomSpawnPosition, Quaternion.identity);
                 
