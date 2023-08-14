@@ -5,6 +5,7 @@ using Events;
 using Interfaces;
 using Managers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Enemy
 {
@@ -13,19 +14,25 @@ namespace Enemy
     {
         public Guid InstanceID { get; } = Guid.NewGuid();
         
+        [SerializeField] private int _maxHealth = 5;
         [SerializeField, Min(0F)] private float _rollSpeed = 1F;
         [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
         [SerializeField] private Transform _enemyVisual;
-        
+        [SerializeField] private Image _healthBarFillImage;
+
         private ItemDropper _itemDropper;
         private Vector3 _enemyAnchorPoint;
         private Vector3 _enemyAxis;
         private bool _isRolling;
         
+        public int Health { get; private set; }
+        
         private void Awake() => _itemDropper = GetComponent<ItemDropper>();
 
         private void Start()
         {
+            Health = _maxHealth;
+            _healthBarFillImage.fillAmount = 1f;
             transform.LookAt(GameManager.Instance.TurretStateMachine.transform);
             Assemble();
         }
@@ -72,10 +79,17 @@ namespace Enemy
             Destroy(gameObject);
         }
 
-        public void ApplyDamage()
+        public void ApplyDamage(float damage)
         {
-            _itemDropper.DropItems(Ease.Flash, Ease.OutBounce);
-            Destroy(gameObject);
+            Health -= Mathf.CeilToInt(damage);
+            
+            if (Health <= 0)
+            {
+                _itemDropper.DropItems(Ease.Flash, Ease.OutBounce);
+                Destroy(gameObject);
+            }
+
+            _healthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, Health);
         }
 
         public Transform GetTransform() => transform;

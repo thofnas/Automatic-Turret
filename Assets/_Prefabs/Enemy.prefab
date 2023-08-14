@@ -219,10 +219,10 @@ RectTransform:
   m_Father: {fileID: 5242763468538381133}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 0.1}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &307662322039670459
 CanvasRenderer:
@@ -299,10 +299,10 @@ RectTransform:
   m_Father: {fileID: 76334325242090652}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 0.1}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -0.099999994}
+  m_SizeDelta: {x: 1.5, y: 0.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5479428173135987499
 CanvasRenderer:
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83cb5a82c1f457b4d922fb9dd2c736cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mode: 0
+  _mode: 2
 --- !u!114 &486379050111431566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
   m_EffectDistance: {x: 0.01, y: 0.01}
   m_UseGraphicAlpha: 1
 --- !u!1 &6918403545300865139
@@ -420,9 +420,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc00aa976877fd74780ecb00c78a97e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxHealth: 5
   _rollSpeed: 1
   _rollDelayInSeconds: 2
   _enemyVisual: {fileID: 542835373491071807}
+  _healthBarFillImage: {fileID: 1806279408625695878}
 --- !u!114 &5475894058590580856
 MonoBehaviour:
   m_ObjectHideFlags: 0

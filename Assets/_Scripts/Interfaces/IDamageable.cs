@@ -4,7 +4,7 @@ namespace Interfaces
 {
     public interface IDamageable
     {
-        void ApplyDamage();
+        void ApplyDamage(float damage);
         Transform GetTransform();
     }
 }

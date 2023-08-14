@@ -1,4 +1,6 @@
 using Interfaces;
+using Managers;
+using Turret;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -19,7 +21,7 @@ public class Bullet : MonoBehaviour
         
         if (damageable != null)
         {
-            damageable.ApplyDamage();
+            damageable.ApplyDamage(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletDamage));
             Destroy(gameObject);
         }
     }
