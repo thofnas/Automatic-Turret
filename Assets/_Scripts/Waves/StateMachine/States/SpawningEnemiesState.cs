@@ -48,9 +48,9 @@ namespace Waves.StateMachine.States
             
             yield return new WaitForSeconds(subWave.SpawnDelay);
 
-            List<Enemy> shuffledEnemies = Utilities.ShuffleList(FlattenEnemyData(subWave.EnemiesData));
+            List<Enemy.Enemy> shuffledEnemies = Utilities.ShuffleList(FlattenEnemyData(subWave.EnemiesData));
 
-            foreach (Enemy enemy in shuffledEnemies)
+            foreach (Enemy.Enemy enemy in shuffledEnemies)
             {
                 Vector3 randomSpawnPosition = Utilities.GetRandomPositionAtDistance(
                     GameManager.Instance.TurretStateMachine.GetTransform().position,
@@ -65,9 +65,9 @@ namespace Waves.StateMachine.States
             GameEvents.OnAllEnemiesSpawned.Invoke();
         }
 
-        private static IEnumerable<Enemy> FlattenEnemyData(List<EnemyData> datas)
+        private static IEnumerable<Enemy.Enemy> FlattenEnemyData(List<EnemyData> datas)
         {
-            List<Enemy> list = new();
+            List<Enemy.Enemy> list = new();
 
             foreach (EnemyData data in datas)
             {

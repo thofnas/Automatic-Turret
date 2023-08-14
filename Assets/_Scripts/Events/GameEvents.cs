@@ -17,13 +17,13 @@ namespace Events {
         #endregion
 
         #region Enemy/Enemies
-        public static readonly EventRecorder<Enemy> OnEnemySpawned = new();
+        public static readonly EventRecorder<Enemy.Enemy> OnEnemySpawned = new();
         public static readonly EventRecorder OnAllEnemiesSpawned = new();
-        public static readonly EventRecorder<Enemy> OnEnemyDestroyed = new();
+        public static readonly EventRecorder<Enemy.Enemy> OnEnemyDestroyed = new();
         public static readonly EventRecorder<Guid> OnEnemyRollStart = new();
         public static readonly EventRecorder<Guid> OnEnemyRollEnd = new();
-        public static readonly EventRecorder<Enemy> OnEnemySpotted = new();
-        public static readonly EventRecorder<Enemy> OnEnemyLostFromView = new();
+        public static readonly EventRecorder<Enemy.Enemy> OnEnemySpotted = new();
+        public static readonly EventRecorder<Enemy.Enemy> OnEnemyLostFromView = new();
         #endregion
 
         #region Wave System

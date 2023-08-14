@@ -35,7 +35,6 @@ namespace Item
                 .SetUpdate(true);
 
 
-
             DOVirtual.Float(0f, 1f, ANIMATION_DURATION, opacity =>
             {
                 _materialPropertyBlock.SetFloat(Opacity, opacity);

@@ -1,6 +1,7 @@
 using CustomEventArgs;
 using Events;
 using Managers;
+using TMPro;
 using Turret;
 
 namespace UserInterface.StateMachine.States
@@ -17,6 +18,10 @@ namespace UserInterface.StateMachine.States
             _isUpdated = false;
             Ctx.StartWaveButton.onClick.AddListener(() => UIEvents.OnStartWaveButtonClicked.Invoke());
             Ctx.UpgradeHealthButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.AmountOfHealth));
+            Ctx.UpgradeViewRangeButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.ViewRange));
+            Ctx.UpgradeRotationSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.RotationSpeed));
+            Ctx.UpgradeReloadSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.ReloadSpeed));
+            Ctx.UpgradeDamageButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.BulletDamage));
             GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
@@ -25,6 +30,10 @@ namespace UserInterface.StateMachine.States
         public override void ExitState() {
             Ctx.StartWaveButton.onClick.RemoveAllListeners();
             Ctx.UpgradeHealthButton.onClick.RemoveAllListeners();
+            Ctx.UpgradeViewRangeButton.onClick.RemoveAllListeners();
+            Ctx.UpgradeRotationSpeedButton.onClick.RemoveAllListeners();
+            Ctx.UpgradeReloadSpeedButton.onClick.RemoveAllListeners();
+            Ctx.UpgradeDamageButton.onClick.RemoveAllListeners();
             GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
@@ -52,19 +61,23 @@ namespace UserInterface.StateMachine.States
             Ctx.CurrentWaveCount.text = GameManager.Instance.WaveStateMachine.CurrentWaveID == 0 
                 ? "Tutorial" 
                 : GameManager.Instance.WaveStateMachine.CurrentWaveID.ToString();
-
-            UpdateUpgradesUI();
-        }
-        
-        private void UpdateUpgradesUI()
-        {
-            TurretUpgrades healthUpgrades = UpgradeManager.Instance.GetUpgradesForStat(Stat.AmountOfHealth);
             
             Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearAmount.ToString();
 
-            Ctx.HealthCurrentLevelText.text = healthUpgrades.GetCurrentUpgradeLevel().ToString();
+            UpdateUpgradeUI(Stat.AmountOfHealth, Ctx.HealthCurrentLevelText, Ctx.HealthNextLevelPriceText);
+            UpdateUpgradeUI(Stat.ViewRange, Ctx.ViewRangeCurrentLevelText, Ctx.ViewRangeNextLevelPriceText);
+            UpdateUpgradeUI(Stat.RotationSpeed, Ctx.RotationSpeedCurrentLevelText, Ctx.RotationSpeedNextLevelPriceText);
+            UpdateUpgradeUI(Stat.ReloadSpeed, Ctx.ReloadSpeedCurrentLevelText, Ctx.ReloadSpeedNextLevelPriceText);
+            UpdateUpgradeUI(Stat.BulletDamage, Ctx.DamageCurrentLevelText, Ctx.DamageNextLevelPriceText);
+        }
+        
+        private void UpdateUpgradeUI(Stat stat, TMP_Text currentLevel, TMP_Text nextLevelPrice)
+        {
+            TurretUpgrades upgrades = UpgradeManager.Instance.GetUpgradesForStat(stat);
 
-            Ctx.HealthNextLevelPriceText.text = healthUpgrades.TryGetNextUpgrade(out Upgrade upgrade) 
+            currentLevel.text = upgrades.GetCurrentUpgradeLevel().ToString();
+
+            nextLevelPrice.text = upgrades.TryGetNextUpgrade(out Upgrade upgrade) 
                 ? upgrade.UpgradePrice.ToString() 
                 : "MAX";
         }
@@ -73,6 +86,6 @@ namespace UserInterface.StateMachine.States
 
         private void GameEvents_Wave_OnWaveStarted() => SwitchState(Factory.UIGame());
 
-        private void GameEvents_Upgrade_OnStatUpg(OnStatUpgradeEventArgs onStatUpgradeEventArgs) => UpdateUpgradesUI();
+        private void GameEvents_Upgrade_OnStatUpg(OnStatUpgradeEventArgs onStatUpgradeEventArgs) => UpdateUI();
     }
 }

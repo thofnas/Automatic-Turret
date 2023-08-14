@@ -1,3 +1,4 @@
+using System;
 using CustomEventArgs;
 using Events;
 using Managers;
@@ -15,12 +16,17 @@ namespace Turret
         {
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Turret_OnStatUpgrade);
             _scannerVisualEffect.SetFloat(Radius, UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange));
-            print(_scannerVisualEffect.GetFloat(Radius));
         }
+
+        private void OnDestroy()
+        {
+            GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Turret_OnStatUpgrade);
+        }
+        
         private void GameEvents_Turret_OnStatUpgrade(OnStatUpgradeEventArgs obj)
         {
             if (obj.Stat.Equals(Stat.ViewRange))
-                _scannerVisualEffect.SetFloat(Radius, obj.NewStatValue);
+                _scannerVisualEffect.SetFloat(Radius, UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange));
         }
     }
 }

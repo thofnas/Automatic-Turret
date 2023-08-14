@@ -12,7 +12,7 @@ namespace Turret.StateMachine.States
         { }
 
         private IEnumerator _aimRoutine;
-        private Enemy _closestEnemy;
+        private Enemy.Enemy _closestEnemy;
 
         public override void EnterState()
         {
@@ -74,7 +74,7 @@ namespace Turret.StateMachine.States
         }
         private const double TOLERANCE = 0.01F;
 
-        private void GameEvents_Enemy_OnEnemyDestroyed(Enemy enemy)
+        private void GameEvents_Enemy_OnEnemyDestroyed(Enemy.Enemy enemy)
         {
             if (EnemyManager.Instance.GetClosestSpottedEnemy() == _closestEnemy) return;
             

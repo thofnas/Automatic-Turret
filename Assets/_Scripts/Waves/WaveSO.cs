@@ -19,7 +19,7 @@ namespace Waves
     [System.Serializable]
     public class EnemyData
     {
-        public Enemy EnemyPrefab;
+        public Enemy.Enemy EnemyPrefab;
         [Min(1)] public int EnemyQuantity = 1;
     }
 }

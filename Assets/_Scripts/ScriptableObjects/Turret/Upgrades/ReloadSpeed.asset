@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae57a7750a66bd1469fa960c6ac18b66, type: 3}
-  m_Name: ReloadTime
+  m_Name: ReloadSpeed
   m_EditorClassIdentifier: 
   _selectedStat: 0
   _upgradesList:
-  - NumberThatUpgradesBaseValue: 0.9
-    UpgradePrice: 0
-  - NumberThatUpgradesBaseValue: 0.8
-    UpgradePrice: 0
-  - NumberThatUpgradesBaseValue: 0.6
-    UpgradePrice: 0
-  - NumberThatUpgradesBaseValue: 0.3
-    UpgradePrice: 0
-  - NumberThatUpgradesBaseValue: 0.1
-    UpgradePrice: 0
-  - NumberThatUpgradesBaseValue: 0.04
-    UpgradePrice: 0
+  - NumberThatUpgradesBaseValue: 2
+    UpgradePrice: 15
+  - NumberThatUpgradesBaseValue: 3
+    UpgradePrice: 30
+  - NumberThatUpgradesBaseValue: 4
+    UpgradePrice: 44
+  - NumberThatUpgradesBaseValue: 5
+    UpgradePrice: 61
+  - NumberThatUpgradesBaseValue: 6
+    UpgradePrice: 78
+  - NumberThatUpgradesBaseValue: 8
+    UpgradePrice: 102

@@ -21,6 +21,18 @@ namespace UserInterface.StateMachine
         public Button UpgradeHealthButton;
         public TextMeshProUGUI HealthCurrentLevelText;
         public TextMeshProUGUI HealthNextLevelPriceText;
+        public Button UpgradeViewRangeButton;
+        public TextMeshProUGUI ViewRangeCurrentLevelText;
+        public TextMeshProUGUI ViewRangeNextLevelPriceText;
+        public Button UpgradeReloadSpeedButton;
+        public TextMeshProUGUI ReloadSpeedCurrentLevelText;
+        public TextMeshProUGUI ReloadSpeedNextLevelPriceText;
+        public Button UpgradeRotationSpeedButton;
+        public TextMeshProUGUI RotationSpeedCurrentLevelText;
+        public TextMeshProUGUI RotationSpeedNextLevelPriceText;
+        public Button UpgradeDamageButton;
+        public TextMeshProUGUI DamageCurrentLevelText;
+        public TextMeshProUGUI DamageNextLevelPriceText;
         [Header("Wave Results Screen")] 
         [SerializeField] private Transform _waveResultsParentScreenUITransform;
         [SerializeField] private Transform _waveWonScreenUITransform;

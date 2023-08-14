@@ -22,7 +22,7 @@ namespace Turret.StateMachine
 
         #endregion
 
-        public bool IsEnemyInFront(Enemy enemy)
+        public bool IsEnemyInFront(Enemy.Enemy enemy)
         {
             Vector3 direction = transform.forward; // Get the forward direction of the turret
             var turretScannerCollider = TurretScanner.GetComponent<Collider>();
@@ -30,7 +30,7 @@ namespace Turret.StateMachine
 
             RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, maxDistance);
 
-            return hits.Any(hit => hit.collider.GetComponent<Enemy>() == enemy);
+            return hits.Any(hit => hit.collider.GetComponent<Enemy.Enemy>() == enemy);
         }
 
         public Transform GetTransform() => transform;
