@@ -2,8 +2,6 @@ using Managers;
 using Turret;
 using Turret.StateMachine;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UserInterface;
 using UserInterface.StateMachine;
 using Waves.StateMachine;
 
@@ -15,7 +13,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private UIStateMachine _uiStateMachine;
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private TurretShootProjectiles _turretShootProjectiles;
-    [SerializeField] private WaveStateMachine _waveStateMachine;
+    [SerializeField] private WaveManager _waveManager;
 
     // execution order
     private void Awake()
@@ -23,7 +21,7 @@ public class Bootstrap : MonoBehaviour
         _upgradeManager.Initialize();
         _gameManager.Initialize();
         _enemyManager.Initialize();
-        _waveStateMachine.Initialize();
+        _waveManager.Initialize();
         _turretStateMachine.Initialize();
         _turretShootProjectiles.Initialize();
         _uiStateMachine.Initialize();

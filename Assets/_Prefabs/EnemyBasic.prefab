@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5428931268647829530
+--- !u!1001 &7492857427554819804
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,29 +10,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
-      propertyPath: _maxHealth
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
-        type: 3}
       propertyPath: _rollSpeed
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _gearsToDrop
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _rollDelayInSeconds
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1802459955040017065, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3a8b15f837696254d906562110aef2c3, type: 2}
+      objectReference: {fileID: 2100000, guid: f059c6c2dcb3a0d47ad1994b1a010966, type: 2}
     - target: {fileID: 5155054147113448330, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: m_RootOrder
@@ -88,15 +83,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5475894058590580856, guid: 806f5c979983afd4f82bde77fe498c53,
-        type: 3}
-      propertyPath: _spawnQuantity
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 6918403545300865139, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: m_Name
-      value: EnemyFast
+      value: EnemyBasic
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

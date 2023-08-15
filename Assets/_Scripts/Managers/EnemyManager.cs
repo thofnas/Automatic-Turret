@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Events;
+using Turret;
 using UnityEngine;
 
 namespace Managers
 {
     public class EnemyManager : Singleton<EnemyManager>
     {
-        public const float MIN_DISTANCE_TO_SPAWN_ENEMY = 1f;
-        public const float MAX_DISTANCE_TO_SPAWN_ENEMY = 3f;
+        public const float MIN_DISTANCE_TO_SPAWN_ENEMY = 2f;
+        public const float MAX_DISTANCE_TO_SPAWN_ENEMY = 4f;
         
         private readonly Dictionary<Guid, Enemy.Enemy> _enemiesInSightList = new();
         private readonly List<Enemy.Enemy> _allEnemiesList = new();
@@ -22,7 +23,7 @@ namespace Managers
             GameEvents.OnEnemyLostFromView.AddListener(GameEvents_Enemy_OnLostFromView);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
         }
-
+        
         private void OnDestroy()
         {
             GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnEnemySpawned);
@@ -32,8 +33,15 @@ namespace Managers
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
         }
 
-        public void SpawnEnemy(Enemy.Enemy enemyPrefab, Vector3 spawnPosition, Quaternion rotation)
+        public void SpawnEnemy(Enemy.Enemy enemyPrefab, Quaternion rotation)
         {
+            float turretViewRange = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange);
+
+            Vector3 spawnPosition = Utilities.GetRandomPositionAtDistance(
+                GameManager.Instance.TurretStateMachine.GetTransform().position,
+                MAX_DISTANCE_TO_SPAWN_ENEMY + enemyPrefab.transform.localScale.y + turretViewRange,
+                MIN_DISTANCE_TO_SPAWN_ENEMY + enemyPrefab.transform.localScale.y + turretViewRange);
+            
             spawnPosition.y = 0 + enemyPrefab.transform.localScale.y / 2;
 
             Enemy.Enemy enemy = Instantiate(enemyPrefab, spawnPosition, rotation);

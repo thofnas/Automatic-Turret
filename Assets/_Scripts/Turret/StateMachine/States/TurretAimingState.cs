@@ -48,18 +48,20 @@ namespace Turret.StateMachine.States
             if (!EnemyManager.Instance.HasEnemyInSight()) return;
             
             _closestEnemy = EnemyManager.Instance.GetClosestSpottedEnemy();
-            _aimRoutine = AimTurretRoutine(_closestEnemy.GetTransform());
+            _aimRoutine = AimTurretRoutine(_closestEnemy.GetTransform().position);
             if (Ctx != null) Ctx.StartCoroutine(_aimRoutine);
         }
         
-        private IEnumerator AimTurretRoutine(Transform target)
+        private IEnumerator AimTurretRoutine(Vector3 targetPosition)
         {
+            targetPosition = new Vector3(targetPosition.x, Ctx.transform.position.y, targetPosition.z);
+            
             const float speedMultiplier = 0.25F;
             float rotationSpeed = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.RotationSpeed);
             float step = rotationSpeed * speedMultiplier * Time.deltaTime;
-            Quaternion rotationTarget = Quaternion.LookRotation(target.position - Ctx.transform.position);
+            Quaternion rotationTarget = Quaternion.LookRotation(targetPosition - Ctx.transform.position);
 
-            while (Quaternion.Angle(Ctx.transform.rotation, Quaternion.LookRotation(target.position - Ctx.transform.position)) > TOLERANCE)
+            while (Quaternion.Angle(Ctx.transform.rotation, Quaternion.LookRotation(targetPosition - Ctx.transform.position)) > TOLERANCE)
             {
                 Quaternion rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
                 rotation.x = 0;

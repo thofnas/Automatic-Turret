@@ -31,17 +31,14 @@ namespace Item
 
             transform.DOMoveY(Vector3.up.y, ANIMATION_DURATION)
                 .SetEase(Ease.OutSine)
-                .OnComplete(() => Destroy(gameObject))
+                .OnComplete(() => GameEvents.OnItemPickUpAnimationCompleted.Invoke(this))
                 .SetUpdate(true);
-
 
             DOVirtual.Float(0f, 1f, ANIMATION_DURATION, opacity =>
             {
                 _materialPropertyBlock.SetFloat(Opacity, opacity);
                 _gearMesh.SetPropertyBlock(_materialPropertyBlock);
-
-            }).SetEase(Ease.OutSine)
-                .SetUpdate(true);;
+            }).SetEase(Ease.OutSine).SetUpdate(true);
         }
     }
 }

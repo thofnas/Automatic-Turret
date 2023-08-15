@@ -1,9 +1,7 @@
-using System;
 using System.Globalization;
 using Events;
 using Managers;
 using Turret;
-using UnityEngine;
 
 namespace UserInterface.StateMachine.States
 {
@@ -46,7 +44,7 @@ namespace UserInterface.StateMachine.States
         {
 
             Ctx.CurrentSubWaveCount.text
-                = $"{GameManager.Instance.WaveStateMachine.CurrentSubWaveID + 1} / {GameManager.Instance.WaveStateMachine.CurrentSubWaveIDMax + 1}";
+                = $"{WaveManager.Instance.CurrentSubWaveID + 1} / {WaveManager.Instance.CurrentSubWaveIDMax + 1}";
 
             Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
             

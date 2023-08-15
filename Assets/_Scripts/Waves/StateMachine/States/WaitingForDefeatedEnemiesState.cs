@@ -25,14 +25,14 @@ namespace Waves.StateMachine.States
             if (GameManager.Instance.TurretStateMachine.IsDestroyed) return;
             
             //wave ends if all enemies defeated and it was the last subwave
-            if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID >= Ctx.CurrentSubWaveIDMax)
+            if (!EnemyManager.Instance.IsAnyEnemyExists() && WaveManager.Instance.CurrentSubWaveID >= WaveManager.Instance.CurrentSubWaveIDMax)
             {
                 GameEvents.OnWaveWon.Invoke();
                 SwitchState(Factory.WaitingToFinishWave());
             }
 
             // start new subwave if they should be
-            if (!EnemyManager.Instance.IsAnyEnemyExists() && Ctx.CurrentSubWaveID < Ctx.CurrentSubWaveIDMax)
+            if (!EnemyManager.Instance.IsAnyEnemyExists() && WaveManager.Instance.CurrentSubWaveID < WaveManager.Instance.CurrentSubWaveIDMax)
                 SwitchState(Factory.SpawningEnemies());
         }
         

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 542835373491071807}
   - component: {fileID: 1245269240688386725}
   - component: {fileID: 1802459955040017065}
+  - component: {fileID: 1521065326573907715}
   m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f059c6c2dcb3a0d47ad1994b1a010966, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,6 +84,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1521065326573907715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324835901176076843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23209f329a0c4296a8ab0fef3e62180a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damagedColor: {r: 1, g: 0.6954986, b: 0.6462264, a: 0}
 --- !u!1 &2778789822395828297
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc00aa976877fd74780ecb00c78a97e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 5
+  _maxHealth: 10
   _rollSpeed: 1
   _rollDelayInSeconds: 2
   _enemyVisual: {fileID: 542835373491071807}
@@ -437,12 +451,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43093c3b697fc84428a6bea4738808ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 6913318947873864021, guid: 28c3060e59db7ed41ae5e93b8c946c79,
+  _itemPrefab: {fileID: 1238903288641990261, guid: 28c3060e59db7ed41ae5e93b8c946c79,
     type: 3}
-  _spawnQuantity: 5
-  _minDistance: 1
-  _maxDistance: 2
-  _durationOfMoving: 0.7
+  _itemSpawnQuantity: 1
+  _minDistance: 1.5
+  _maxDistance: 3
+  _durationOfMoving: 0.6
+  _easeXZ: 32
+  _easeY: 30
 --- !u!65 &4629640642851035293
 BoxCollider:
   m_ObjectHideFlags: 0

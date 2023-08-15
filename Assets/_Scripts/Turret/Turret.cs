@@ -33,7 +33,7 @@ namespace Turret
             GameEvents.TurretOnAimEnd.AddListener(GameEvents_Turret_OnAimEnd);
             GameEvents.TurretOnReloadStart.AddListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.AddListener(GameEvents_Turret_OnReloadEnd);
-            GameEvents.OnTurretGotHit.AddListener(GameEvents_Turret_OnGotHit);
+            GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnGotHit);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
         }
 
@@ -43,7 +43,7 @@ namespace Turret
             GameEvents.TurretOnAimEnd.RemoveListener(GameEvents_Turret_OnAimEnd);
             GameEvents.TurretOnReloadStart.RemoveListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.RemoveListener(GameEvents_Turret_OnReloadEnd);
-            GameEvents.OnTurretGotHit.RemoveListener(GameEvents_Turret_OnGotHit);
+            GameEvents.OnTurretDamaged.RemoveListener(GameEvents_Turret_OnGotHit);
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
         }
 

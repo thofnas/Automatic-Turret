@@ -613,7 +613,7 @@ MonoBehaviour:
   _uiStateMachine: {fileID: 1461208837}
   _upgradeManager: {fileID: 249846771}
   _turretShootProjectiles: {fileID: 6004374959505389382}
-  _waveStateMachine: {fileID: 1096581545}
+  _waveManager: {fileID: 1096581545}
 --- !u!4 &111858364
 Transform:
   m_ObjectHideFlags: 0
@@ -2465,6 +2465,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455057281}
   m_CullTransparentMesh: 1
+--- !u!1 &464382340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 464382341}
+  - component: {fileID: 464382342}
+  m_Layer: 0
+  m_Name: GearsSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &464382341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464382340}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1139676585}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &464382342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464382340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43093c3b697fc84428a6bea4738808ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemPrefab: {fileID: 1238903288641990261, guid: 28c3060e59db7ed41ae5e93b8c946c79,
+    type: 3}
+  _minDistance: 1.5
+  _maxDistance: 3
+  _durationOfMoving: 0.6
+  _easeXZ: 32
+  _easeY: 30
 --- !u!1 &468542877
 GameObject:
   m_ObjectHideFlags: 0
@@ -5866,6 +5917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1096581544}
   - component: {fileID: 1096581545}
+  - component: {fileID: 1096581546}
   m_Layer: 0
   m_Name: WaveManager
   m_TagString: Untagged
@@ -5897,12 +5949,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1096581543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a4c106a6e7248ad92ccc7623f5d8a02, type: 3}
+  m_Script: {fileID: 11500000, guid: 318b071b3cdb4a59af838b7be5e25e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _waves:
   - {fileID: 11400000, guid: 319deb3384ed0fb4eac9e8eb4fd63a64, type: 2}
   - {fileID: 11400000, guid: a48c271b66278f049990eee331b917dd, type: 2}
+--- !u!114 &1096581546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096581543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4c106a6e7248ad92ccc7623f5d8a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1097836164
 GameObject:
   m_ObjectHideFlags: 0
@@ -6075,6 +6139,7 @@ Transform:
   - {fileID: 1096581544}
   - {fileID: 249846770}
   - {fileID: 1461208836}
+  - {fileID: 464382341}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9135,7 +9200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _turretStateMachine: {fileID: 1006642759}
-  _waveStateMachine: {fileID: 1096581545}
+  _waveStateMachine: {fileID: 0}
   _groundTransform: {fileID: 693649966}
   _startingMoneyAmount: 500
 --- !u!1 &1846747677
@@ -10143,7 +10208,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 9368
-  m_fontColor: {r: 0.5943396, g: 0.14146377, b: 0, a: 1}
+  m_fontColor: {r: 0.5943396, g: 0.14146377, b: 0, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

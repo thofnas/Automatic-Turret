@@ -58,9 +58,9 @@ namespace UserInterface.StateMachine.States
 
         private void UpdateUI()
         {
-            Ctx.CurrentWaveCount.text = GameManager.Instance.WaveStateMachine.CurrentWaveID == 0 
+            Ctx.CurrentWaveCount.text = WaveManager.Instance.CurrentWaveID == 0 
                 ? "Tutorial" 
-                : GameManager.Instance.WaveStateMachine.CurrentWaveID.ToString();
+                : WaveManager.Instance.CurrentWaveID.ToString();
             
             Ctx.TotalGearsCount.text = GameManager.Instance.TotalGearAmount.ToString();
 

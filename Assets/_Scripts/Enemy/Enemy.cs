@@ -3,38 +3,49 @@ using System.Collections;
 using DG.Tweening;
 using Events;
 using Interfaces;
+using Item;
 using Managers;
+using Turret;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Enemy
 {
-    [RequireComponent(typeof(ItemDropper))]
     public class Enemy : MonoBehaviour, IDamageable
     {
         public Guid InstanceID { get; } = Guid.NewGuid();
         
-        [SerializeField] private int _maxHealth = 5;
+        [SerializeField] private int _maxHealth = 10;
         [SerializeField, Min(0F)] private float _rollSpeed = 1F;
         [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
+        [SerializeField, Min(0)] private int _gearsToDrop = 5;
         [SerializeField] private Transform _enemyVisual;
         [SerializeField] private Image _healthBarFillImage;
 
-        private ItemDropper _itemDropper;
+        private ItemSpawner _itemSpawner;
         private Vector3 _enemyAnchorPoint;
         private Vector3 _enemyAxis;
         private bool _isRolling;
         
         public int Health { get; private set; }
-        
-        private void Awake() => _itemDropper = GetComponent<ItemDropper>();
+        public int GearsToDrop { get => _gearsToDrop; }
 
         private void Start()
         {
             Health = _maxHealth;
             _healthBarFillImage.fillAmount = 1f;
+            
             transform.LookAt(GameManager.Instance.TurretStateMachine.transform);
+            
+            Vector3 newRotation = transform.eulerAngles;
+            newRotation.x = 0;
+            newRotation.z = 0;
+            transform.eulerAngles = newRotation;
+            
             Assemble();
+            
+            if (UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletDamage) >= _maxHealth)
+                _healthBarFillImage.transform.parent.gameObject.SetActive(false);
         }
         
         private void Update()
@@ -64,10 +75,13 @@ namespace Enemy
         
         private void Assemble()
         {
+            Vector3 turretPosition = GameManager.Instance.TurretStateMachine.transform.position;
+            turretPosition.y = transform.position.y;
+            
             _enemyAnchorPoint = transform.position
-                                + (Vector3.down + (GameManager.Instance.TurretStateMachine.transform.position - transform.position).normalized) * 0.5f;
+                                + (Vector3.down + (turretPosition - transform.position).normalized) * (transform.localScale.y * 0.5f);
         
-            _enemyAxis = Vector3.Cross(Vector3.up, (GameManager.Instance.TurretStateMachine.transform.position - transform.position).normalized);
+            _enemyAxis = Vector3.Cross(Vector3.up, (turretPosition - transform.position).normalized);
         }
         
         private void OnDestroy() => GameEvents.OnEnemyDestroyed.Invoke(this);
@@ -75,21 +89,20 @@ namespace Enemy
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.transform.parent != GameManager.Instance.TurretStateMachine.transform) return;
-            GameEvents.OnTurretGotHit.Invoke();
+            GameEvents.OnTurretDamaged.Invoke();
             Destroy(gameObject);
         }
 
         public void ApplyDamage(float damage)
         {
             Health -= Mathf.CeilToInt(damage);
-            
-            if (Health <= 0)
-            {
-                _itemDropper.DropItems(Ease.Flash, Ease.OutBounce);
-                Destroy(gameObject);
-            }
-
             _healthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, Health);
+
+            GameEvents.OnEnemyDamaged.Invoke(this);
+            
+            if (Health > 0) return;
+            
+            Destroy(gameObject);
         }
 
         public Transform GetTransform() => transform;

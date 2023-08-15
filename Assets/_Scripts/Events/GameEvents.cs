@@ -11,7 +11,7 @@ namespace Events {
         public static readonly EventRecorder TurretOnAimEnd = new();
         public static readonly EventRecorder TurretOnReloadStart = new(); 
         public static readonly EventRecorder TurretOnReloadEnd = new();
-        public static readonly EventRecorder OnTurretGotHit = new();
+        public static readonly EventRecorder OnTurretDamaged = new();
         public static readonly EventRecorder OnTurretDestroyed = new();
         public static readonly EventRecorder<OnStatUpgradeEventArgs> OnTurretStatUpgraded = new();
         #endregion
@@ -20,6 +20,7 @@ namespace Events {
         public static readonly EventRecorder<Enemy.Enemy> OnEnemySpawned = new();
         public static readonly EventRecorder OnAllEnemiesSpawned = new();
         public static readonly EventRecorder<Enemy.Enemy> OnEnemyDestroyed = new();
+        public static readonly EventRecorder<Enemy.Enemy> OnEnemyDamaged = new();
         public static readonly EventRecorder<Guid> OnEnemyRollStart = new();
         public static readonly EventRecorder<Guid> OnEnemyRollEnd = new();
         public static readonly EventRecorder<Enemy.Enemy> OnEnemySpotted = new();
@@ -36,6 +37,7 @@ namespace Events {
         #endregion
         
         public static readonly EventRecorder OnItemPicked = new();
+        public static readonly EventRecorder<Item.Item> OnItemPickUpAnimationCompleted = new();
         public static readonly EventRecorder OnTotalGearAmountChanged = new();
         public static readonly EventRecorder OnCollectedGearAmountChanged = new();
     }
