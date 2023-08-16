@@ -15,13 +15,9 @@ public class Bullet : MonoBehaviour
     private bool _isCollidedWithDamageable;
     private IEnumerator _moveBulletRoutine;
 
-    private void Awake()
-    {
-        _moveBulletRoutine = MoveBulletRoutine();
-    }
-
     private void OnEnable()
     {
+        _moveBulletRoutine = MoveBulletRoutine();
         StartCoroutine(_moveBulletRoutine);
     }
 
@@ -47,6 +43,11 @@ public class Bullet : MonoBehaviour
     public void Setup(Vector3 shootDir) => _shootDir = shootDir;
 
     public void SetPool(IObjectPool<Bullet> pool) => _pool = pool;
+
+    public void ResetBullet()
+    {
+        _isCollidedWithDamageable = false;
+    }
 
     private void OnTriggerEnter(Collider bulletCollider)
     {

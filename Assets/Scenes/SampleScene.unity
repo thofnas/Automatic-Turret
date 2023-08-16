@@ -2509,7 +2509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43093c3b697fc84428a6bea4738808ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 1238903288641990261, guid: 28c3060e59db7ed41ae5e93b8c946c79,
+  _gearPrefab: {fileID: 1238903288641990261, guid: 28c3060e59db7ed41ae5e93b8c946c79,
     type: 3}
   _minDistance: 1.5
   _maxDistance: 3

@@ -68,7 +68,6 @@ namespace Item
         private void GameEvents_Wave_OnStarted()
         {
             int amountOfGears = WaveManager.Instance.AmountOfGearsInCurrentWave;
-            
             InitPool(_gearPrefab, Mathf.FloorToInt(amountOfGears * 0.5f), amountOfGears);
         }
         

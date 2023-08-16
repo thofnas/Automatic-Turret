@@ -15,12 +15,10 @@ namespace Item
         private bool _isPicked;
         private bool _areMaterialsLoaded;
         private IObjectPool<Gear> _pool;
-
-
+        
         private void Awake()
         {
             _materialPropertyBlock = new MaterialPropertyBlock();
-            if (transform.parent == null) Destroy(this);
         }
 
         public void SetPool(IObjectPool<Gear> pool) => _pool = pool;

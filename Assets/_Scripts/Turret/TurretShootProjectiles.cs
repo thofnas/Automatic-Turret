@@ -22,18 +22,27 @@ namespace Turret
         protected override void GetSetup(Bullet bullet)
         {
             base.GetSetup(bullet);
-
+            bullet.ResetBullet();
+            
             bullet.transform.position = _gunEndPoint.position;
             bullet.SetPool(Pool);
 
             bullet.Setup(_gunEndPoint.transform.forward);
         }
 
+        protected override void ReleaseSetup(Bullet bullet)
+        {
+            base.ReleaseSetup(bullet);
+            bullet.ResetBullet();
+        }
+
         private void GameEvents_TurretOnShoot(Transform gunEndPoint)
         {
             _gunEndPoint = gunEndPoint;
+            print(Pool.GetType());
 
             Get();
+            print(Pool.GetType());
         }
     }
 }
