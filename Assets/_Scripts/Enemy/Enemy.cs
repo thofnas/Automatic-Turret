@@ -22,7 +22,7 @@ namespace Enemy
         [SerializeField] private Transform _enemyVisual;
         [SerializeField] private Image _healthBarFillImage;
 
-        private ItemSpawner _itemSpawner;
+        private GearSpawner _gearSpawner;
         private Vector3 _enemyAnchorPoint;
         private Vector3 _enemyAxis;
         private bool _isRolling;
@@ -89,8 +89,10 @@ namespace Enemy
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.transform.parent != GameManager.Instance.TurretStateMachine.transform) return;
+            
             GameEvents.OnTurretDamaged.Invoke();
-            Destroy(gameObject);
+            
+            Kill();
         }
 
         public void ApplyDamage(float damage)
@@ -101,7 +103,13 @@ namespace Enemy
             GameEvents.OnEnemyDamaged.Invoke(this);
             
             if (Health > 0) return;
+            
+            Kill();
+        }
 
+        private void Kill()
+        {
+            GameEvents.OnEnemyKilled.Invoke(this);
             Destroy(gameObject);
         }
 

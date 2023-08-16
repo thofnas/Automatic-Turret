@@ -20,6 +20,7 @@ namespace Events {
         public static readonly EventRecorder<Enemy.Enemy> OnEnemySpawned = new();
         public static readonly EventRecorder OnAllEnemiesSpawned = new();
         public static readonly EventRecorder<Enemy.Enemy> OnEnemyDestroyed = new();
+        public static readonly EventRecorder<Enemy.Enemy> OnEnemyKilled = new();
         public static readonly EventRecorder<Enemy.Enemy> OnEnemyDamaged = new();
         public static readonly EventRecorder<Guid> OnEnemyRollStart = new();
         public static readonly EventRecorder<Guid> OnEnemyRollEnd = new();

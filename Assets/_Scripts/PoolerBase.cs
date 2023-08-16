@@ -13,7 +13,7 @@ public abstract class PoolerBase<T> : MonoBehaviour where T : MonoBehaviour
     private T _prefab;
     private ObjectPool<T> _pool;
 
-    public ObjectPool<T> Pool {
+    protected ObjectPool<T> Pool {
         get {
             if (_pool == null) throw new InvalidOperationException("You need to call InitPool before using it.");
             return _pool;
@@ -41,7 +41,7 @@ public abstract class PoolerBase<T> : MonoBehaviour where T : MonoBehaviour
     #endregion
 
     #region Getters
-    public T Get() => Pool.Get();
+    protected T Get() => Pool.Get();
     public void Release(T obj) => Pool.Release(obj);
     #endregion
 }

@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 
 namespace Item
 {
-    public class Item : MonoBehaviour
+    public class Gear : MonoBehaviour
     {
         private const float ANIMATION_DURATION = 0.4f;
         private static readonly int Opacity = Shader.PropertyToID("_Opacity");
@@ -14,15 +14,16 @@ namespace Item
         private MaterialPropertyBlock _materialPropertyBlock;
         private bool _isPicked;
         private bool _areMaterialsLoaded;
-        private IObjectPool<Item> _pool;
+        private IObjectPool<Gear> _pool;
 
 
         private void Awake()
         {
             _materialPropertyBlock = new MaterialPropertyBlock();
+            if (transform.parent == null) Destroy(this);
         }
 
-        public void SetPool(IObjectPool<Item> pool) => _pool = pool;
+        public void SetPool(IObjectPool<Gear> pool) => _pool = pool;
 
         public void PickUp()
         {

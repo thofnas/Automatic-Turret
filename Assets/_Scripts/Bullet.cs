@@ -1,29 +1,66 @@
+using System;
+using System.Collections;
 using Interfaces;
 using Managers;
 using Turret;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
     private const float BULLET_SPEED = 5f;
     private const float LIFE_TIME = 3f;
     private Vector3 _shootDir;
+    private IObjectPool<Bullet> _pool;
+    private bool _isCollidedWithDamageable;
+    private IEnumerator _moveBulletRoutine;
 
-    private void Awake() => Destroy(gameObject, LIFE_TIME);
+    private void Awake()
+    {
+        _moveBulletRoutine = MoveBulletRoutine();
+    }
 
-    private void Update() => transform.position += _shootDir * (Time.deltaTime * BULLET_SPEED);
+    private void OnEnable()
+    {
+        StartCoroutine(_moveBulletRoutine);
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(_moveBulletRoutine);
+    }
+
+    private IEnumerator MoveBulletRoutine()
+    {
+        float timePassed = 0;
+
+        while (timePassed < LIFE_TIME)
+        {
+            transform.position += _shootDir * (Time.deltaTime * BULLET_SPEED);
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+        
+        _pool.Release(this);
+    }
 
     public void Setup(Vector3 shootDir) => _shootDir = shootDir;
 
+    public void SetPool(IObjectPool<Bullet> pool) => _pool = pool;
+
     private void OnTriggerEnter(Collider bulletCollider)
     {
-        var damageable = bulletCollider.GetComponent<IDamageable>();
+        if(_isCollidedWithDamageable) return;
         
-        if (damageable != null)
-        {
-            damageable.ApplyDamage(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletDamage));
-            Destroy(gameObject);
-        }
+        var damageable = bulletCollider.GetComponent<IDamageable>();
+
+        if (damageable == null) return;
+        
+        _isCollidedWithDamageable = true;
+        
+        _pool.Release(this);
+        
+        damageable.ApplyDamage(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletDamage));
     }
 }
 

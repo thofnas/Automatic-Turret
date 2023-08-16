@@ -13,7 +13,7 @@ namespace Item
 
             foreach (Collider collider in colliders)
             {
-                if (collider.TryGetComponent(out Item item))
+                if (collider.TryGetComponent(out Gear item))
                 {
                     item.PickUp();
                 }

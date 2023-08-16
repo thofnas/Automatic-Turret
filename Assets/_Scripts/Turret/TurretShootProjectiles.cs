@@ -3,21 +3,37 @@ using UnityEngine;
 
 namespace Turret
 {
-    public class TurretShootProjectiles : MonoBehaviour
+    public class TurretShootProjectiles : PoolerBase<Bullet>
     {
-        [SerializeField] private GameObject _bulletPrefab;
+        [SerializeField] private Bullet _bulletPrefab;
 
-        public void Initialize() => GameEvents.TurretOnShoot.AddListener(GameEvents_TurretOnShoot);
+        private Transform _gunEndPoint;
+
+        public void Initialize()
+        {
+            GameEvents.TurretOnShoot.AddListener(GameEvents_TurretOnShoot);
+            InitPool(_bulletPrefab, 5, 50, true);
+        }
 
         private void OnDestroy() => GameEvents.TurretOnShoot.RemoveListener(GameEvents_TurretOnShoot);
+        
+        protected override Bullet CreateSetup() => Instantiate(_bulletPrefab, _gunEndPoint.position, Quaternion.identity);
+        
+        protected override void GetSetup(Bullet bullet)
+        {
+            base.GetSetup(bullet);
+
+            bullet.transform.position = _gunEndPoint.position;
+            bullet.SetPool(Pool);
+
+            bullet.Setup(_gunEndPoint.transform.forward);
+        }
 
         private void GameEvents_TurretOnShoot(Transform gunEndPoint)
         {
-            GameObject bulletGameObject = Instantiate(_bulletPrefab, gunEndPoint.position, Quaternion.identity);
+            _gunEndPoint = gunEndPoint;
 
-            Vector3 shootDir = gunEndPoint.transform.forward;
-            
-            bulletGameObject.GetComponent<Bullet>().Setup(shootDir);
+            Get();
         }
     }
 }

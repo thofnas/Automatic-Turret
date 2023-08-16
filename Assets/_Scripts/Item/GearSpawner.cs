@@ -6,9 +6,9 @@ using Random = UnityEngine.Random;
 
 namespace Item
 {
-    public class ItemSpawner : PoolerBase<Item>
+    public class GearSpawner : PoolerBase<Gear>
     {
-        [SerializeField] private Item _itemPrefab;
+        [SerializeField] private Gear _gearPrefab;
         [SerializeField, Range(0F, 10F)] private float _minDistance = 1F;
         [SerializeField, Range(0.1F, 10F)] private float _maxDistance = 3F;
         [SerializeField, Range(0.1F, 10F)] private float _durationOfMoving = 2F;
@@ -21,16 +21,16 @@ namespace Item
         private void Start()
         {
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
-            GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnDestroyed);
+            GameEvents.OnEnemyKilled.AddListener(GameEvents_Enemy_OnKilled);
         }
 
         private void OnDestroy()
         {
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
-            GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnDestroyed);
+            GameEvents.OnEnemyKilled.RemoveListener(GameEvents_Enemy_OnKilled);
         }
 
-        private void DropItems(int amount)
+        private void DropGears(int amount)
         {
             for (int i = 0; i < amount; i++)
             {
@@ -38,15 +38,16 @@ namespace Item
             }
         }
         
-        protected override Item CreateSetup() => Instantiate(_itemPrefab, _spawnPosition, Quaternion.identity);
+        protected override Gear CreateSetup() => Instantiate(_gearPrefab, _spawnPosition, Quaternion.identity);
 
-        protected override void GetSetup(Item item) {
-            base.GetSetup(item);
+        protected override void GetSetup(Gear gear) {
+            base.GetSetup(gear);
 
-            item.transform.position = _spawnPosition;
-            item.ResetItemProperties();
+            gear.transform.rotation = Quaternion.identity;
+            gear.transform.position = _spawnPosition;
+            gear.ResetItemProperties();
             
-            item.SetPool(Pool);
+            gear.SetPool(Pool);
             
             Vector3 targetPosition = Utilities.GetRandomPositionAtDistance(_spawnPosition, _minDistance, _maxDistance);
 
@@ -55,34 +56,27 @@ namespace Item
             else
                 targetPosition.y = GameManager.Instance.GroundTransform.position.y;
 
-            item.transform.DOMoveX(targetPosition.x, _durationOfMoving).SetEase(_easeXZ);
-            item.transform.DOMoveZ(targetPosition.z, _durationOfMoving).SetEase(_easeXZ);
-            item.transform.DOMoveY(targetPosition.y, _durationOfMoving).SetEase(_easeY);
-            item.transform.DORotate(Random.rotation.eulerAngles, _durationOfMoving * 0.5f, RotateMode.FastBeyond360).OnComplete(() =>
+            gear.transform.DOMoveX(targetPosition.x, _durationOfMoving).SetEase(_easeXZ);
+            gear.transform.DOMoveZ(targetPosition.z, _durationOfMoving).SetEase(_easeXZ);
+            gear.transform.DOMoveY(targetPosition.y, _durationOfMoving).SetEase(_easeY);
+            gear.transform.DORotate(Random.rotation.eulerAngles, _durationOfMoving * 0.5f, RotateMode.FastBeyond360).OnComplete(() =>
             {
-                item.transform.DORotate(Quaternion.identity.eulerAngles, _durationOfMoving * 0.5f);
+                gear.transform.DORotate(Quaternion.identity.eulerAngles, _durationOfMoving * 0.5f);
             });
-        }
-
-        protected override void ReleaseSetup(Item item)
-        {
-            base.ReleaseSetup(item);
-            item.transform.rotation = Quaternion.identity;
         }
         
         private void GameEvents_Wave_OnStarted()
         {
             int amountOfGears = WaveManager.Instance.AmountOfGearsInCurrentWave;
-            print(amountOfGears);
             
-            InitPool(_itemPrefab, Mathf.FloorToInt(amountOfGears * 0.5f), amountOfGears);
+            InitPool(_gearPrefab, Mathf.FloorToInt(amountOfGears * 0.5f), amountOfGears);
         }
         
-        private void GameEvents_Enemy_OnDestroyed(Enemy.Enemy enemy)
+        private void GameEvents_Enemy_OnKilled(Enemy.Enemy enemy)
         {
             _spawnPosition = enemy.transform.position;
 
-            DropItems(enemy.GearsToDrop);
+            DropGears(enemy.GearsToDrop);
         }
     }
 }
