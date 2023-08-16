@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Interfaces;
 using Managers;
@@ -8,7 +7,6 @@ using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
-    private const float BULLET_SPEED = 5f;
     private const float LIFE_TIME = 3f;
     private Vector3 _shootDir;
     private IObjectPool<Bullet> _pool;
@@ -28,11 +26,13 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator MoveBulletRoutine()
     {
+        float bulletSpeed = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletSpeed);
+        
         float timePassed = 0;
 
         while (timePassed < LIFE_TIME)
         {
-            transform.position += _shootDir * (Time.deltaTime * BULLET_SPEED);
+            transform.position += _shootDir * (Time.deltaTime * bulletSpeed);
             timePassed += Time.deltaTime;
             yield return null;
         }

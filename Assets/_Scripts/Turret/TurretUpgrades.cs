@@ -87,6 +87,7 @@ namespace Turret
         AmountOfHealth,
         ViewRange,
         ReloadSpeed,
-        BulletDamage
+        BulletDamage,
+        BulletSpeed
     }
 }

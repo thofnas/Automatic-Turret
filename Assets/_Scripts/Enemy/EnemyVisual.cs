@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using CustomEventArgs;
+using DG.Tweening;
 using Events;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Enemy
             GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
         }
 
-        private void GameEvents_Enemy_OnDamaged(Enemy obj)
+        private void GameEvents_Enemy_OnDamaged(OnEnemyDamagedEventArgs onEnemyDamagedEventArgs)
         {
             _enemyMesh.material.DOColor(_damagedColor, ANIMATION_DURATION).SetLoops(1);
         }

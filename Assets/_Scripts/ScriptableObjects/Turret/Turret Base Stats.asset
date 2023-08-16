@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Turret Base Stats
   m_EditorClassIdentifier: Assembly-CSharp:Turret:TurretBaseStats
   TurretBaseStatsDictionary:
-    m_keys: 0000000001000000020000000300000004000000
+    m_keys: 000000000100000002000000030000000400000005000000
     m_values:
     - 10
     - 2
     - 7
     - 1
+    - 5
     - 5

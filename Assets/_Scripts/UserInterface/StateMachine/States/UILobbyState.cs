@@ -22,6 +22,7 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeRotationSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.RotationSpeed));
             Ctx.UpgradeReloadSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.ReloadSpeed));
             Ctx.UpgradeDamageButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.BulletDamage));
+            Ctx.UpgradeBulletSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.BulletSpeed));
             GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
@@ -34,6 +35,7 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeRotationSpeedButton.onClick.RemoveAllListeners();
             Ctx.UpgradeReloadSpeedButton.onClick.RemoveAllListeners();
             Ctx.UpgradeDamageButton.onClick.RemoveAllListeners();
+            Ctx.UpgradeBulletSpeedButton.onClick.RemoveAllListeners();
             GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
@@ -69,6 +71,7 @@ namespace UserInterface.StateMachine.States
             UpdateUpgradeUI(Stat.RotationSpeed, Ctx.RotationSpeedCurrentLevelText, Ctx.RotationSpeedNextLevelPriceText);
             UpdateUpgradeUI(Stat.ReloadSpeed, Ctx.ReloadSpeedCurrentLevelText, Ctx.ReloadSpeedNextLevelPriceText);
             UpdateUpgradeUI(Stat.BulletDamage, Ctx.DamageCurrentLevelText, Ctx.DamageNextLevelPriceText);
+            UpdateUpgradeUI(Stat.BulletSpeed, Ctx.BulletSpeedCurrentLevelText, Ctx.BulletSpeedNextLevelPriceText);
         }
         
         private void UpdateUpgradeUI(Stat stat, TMP_Text currentLevel, TMP_Text nextLevelPrice)

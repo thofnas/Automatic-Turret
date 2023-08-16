@@ -1,4 +1,3 @@
-using System;
 using Events;
 using TMPro;
 using UnityEngine;
@@ -33,6 +32,9 @@ namespace UserInterface.StateMachine
         public Button UpgradeDamageButton;
         public TextMeshProUGUI DamageCurrentLevelText;
         public TextMeshProUGUI DamageNextLevelPriceText;
+        public Button UpgradeBulletSpeedButton;
+        public TextMeshProUGUI BulletSpeedCurrentLevelText;
+        public TextMeshProUGUI BulletSpeedNextLevelPriceText;
         [Header("Wave Results Screen")] 
         [SerializeField] private Transform _waveResultsParentScreenUITransform;
         [SerializeField] private Transform _waveWonScreenUITransform;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CustomEventArgs;
 using DG.Tweening;
 using Events;
 using Interfaces;
@@ -28,6 +29,7 @@ namespace Enemy
         private bool _isRolling;
         
         public int Health { get; private set; }
+        public int MaxHealth { get => _maxHealth; }
         public int GearsToDrop { get => _gearsToDrop; }
 
         private void Start()
@@ -100,7 +102,10 @@ namespace Enemy
             Health -= Mathf.CeilToInt(damage);
             _healthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, Health);
 
-            GameEvents.OnEnemyDamaged.Invoke(this);
+            GameEvents.OnEnemyDamaged.Invoke(new OnEnemyDamagedEventArgs {
+                Enemy = this,
+                DealtDamage = damage
+            });
             
             if (Health > 0) return;
             
