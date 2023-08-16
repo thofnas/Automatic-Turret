@@ -9,8 +9,8 @@ namespace Managers
 {
     public class EnemyManager : Singleton<EnemyManager>
     {
-        public const float MIN_DISTANCE_TO_SPAWN_ENEMY = 2f;
-        public const float MAX_DISTANCE_TO_SPAWN_ENEMY = 4f;
+        public const float MIN_DISTANCE_TO_SPAWN_ENEMY = 1f;
+        public const float MAX_DISTANCE_TO_SPAWN_ENEMY = 3f;
         
         private readonly Dictionary<Guid, Enemy.Enemy> _enemiesInSightList = new();
         private readonly List<Enemy.Enemy> _allEnemiesList = new();

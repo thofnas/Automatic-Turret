@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using Events;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Item
 {
@@ -13,12 +14,15 @@ namespace Item
         private MaterialPropertyBlock _materialPropertyBlock;
         private bool _isPicked;
         private bool _areMaterialsLoaded;
-        
+        private IObjectPool<Item> _pool;
 
-        private void Start()
+
+        private void Awake()
         {
             _materialPropertyBlock = new MaterialPropertyBlock();
         }
+
+        public void SetPool(IObjectPool<Item> pool) => _pool = pool;
 
         public void PickUp()
         {
@@ -31,14 +35,21 @@ namespace Item
 
             transform.DOMoveY(Vector3.up.y, ANIMATION_DURATION)
                 .SetEase(Ease.OutSine)
-                .OnComplete(() => GameEvents.OnItemPickUpAnimationCompleted.Invoke(this))
+                .OnComplete(() => _pool.Release(this))
                 .SetUpdate(true);
-
+            
             DOVirtual.Float(0f, 1f, ANIMATION_DURATION, opacity =>
             {
                 _materialPropertyBlock.SetFloat(Opacity, opacity);
                 _gearMesh.SetPropertyBlock(_materialPropertyBlock);
             }).SetEase(Ease.OutSine).SetUpdate(true);
+        }
+
+        public void ResetItemProperties()
+        {
+            _isPicked = false;
+            _materialPropertyBlock.SetFloat(Opacity, 0f);
+            _gearMesh.SetPropertyBlock(_materialPropertyBlock);
         }
     }
 }

@@ -101,7 +101,7 @@ namespace Enemy
             GameEvents.OnEnemyDamaged.Invoke(this);
             
             if (Health > 0) return;
-            
+
             Destroy(gameObject);
         }
 

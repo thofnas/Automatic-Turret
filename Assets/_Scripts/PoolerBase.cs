@@ -13,7 +13,7 @@ public abstract class PoolerBase<T> : MonoBehaviour where T : MonoBehaviour
     private T _prefab;
     private ObjectPool<T> _pool;
 
-    private ObjectPool<T> Pool {
+    public ObjectPool<T> Pool {
         get {
             if (_pool == null) throw new InvalidOperationException("You need to call InitPool before using it.");
             return _pool;

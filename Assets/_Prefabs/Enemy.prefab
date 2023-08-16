@@ -395,7 +395,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5155054147113448330}
   - component: {fileID: -5276530449521385806}
-  - component: {fileID: 5475894058590580856}
   - component: {fileID: 4629640642851035293}
   - component: {fileID: 202983595681881899}
   m_Layer: 7
@@ -437,28 +436,9 @@ MonoBehaviour:
   _maxHealth: 10
   _rollSpeed: 1
   _rollDelayInSeconds: 2
+  _gearsToDrop: 5
   _enemyVisual: {fileID: 542835373491071807}
   _healthBarFillImage: {fileID: 1806279408625695878}
---- !u!114 &5475894058590580856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6918403545300865139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43093c3b697fc84428a6bea4738808ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 1238903288641990261, guid: 28c3060e59db7ed41ae5e93b8c946c79,
-    type: 3}
-  _itemSpawnQuantity: 1
-  _minDistance: 1.5
-  _maxDistance: 3
-  _durationOfMoving: 0.6
-  _easeXZ: 32
-  _easeY: 30
 --- !u!65 &4629640642851035293
 BoxCollider:
   m_ObjectHideFlags: 0

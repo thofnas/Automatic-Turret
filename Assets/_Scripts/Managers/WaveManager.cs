@@ -50,7 +50,10 @@ namespace Managers
             {
                 subWave.EnemiesData.ForEach(data =>
                 {
-                    total += data.EnemyPrefab.GearsToDrop;
+                    for (int i = 0; i < data.EnemyQuantity; i++)
+                    {
+                        total += data.EnemyPrefab.GearsToDrop;
+                    }
                 });
             });
 

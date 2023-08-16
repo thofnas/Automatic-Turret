@@ -37,7 +37,6 @@ namespace Events {
         #endregion
         
         public static readonly EventRecorder OnItemPicked = new();
-        public static readonly EventRecorder<Item.Item> OnItemPickUpAnimationCompleted = new();
         public static readonly EventRecorder OnTotalGearAmountChanged = new();
         public static readonly EventRecorder OnCollectedGearAmountChanged = new();
     }

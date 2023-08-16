@@ -17,7 +17,6 @@ namespace Item
         [SerializeField] private Ease _easeY = Ease.OutBounce;
 
         private Vector3 _spawnPosition = Vector3.zero;
-        
 
         private void Start()
         {
@@ -31,9 +30,8 @@ namespace Item
             GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnDestroyed);
         }
 
-        public void DropItems(int amount, Vector3 spawnPos)
+        private void DropItems(int amount)
         {
-            _spawnPosition = spawnPos;
             for (int i = 0; i < amount; i++)
             {
                 Get();
@@ -44,6 +42,11 @@ namespace Item
 
         protected override void GetSetup(Item item) {
             base.GetSetup(item);
+
+            item.transform.position = _spawnPosition;
+            item.ResetItemProperties();
+            
+            item.SetPool(Pool);
             
             Vector3 targetPosition = Utilities.GetRandomPositionAtDistance(_spawnPosition, _minDistance, _maxDistance);
 
@@ -73,14 +76,13 @@ namespace Item
             print(amountOfGears);
             
             InitPool(_itemPrefab, Mathf.FloorToInt(amountOfGears * 0.5f), amountOfGears);
-            
-            print("wave started");
         }
-        
         
         private void GameEvents_Enemy_OnDestroyed(Enemy.Enemy enemy)
         {
-            DropItems(enemy.GearsToDrop, enemy.transform.position);
+            _spawnPosition = enemy.transform.position;
+
+            DropItems(enemy.GearsToDrop);
         }
     }
 }

@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _gearsToDrop
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
@@ -88,7 +88,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBasic
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5475894058590580856, guid: 806f5c979983afd4f82bde77fe498c53, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
