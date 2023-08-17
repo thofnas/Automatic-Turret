@@ -39,10 +39,7 @@ namespace Turret
         private void GameEvents_TurretOnShoot(Transform gunEndPoint)
         {
             _gunEndPoint = gunEndPoint;
-            print(Pool.GetType());
-
             Get();
-            print(Pool.GetType());
         }
     }
 }

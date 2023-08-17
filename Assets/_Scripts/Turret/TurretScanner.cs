@@ -13,7 +13,7 @@ namespace Turret
         {
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Turret_OnStatUpgrade);
             _scannerCollider = gameObject.GetComponent<SphereCollider>();
-            _scannerCollider.radius = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange) / 20f;
+            SetRadius();
         }
         
         private void OnDestroy()
@@ -37,10 +37,12 @@ namespace Turret
             }
         }
 
+        private void SetRadius() => _scannerCollider.radius = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange) / 20f;
+
         private void GameEvents_Turret_OnStatUpgrade(OnStatUpgradeEventArgs obj)
         {
             if (obj.Stat.Equals(Stat.ViewRange))
-                _scannerCollider.radius = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange);
+                SetRadius();
         }
     }
 }

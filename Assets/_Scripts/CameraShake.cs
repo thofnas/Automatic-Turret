@@ -27,6 +27,7 @@ public class CameraShake : MonoBehaviour
         GameEvents.OnTurretShoot.AddListener(GameEvents_Turret_OnShoot);
         GameEvents.OnEnemyDamaged.AddListener(GameEvents_Enemy_OnDamaged);
         GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnDestroyed);
+        GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
     }
 
     private void OnDestroy()
@@ -34,6 +35,7 @@ public class CameraShake : MonoBehaviour
         GameEvents.OnTurretShoot.RemoveListener(GameEvents_Turret_OnShoot);
         GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
         GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnDestroyed);
+        GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
     }
 
     private IEnumerator ShakeCamera(float intensity)
@@ -72,4 +74,6 @@ public class CameraShake : MonoBehaviour
     {
         StartCoroutine(ShakeCamera(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletSpeed) * 0.5f));
     }
+    
+    private void GameEvents_Turret_OnDamaged() => StartCoroutine(ShakeCamera(2f));
 }

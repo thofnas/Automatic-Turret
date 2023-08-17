@@ -32,10 +32,16 @@ namespace Turret.StateMachine.States
         public override void CheckSwitchStates()
         {
             if (!EnemyManager.Instance.HasEnemyInSight())
+            {
                 SwitchState(Factory.Idle());
+                return;
+            }
 
             if (Ctx.IsEnemyInFront(_closestEnemy) && !Ctx.IsAiming)
+            {
                 SwitchState(Factory.Shooting());
+                return;
+            }
 
             if (Ctx.IsDestroyed)
                 SwitchState(Factory.Destroyed());

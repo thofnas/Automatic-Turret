@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using CustomEventArgs;
 using Events;
+using Turret;
 using UnityEngine;
+using UnityEngine.Internal;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Managers
@@ -12,23 +15,34 @@ namespace Managers
         [Serializable] public class GameSounds : SerializableDictionary<Sounds, AudioClips> {}
         [SerializeField] private GameSounds _gameSoundsDictionary = new();
 
-        private GameObject _playOneShot;
-        private AudioSource _audioSource;
-
         public void Initialize()
         {
             GameEvents.OnTurretShoot.AddListener(GameEvents_Turret_OnShoot);
+            GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
             GameEvents.OnEnemyDamaged.AddListener(GameEvents_Enemy_OnDamaged);
             GameEvents.OnItemPicked.AddListener(GameEvents_Item_OnPicked);
             GameEvents.OnEnemySpawned.AddListener(GameEvents_Enemy_OnSpawned);
+            GameEvents.OnEnemyKilled.AddListener(GameEvents_Enemy_OnKilled);
+            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
+            UIEvents.OnUpgradeButtonClicked.AddListener(UIEvents_OnButtonClicked);
+            UIEvents.OnResetUpgradesButtonClicked.AddListener(UIEvents_OnButtonClicked);
+            UIEvents.OnStartWaveButtonClicked.AddListener(UIEvents_OnButtonClicked);
+            UIEvents.OnReturnToLobbyButtonClicked.AddListener(UIEvents_OnButtonClicked);
         }
 
         private void OnDestroy()
         {
             GameEvents.OnTurretShoot.RemoveListener(GameEvents_Turret_OnShoot);
+            GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
             GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
             GameEvents.OnItemPicked.RemoveListener(GameEvents_Item_OnPicked);
             GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnSpawned);
+            GameEvents.OnEnemyKilled.RemoveListener(GameEvents_Enemy_OnKilled);
+            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
+            UIEvents.OnUpgradeButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
+            UIEvents.OnResetUpgradesButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
+            UIEvents.OnStartWaveButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
+            UIEvents.OnReturnToLobbyButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
         }
 
         private AudioClip GetAudioClip(Sounds sound)
@@ -42,43 +56,55 @@ namespace Managers
     
         private void PlaySound(Sounds sound, float volume = 1f)
         {
-            if (_playOneShot == null)
-            {
-                _playOneShot = new GameObject("Sound");
-                _audioSource = _playOneShot.AddComponent<AudioSource>();
-            }
+            var oneShotGameObject = new GameObject("Sound");
+            var audioSource = oneShotGameObject.AddComponent<AudioSource>();
 
             volume = Mathf.Clamp(volume, 0f, 1f);
 
-            _audioSource.PlayOneShot(GetAudioClip(sound), volume);
+            audioSource.clip = GetAudioClip(sound);
+            audioSource.volume = volume;
+            audioSource.Play();
+            Destroy(oneShotGameObject, audioSource.clip.length);
         }
         
         private void PlaySound(Sounds sound, Vector3 position, float volume = 1f)
         {
-            if (_playOneShot == null)
-            {
-                _playOneShot = new GameObject("Sound");
-                _audioSource = _playOneShot.AddComponent<AudioSource>();
-            }
-            
-            _playOneShot.transform.position = position;
+            var oneShotGameObject = new GameObject("Sound");
+            var audioSource = oneShotGameObject.AddComponent<AudioSource>();
+
+            oneShotGameObject.transform.position = position;
 
             volume = Mathf.Clamp(volume, 0f, 1f);
 
-            _audioSource.clip = GetAudioClip(sound);
-            _audioSource.volume = volume;
-            _audioSource.Play();
+            audioSource.clip = GetAudioClip(sound);
+            audioSource.maxDistance = 100f;
+            audioSource.spatialBlend = 0.5f;
+            audioSource.rolloffMode = AudioRolloffMode.Linear;
+            audioSource.dopplerLevel = 0f;
+            audioSource.volume = volume;
+            audioSource.Play();
+            Destroy(oneShotGameObject, audioSource.clip.length);
         }
-        
-        
+
         private void GameEvents_Turret_OnShoot(Transform turret) => PlaySound(Sounds.TurretShoot);
 
-        private void GameEvents_Enemy_OnDamaged(OnEnemyDamagedEventArgs obj) => PlaySound(Sounds.EnemyDamaged, obj.Enemy.transform.position, 0.2f);
+        private void GameEvents_Enemy_OnDamaged(OnEnemyDamagedEventArgs obj) => PlaySound(Sounds.EnemyDamaged, obj.Enemy.transform.position);
         
-        private void GameEvents_Item_OnPicked() => PlaySound(Sounds.ItemPicked, 0.5f);
+        private void GameEvents_Item_OnPicked() => PlaySound(Sounds.ItemPicked, 0.6f);
 
-        private void GameEvents_Enemy_OnSpawned(Enemy.Enemy enemy) => PlaySound(Sounds.EnemySpawned, enemy.transform.position, 0.5f);
+        private void GameEvents_Enemy_OnSpawned(Enemy.Enemy enemy) => PlaySound(Sounds.EnemySpawned, enemy.transform.position, 0.3f);
+        
+        private void GameEvents_Enemy_OnKilled(Enemy.Enemy enemy) => PlaySound(Sounds.EnemyKilled, enemy.transform.position);
+
+        private void GameEvents_Turret_OnDamaged() => PlaySound(Sounds.TurretDamaged);
+    
+        private void GameEvents_Wave_OnStarted() => PlaySound(Sounds.WaveStarted, 0.2f);
+        
+        private void UIEvents_OnButtonClicked(Stat stat) => PlaySound(Sounds.ButtonClick);
+
+        private void UIEvents_OnButtonClicked() => PlaySound(Sounds.ButtonClick);
     }
+    
 
     [Serializable]
     public class AudioClips
@@ -89,8 +115,9 @@ namespace Managers
     public enum Sounds
     {
         TurretShoot,
+        TurretDamaged,
         EnemyDamaged,
-        EnemyDestroyed,
+        EnemyKilled,
         ItemPicked,
         EnemySpawned,
         ButtonClick,

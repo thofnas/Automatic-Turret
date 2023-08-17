@@ -28,17 +28,17 @@ namespace Turret.StateMachine.States
             if (!EnemyManager.Instance.HasEnemyInSight())
             {
                 SwitchState(Factory.Idle());
+                return;
             }
 
             if (!Ctx.IsEnemyInFront())
             {
                 SwitchState(Factory.Aiming());
+                return;
             }
             
-            if (Ctx.IsDestroyed)
-            {
+            if (Ctx.IsDestroyed) 
                 SwitchState(Factory.Destroyed());
-            }
         }
 
         private void ShootHandler()
