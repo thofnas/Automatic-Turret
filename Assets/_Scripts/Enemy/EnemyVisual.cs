@@ -1,6 +1,4 @@
-﻿using CustomEventArgs;
-using DG.Tweening;
-using Events;
+﻿using DG.Tweening;
 using UnityEngine;
 
 namespace Enemy
@@ -10,24 +8,33 @@ namespace Enemy
     {
         [SerializeField] private Color _damagedColor;
 
-        private const float ANIMATION_DURATION = 0.1f;
+        private const float ANIMATION_DURATION = 0.2f;
         private MeshRenderer _enemyMesh;
+        private Color _originalColor;
         private MaterialPropertyBlock _materialPropertyBlock;
+        private static readonly int ColorProp = Shader.PropertyToID("_EmissionColor");
+
+        private void Awake()
+        {
+            _materialPropertyBlock = new MaterialPropertyBlock();
+        }
         
         private void Start()
         {
             _enemyMesh = GetComponent<MeshRenderer>();
-            GameEvents.OnEnemyDamaged.AddListener(GameEvents_Enemy_OnDamaged);
+            _originalColor = _enemyMesh.material.GetColor(ColorProp);
         }
 
-        private void OnDestroy()
+        public void ApplyFlashEffect()
         {
-            GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
-        }
+            _materialPropertyBlock.SetColor(ColorProp, _damagedColor);
+            _enemyMesh.SetPropertyBlock(_materialPropertyBlock);
 
-        private void GameEvents_Enemy_OnDamaged(OnEnemyDamagedEventArgs onEnemyDamagedEventArgs)
-        {
-            _enemyMesh.material.DOColor(_damagedColor, ANIMATION_DURATION).SetLoops(1);
+            DOVirtual.Color(_damagedColor, _originalColor, ANIMATION_DURATION, color =>
+            {
+                _materialPropertyBlock.SetColor(ColorProp, color);
+                _enemyMesh.SetPropertyBlock(_materialPropertyBlock);
+            });
         }
     }
 }

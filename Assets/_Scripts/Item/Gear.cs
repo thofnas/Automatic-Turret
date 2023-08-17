@@ -13,7 +13,6 @@ namespace Item
         [SerializeField] private MeshRenderer _gearMesh;
         private MaterialPropertyBlock _materialPropertyBlock;
         private bool _isPicked;
-        private bool _areMaterialsLoaded;
         private IObjectPool<Gear> _pool;
         
         private void Awake()

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using CustomEventArgs;
-using DG.Tweening;
 using Events;
 using Interfaces;
 using Item;
@@ -20,7 +19,7 @@ namespace Enemy
         [SerializeField, Min(0F)] private float _rollSpeed = 1F;
         [SerializeField, Min(0F)] private float _rollDelayInSeconds = 2F;
         [SerializeField, Min(0)] private int _gearsToDrop = 5;
-        [SerializeField] private Transform _enemyVisual;
+        [SerializeField] private EnemyVisual _enemyVisual;
         [SerializeField] private Image _healthBarFillImage;
 
         private GearSpawner _gearSpawner;
@@ -64,7 +63,7 @@ namespace Enemy
             {
                 Vector3 vector3 = Quaternion.AngleAxis(_rollSpeed, axis) * (transform.position - anchorPoint);
                 transform.position = anchorPoint + vector3;
-                _enemyVisual.Rotate(Vector3.right, _rollSpeed);
+                _enemyVisual.transform.Rotate(Vector3.right, _rollSpeed);
                 yield return new WaitForSeconds(0.01F);
             }
         
@@ -98,7 +97,7 @@ namespace Enemy
         }
 
         public void ApplyDamage(float damage)
-        {
+        { 
             Health -= Mathf.CeilToInt(damage);
             _healthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, Health);
 
@@ -106,9 +105,11 @@ namespace Enemy
                 Enemy = this,
                 DealtDamage = damage
             });
+
+            _enemyVisual.ApplyFlashEffect();
             
             if (Health > 0) return;
-            
+
             Kill();
         }
 

@@ -8,18 +8,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyFast
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: efebbb8b546902545bb3f170a9722ba0,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _EMISSION
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -103,6 +102,7 @@ Material:
     - _Metallic: 0.5
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.3
@@ -115,8 +115,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.81960785, g: 0.7784665, b: 0.34509805, a: 1}
-    - _Color: {r: 0.81960785, g: 0.77846646, b: 0.34509802, a: 1}
-    - _EmissionColor: {r: 0.18039216, g: 0.16180296, b: 0.023529407, a: 1}
+    - _Color: {r: 0.764151, g: 0.7292977, b: 0.34242615, a: 1}
+    - _EmissionColor: {r: 0.8490566, g: 0.7757494, b: 0.27634388, a: 1}
+    - _EmmisionColor: {r: 0.9622642, g: 0.92062557, b: 0.45843717, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &571480049773482827
