@@ -24,14 +24,14 @@ public class CameraShake : MonoBehaviour
 
     private void Start()
     {
-        GameEvents.TurretOnShoot.AddListener(GameEvents_Turret_OnShoot);
+        GameEvents.OnTurretShoot.AddListener(GameEvents_Turret_OnShoot);
         GameEvents.OnEnemyDamaged.AddListener(GameEvents_Enemy_OnDamaged);
         GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnDestroyed);
     }
 
     private void OnDestroy()
     {
-        GameEvents.TurretOnShoot.RemoveListener(GameEvents_Turret_OnShoot);
+        GameEvents.OnTurretShoot.RemoveListener(GameEvents_Turret_OnShoot);
         GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
         GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnDestroyed);
     }

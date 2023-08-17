@@ -11,11 +11,11 @@ namespace Turret
 
         public void Initialize()
         {
-            GameEvents.TurretOnShoot.AddListener(GameEvents_TurretOnShoot);
+            GameEvents.OnTurretShoot.AddListener(GameEvents_TurretOnShoot);
             InitPool(_bulletPrefab, 5, 50, true);
         }
 
-        private void OnDestroy() => GameEvents.TurretOnShoot.RemoveListener(GameEvents_TurretOnShoot);
+        private void OnDestroy() => GameEvents.OnTurretShoot.RemoveListener(GameEvents_TurretOnShoot);
         
         protected override Bullet CreateSetup() => Instantiate(_bulletPrefab, _gunEndPoint.position, Quaternion.identity);
         

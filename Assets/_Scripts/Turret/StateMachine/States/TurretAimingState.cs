@@ -18,13 +18,11 @@ namespace Turret.StateMachine.States
         {
             Debug.Log("Entered Aiming State.");
             RotateTowardsClosestEnemy();
-            GameEvents.TurretOnAimStart.Invoke();
             GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
         }
 
         public override void ExitState()
         {
-            GameEvents.TurretOnAimEnd.Invoke();
             GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnEnemyDestroyed);
             if (_aimRoutine != null) Ctx.StopCoroutine(_aimRoutine);
         }
@@ -61,6 +59,8 @@ namespace Turret.StateMachine.States
             float step = rotationSpeed * speedMultiplier * Time.deltaTime;
             Quaternion rotationTarget = Quaternion.LookRotation(targetPosition - Ctx.transform.position);
 
+            GameEvents.TurretOnAimStart.Invoke();
+
             while (Quaternion.Angle(Ctx.transform.rotation, Quaternion.LookRotation(targetPosition - Ctx.transform.position)) > TOLERANCE)
             {
                 Quaternion rotation = Quaternion.RotateTowards(Ctx.transform.rotation, rotationTarget, step);
@@ -71,7 +71,9 @@ namespace Turret.StateMachine.States
 
                 yield return null;
             }
-
+            
+            SwitchState(Factory.Shooting());
+            
             GameEvents.TurretOnAimEnd.Invoke();
         }
         private const double TOLERANCE = 0.01F;

@@ -1,4 +1,5 @@
 using System.Linq;
+using Managers;
 using UnityEngine;
 
 namespace Turret.StateMachine
@@ -25,12 +26,21 @@ namespace Turret.StateMachine
         public bool IsEnemyInFront(Enemy.Enemy enemy)
         {
             Vector3 direction = transform.forward; // Get the forward direction of the turret
-            var turretScannerCollider = TurretScanner.GetComponent<Collider>();
-            float maxDistance = turretScannerCollider.bounds.extents.magnitude; // Set the maximum distance to cast the ray
+            float maxDistance = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange); // Set the maximum distance to cast the ray
 
             RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, maxDistance);
 
             return hits.Any(hit => hit.collider.GetComponent<Enemy.Enemy>() == enemy);
+        }
+        
+        public bool IsEnemyInFront()
+        {
+            Vector3 direction = transform.forward; // Get the forward direction of the turret
+            float maxDistance = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange); // Set the maximum distance to cast the ray
+
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, maxDistance);
+
+            return hits.Any(hit => hit.collider.GetComponent<Enemy.Enemy>());
         }
 
         public Transform GetTransform() => transform;

@@ -13,6 +13,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private TurretShootProjectiles _turretShootProjectiles;
     [SerializeField] private WaveManager _waveManager;
+    [SerializeField] private SoundManager _soundManager;
 
     // execution order
     private void Awake()
@@ -24,5 +25,6 @@ public class Bootstrap : MonoBehaviour
         _turretStateMachine.Initialize();
         _turretShootProjectiles.Initialize();
         _uiStateMachine.Initialize();
+        _soundManager.Initialize();
     }
 }

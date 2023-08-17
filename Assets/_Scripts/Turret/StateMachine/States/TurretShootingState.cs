@@ -30,7 +30,7 @@ namespace Turret.StateMachine.States
                 SwitchState(Factory.Idle());
             }
 
-            if (!Ctx.IsEnemyInFront(EnemyManager.Instance.GetClosestSpottedEnemy()))
+            if (!Ctx.IsEnemyInFront())
             {
                 SwitchState(Factory.Aiming());
             }
@@ -47,7 +47,7 @@ namespace Turret.StateMachine.States
             if (Ctx.IsReloading) return;
             if (Ctx.IsAiming) return;
 
-            GameEvents.TurretOnShoot.Invoke(Ctx.GunEndPoint);
+            GameEvents.OnTurretShoot.Invoke(Ctx.GunEndPoint);
 
             Ctx.StartCoroutine(ReloadGunRoutine());
         }
