@@ -62,8 +62,10 @@ namespace UserInterface.StateMachine.States
         private void UpdateHealthBar()
         {
             int health = GameManager.Instance.TurretStateMachine.TurretHealth;
-            Ctx.HealthBarForegroundTransform.sizeDelta = new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
-            Ctx.HealthBarForegroundTransform.anchoredPosition = new Vector2(_maxHealth * Ctx.HealthBarOneHPPosition, Ctx.HealthBarForegroundTransform.anchoredPosition.y);
+            Ctx.HealthBarForegroundTransform.sizeDelta = 
+                new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
+            Ctx.HealthBarForegroundTransform.anchoredPosition = 
+                new Vector2(_maxHealth * Ctx.HealthBarOneHPPosition, Ctx.HealthBarForegroundTransform.anchoredPosition.y);
 
             Ctx.HealthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, health);
         }
