@@ -55,13 +55,18 @@ namespace Managers
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
             GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
-            GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Stats_OnUpgrade);
+            UIEvents.OnResetUpgradesButtonClicked.AddListener(UIEvents_ResetButtonClicked);
         }
 
         public void Start()
         {
             TotalGearAmount = _startingMoneyAmount;
+            int allUpgradesPrice = UpgradeManager.Instance.GetPriceForAllUpgrades();
+            int allGearsFromWaves = WaveManager.Instance.GetAmountOfGearsFromAllWaves();
+            
+            if (allUpgradesPrice > allGearsFromWaves)
+                Debug.LogWarning($"Amount of gears from waves ({allGearsFromWaves}) is lower than a price for all upgrades ({allUpgradesPrice})");
         }
 
         private void OnDestroy()
@@ -70,11 +75,10 @@ namespace Managers
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
             GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
-            GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
             GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Stats_OnUpgrade);
+            UIEvents.OnResetUpgradesButtonClicked.RemoveListener(UIEvents_ResetButtonClicked);
         }
-
-
+        
         private void GameEvents_Item_OnItemPicked() => CollectedGearAmount++;
 
         private void GameEvents_Wave_OnStarted() => IsPlaying = true;
@@ -88,9 +92,12 @@ namespace Managers
 
         private void GameEvents_Wave_OnLost() => CollectedGearAmount = 0;
         
-        private void GameEvents_Wave_OnWon()
+        
+        private void UIEvents_ResetButtonClicked()
         {
-
+            UpgradeManager.Instance.ResetAllUpgrades(out int refund);
+            TotalGearAmount += refund;
+            GameEvents.OnTurretStatsReset.Invoke(refund);
         }
 
         private void GameEvents_Stats_OnUpgrade(OnStatUpgradeEventArgs upgrade) => TotalGearAmount -= upgrade.Price;

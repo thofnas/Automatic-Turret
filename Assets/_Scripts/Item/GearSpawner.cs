@@ -17,17 +17,20 @@ namespace Item
         [SerializeField] private Ease _easeY = Ease.OutBounce;
 
         private Vector3 _spawnPosition = Vector3.zero;
+        private bool _isDroppingItemsLocked;
 
         private void Start()
         {
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
             GameEvents.OnEnemyKilled.AddListener(GameEvents_Enemy_OnKilled);
+            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
         }
 
         private void OnDestroy()
         {
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
             GameEvents.OnEnemyKilled.RemoveListener(GameEvents_Enemy_OnKilled);
+            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
         }
 
         private void DropGears(int amount)
@@ -67,15 +70,24 @@ namespace Item
         
         private void GameEvents_Wave_OnStarted()
         {
+            _isDroppingItemsLocked = false;
             int amountOfGears = WaveManager.Instance.AmountOfGearsInCurrentWave;
             InitPool(_gearPrefab, Mathf.FloorToInt(amountOfGears * 0.5f), amountOfGears);
         }
         
         private void GameEvents_Enemy_OnKilled(Enemy.Enemy enemy)
         {
+            if (_isDroppingItemsLocked) return;
+            
             _spawnPosition = enemy.transform.position;
 
             DropGears(enemy.GearsToDrop);
+        }
+        
+        private void GameEvents_Wave_OnLost()
+        {
+            _isDroppingItemsLocked = true;
+            Pool.Clear();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Events;
+using Managers;
 using UnityEngine;
 
 namespace UserInterface.StateMachine.States
@@ -11,7 +12,13 @@ namespace UserInterface.StateMachine.States
         {
             PrepareElementsForAnimation();
             UIEvents.OnResultsScreenClosed.AddListener(UIEvents_Results_OnScreenClosed);
-            Ctx.ReturnToLobbyButton.onClick.AddListener(() => UIEvents.OnReturnToLobbyButtonClicked.Invoke());
+            GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_OnCollectedGearAmountChanged);
+            Ctx.ReturnToLobbyButton.onClick.AddListener(() =>
+            {
+                GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_OnCollectedGearAmountChanged);
+                UIEvents.OnReturnToLobbyButtonClicked.Invoke();
+            });
+            Ctx.CollectedGearsAmountInResults.text = GameManager.Instance.CollectedGearAmount.ToString();
         }
 
         public override void ExitState()
@@ -49,10 +56,12 @@ namespace UserInterface.StateMachine.States
             // btnColor = new Color(btnColor.r, btnColor.g, btnColor.b, Color.clear.a);
             // ReturnToLobbyButton.GetComponent<Image>().color = btnColor;
             // btnText.color = Color.clear;
-            Ctx.WaveWonText.color = Color.clear;
-            Ctx.WaveLostText.color = Color.clear;
         }
         
+        
+        private void GameEvents_OnCollectedGearAmountChanged() =>
+            Ctx.CollectedGearsAmountInResults.text = GameManager.Instance.CollectedGearAmount.ToString();
+
         private void UIEvents_Results_OnScreenClosed() => SwitchState(Factory.UILobby());
     }
 }

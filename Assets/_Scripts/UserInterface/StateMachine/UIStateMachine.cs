@@ -8,15 +8,18 @@ namespace UserInterface.StateMachine
     public class UIStateMachine : MonoBehaviour
     {
         [Header("Play Screen")]
-        [SerializeField] private Transform _playScreenUITransform;
-        public TextMeshProUGUI HealthText;
+        [SerializeField] private RectTransform _playScreenUITransform;
+        public Image HealthBarFillImage;
+        public RectTransform HealthBarForegroundTransform;
         public TextMeshProUGUI CurrentSubWaveCount;
         public TextMeshProUGUI CollectedGearsAmount;
         [Header("Lobby Screen")]
-        [SerializeField] private Transform _lobbyScreenUITransform;
+        [SerializeField] private RectTransform _lobbyScreenUITransform;
         public TextMeshProUGUI CurrentWaveCount;
         public TextMeshProUGUI TotalGearsCount;
         public Button StartWaveButton;
+        public Button ResetStatsButton;
+        public Button ExitGameButton;
         public Button UpgradeHealthButton;
         public TextMeshProUGUI HealthCurrentLevelText;
         public TextMeshProUGUI HealthNextLevelPriceText;
@@ -36,19 +39,23 @@ namespace UserInterface.StateMachine
         public TextMeshProUGUI BulletSpeedCurrentLevelText;
         public TextMeshProUGUI BulletSpeedNextLevelPriceText;
         [Header("Wave Results Screen")] 
-        [SerializeField] private Transform _waveResultsParentScreenUITransform;
-        [SerializeField] private Transform _waveWonScreenUITransform;
-        [SerializeField] private Transform _waveLostScreenUITransform;
+        [SerializeField] private RectTransform _waveResultsParentScreenUITransform;
+        [SerializeField] private RectTransform _waveWonScreenUITransform;
+        [SerializeField] private RectTransform _waveLostScreenUITransform;
         public Button ReturnToLobbyButton;
         public TextMeshProUGUI WaveWonText;
         public TextMeshProUGUI WaveLostText;
+        public TextMeshProUGUI CollectedGearsAmountInResults;
 
         //get/set
-        public Transform PlayScreenUITransform { get => _playScreenUITransform; }
-        public Transform LobbyScreenUITransform { get => _lobbyScreenUITransform; }
-        public Transform WaveResultsParentScreenUITransform { get => _waveResultsParentScreenUITransform; }
-        public Transform WaveWonScreenUITransform { get => _waveWonScreenUITransform; }
-        public Transform WaveLostScreenUITransform { get => _waveLostScreenUITransform; }
+        public RectTransform PlayScreenUITransform { get => _playScreenUITransform; }
+        public RectTransform LobbyScreenUITransform { get => _lobbyScreenUITransform; }
+        public RectTransform WaveResultsParentScreenUITransform { get => _waveResultsParentScreenUITransform; }
+        public RectTransform WaveWonScreenUITransform { get => _waveWonScreenUITransform; }
+        public RectTransform WaveLostScreenUITransform { get => _waveLostScreenUITransform; }
+        
+        public float HealthBarOneHPSize { get; private set; }
+        public float HealthBarOneHPPosition { get; private set; }
 
         // state variables
         private UIStateFactory _states;
@@ -69,6 +76,8 @@ namespace UserInterface.StateMachine
         {
             GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
+            HealthBarOneHPSize = HealthBarForegroundTransform.sizeDelta.x;
+            HealthBarOneHPPosition = HealthBarForegroundTransform.anchoredPosition.x;
         }
 
         private void OnDestroy()

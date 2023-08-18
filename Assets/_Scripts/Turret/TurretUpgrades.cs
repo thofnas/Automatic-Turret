@@ -39,7 +39,9 @@ namespace Turret
                 Price = upgrade.UpgradePrice
             });
         }
-        
+
+        public IEnumerable<Upgrade> GetAllUpgrades() => _upgradesList;
+
         public bool IsEnoughMoneyForUpgrade()
         {
             TryGetNextUpgrade(out Upgrade upgrade);
@@ -78,7 +80,17 @@ namespace Turret
                 ? _appliedUpgradesList.IndexOf(upgrade) + 1 
                 : 0;
 
-        public void ResetAppliedUpgrades() => _appliedUpgradesList.Clear();
+        public void ResetAppliedUpgrades(out float totalPrice)
+        {
+            float price = 0;
+            _appliedUpgradesList.ForEach(upgrade =>
+            {
+                price += upgrade.UpgradePrice;
+            });
+            
+            totalPrice = price;
+            _appliedUpgradesList.Clear();
+        }
     }
     
     public enum Stat

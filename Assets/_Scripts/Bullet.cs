@@ -19,10 +19,7 @@ public class Bullet : MonoBehaviour
         StartCoroutine(_moveBulletRoutine);
     }
 
-    private void OnDisable()
-    {
-        StopCoroutine(_moveBulletRoutine);
-    }
+    private void OnDisable() => StopCoroutine(_moveBulletRoutine);
 
     private IEnumerator MoveBulletRoutine()
     {
@@ -44,10 +41,7 @@ public class Bullet : MonoBehaviour
 
     public void SetPool(IObjectPool<Bullet> pool) => _pool = pool;
 
-    public void ResetBullet()
-    {
-        _isCollidedWithDamageable = false;
-    }
+    public void ResetBullet() => _isCollidedWithDamageable = false;
 
     private void OnTriggerEnter(Collider bulletCollider)
     {

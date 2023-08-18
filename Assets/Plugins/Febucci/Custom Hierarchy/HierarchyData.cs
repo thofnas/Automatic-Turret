@@ -1,9 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Febucci.HierarchyData
+#if (UNITY_EDITOR) 
+
+namespace Plugins.Febucci.Custom_Hierarchy
 {
-    public class HierarchyData : ScriptableObject
+public class HierarchyData : ScriptableObject
     {
         public bool enabled = true;
         
@@ -138,3 +140,4 @@ namespace Febucci.HierarchyData
         }
     }
 }
+#endif

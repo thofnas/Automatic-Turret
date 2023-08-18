@@ -16,17 +16,42 @@ namespace Managers
             UIEvents.OnUpgradeButtonClicked.AddListener(UIEvents_Upgrade_OnButtonClicked);
         }
 
-        public void OnDestroy()
+        private void OnDestroy()
         {
             UIEvents.OnUpgradeButtonClicked.RemoveListener(UIEvents_Upgrade_OnButtonClicked);
         }
 
         private void OnApplicationQuit()
         {
+            ResetAllUpgrades(out int _);
+        }
+
+        public int GetPriceForAllUpgrades()
+        {
+            float totalPrice = 0;
+            
             foreach (var allTurretUpgrades in AllTurretUpgradesDictionary)
             {
-                allTurretUpgrades.Value.ResetAppliedUpgrades();
+                foreach (Upgrade upgrade in allTurretUpgrades.Value.GetAllUpgrades())
+                {
+                    totalPrice += upgrade.UpgradePrice;
+                }
             }
+
+            return Mathf.FloorToInt(totalPrice);
+        }
+
+        public void ResetAllUpgrades(out int refund)
+        {
+            float totalRefund = 0;
+            
+            foreach (var allTurretUpgrades in AllTurretUpgradesDictionary)
+            {
+                allTurretUpgrades.Value.ResetAppliedUpgrades(out float priceForStats);
+                totalRefund += priceForStats;
+            }
+
+            refund = Mathf.FloorToInt(totalRefund);
         }
 
         public TurretUpgrades GetUpgradesForStat(Stat stat)

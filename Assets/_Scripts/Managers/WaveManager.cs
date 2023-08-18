@@ -14,7 +14,6 @@ namespace Managers
         public int CurrentSubWaveIDMax { get; private set; }
         public int AmountOfGearsInCurrentWave { get; private set; }
 
-
         public void Initialize()
         {
             GameEvents.OnWaveEnded.AddListener(GameEvents_Waves_OnWaveEnded);
@@ -35,6 +34,19 @@ namespace Managers
         public WaveSO GetCurrentWaveData() => _waves[CurrentWaveID];
 
         public SubWave GetCurrentSubWaveData() => GetCurrentWaveData().SubWaves[CurrentSubWaveID];
+
+        public int GetAmountOfGearsFromAllWaves()
+        {
+            int totalGears = 0;
+            
+            _waves.ForEach(wave =>
+            {
+                totalGears += GetMaxAmountOfGearsFromAWave(wave);
+            });
+
+            return totalGears;
+        }
+        
 
         public void ResetWaveData()
         {
@@ -62,10 +74,7 @@ namespace Managers
         
         private void GameEvents_Waves_OnWaveEnded() => ResetWaveData();
 
-        private void GameEvents_Waves_OnSubWaveEnded()
-        {
-            CurrentSubWaveID++;
-        }
+        private void GameEvents_Waves_OnSubWaveEnded() => CurrentSubWaveID++;
 
         private void GameEvents_Waves_OnWon()
         {

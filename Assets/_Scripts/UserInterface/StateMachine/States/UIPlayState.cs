@@ -1,7 +1,7 @@
-using System.Globalization;
 using Events;
 using Managers;
 using Turret;
+using UnityEngine;
 
 namespace UserInterface.StateMachine.States
 {
@@ -9,6 +9,9 @@ namespace UserInterface.StateMachine.States
     {
         public UIPlayState(UIStateMachine context, UIStateFactory uiStateFactory)
             : base(context, uiStateFactory) { }
+
+        private float _maxHealth;
+        private Vector2 _healthBarSize;
 
         public override void EnterState()
         {
@@ -19,6 +22,10 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_Item_OnCollectedGearAmountChanged);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
             GameEvents.OnWaveWon.AddListener(GameEvents_Wave_OnWon);
+            GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
+            
+            _maxHealth = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.AmountOfHealth);
+            _healthBarSize = new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
         }
 
         public override void ExitState()
@@ -30,6 +37,7 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_Item_OnCollectedGearAmountChanged);
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
             GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
+            GameEvents.OnTurretDamaged.RemoveListener(GameEvents_Turret_OnDamaged);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -42,17 +50,30 @@ namespace UserInterface.StateMachine.States
 
         private void UpdateGameUIText()
         {
+            //
+            // Ctx.CurrentSubWaveCount.text
+            //     = $"{WaveManager.Instance.CurrentSubWaveID + 1} / {WaveManager.Instance.CurrentSubWaveIDMax + 1}";
 
-            Ctx.CurrentSubWaveCount.text
-                = $"{WaveManager.Instance.CurrentSubWaveID + 1} / {WaveManager.Instance.CurrentSubWaveIDMax + 1}";
-
-            Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
+            Ctx.HealthBarForegroundTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _healthBarSize.x);
             
-            Ctx.HealthText.text = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.AmountOfHealth).ToString(CultureInfo.CurrentCulture);
+            Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
         }
 
-        private void GameEvents_Wave_OnWaveStarted() => UpdateGameUIText();
-        
+        private void UpdateHealthBar()
+        {
+            int health = GameManager.Instance.TurretStateMachine.TurretHealth;
+            Ctx.HealthBarForegroundTransform.sizeDelta = new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
+            Ctx.HealthBarForegroundTransform.anchoredPosition = new Vector2(_maxHealth * Ctx.HealthBarOneHPPosition, Ctx.HealthBarForegroundTransform.anchoredPosition.y);
+
+            Ctx.HealthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, health);
+        }
+
+        private void GameEvents_Wave_OnWaveStarted()
+        {
+            UpdateHealthBar();
+            UpdateGameUIText();
+        }
+
         private void GameEvents_Wave_OnWaveEnded()
         {
             UpdateGameUIText();
@@ -69,5 +90,7 @@ namespace UserInterface.StateMachine.States
         private void GameEvents_Wave_OnLost() => SwitchState(Factory.UIResults());
 
         private void GameEvents_Wave_OnWon() => SwitchState(Factory.UIResults());
+
+        private void GameEvents_Turret_OnDamaged() => UpdateHealthBar();
     }
 }

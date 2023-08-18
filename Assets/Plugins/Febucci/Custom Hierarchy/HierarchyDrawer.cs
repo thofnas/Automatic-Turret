@@ -4,7 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Febucci.HierarchyData
+#if (UNITY_EDITOR)
+namespace Plugins.Febucci.Custom_Hierarchy
 {
 
     // Copyright (c) 2020 Federico Bellucci - febucci.com
@@ -702,3 +703,4 @@ namespace Febucci.HierarchyData
         #endregion
     }
 }
+#endif

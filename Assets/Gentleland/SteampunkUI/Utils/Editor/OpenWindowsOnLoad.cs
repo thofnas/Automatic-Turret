@@ -1,11 +1,10 @@
-﻿using UnityEditor;
+﻿using Gentleland.Utils.SteampunkUI;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEditor.Compilation;
 
 // if you want to delete this file delete all Gentleland "Utils" folder 
 // you can then delete GentlelandSettings folder too
-namespace Gentleland.Utils.SteampunkUI
+namespace Gentleland.SteampunkUI.Utils.Editor
 {
     [InitializeOnLoad]
     public static class OpenWindowsOnLoad

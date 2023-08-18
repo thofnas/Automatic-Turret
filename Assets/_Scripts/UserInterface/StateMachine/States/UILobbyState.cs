@@ -3,6 +3,7 @@ using Events;
 using Managers;
 using TMPro;
 using Turret;
+using UnityEngine;
 
 namespace UserInterface.StateMachine.States
 {
@@ -23,6 +24,8 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeReloadSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.ReloadSpeed));
             Ctx.UpgradeDamageButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.BulletDamage));
             Ctx.UpgradeBulletSpeedButton.onClick.AddListener(() => UIEvents.OnUpgradeButtonClicked.Invoke(Stat.BulletSpeed));
+            Ctx.ResetStatsButton.onClick.AddListener(() => UIEvents.OnResetUpgradesButtonClicked.Invoke());
+            Ctx.ExitGameButton.onClick.AddListener(Application.Quit);
             GameEvents.OnTotalGearAmountChanged.AddListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Upgrade_OnStatUpg);
@@ -36,6 +39,8 @@ namespace UserInterface.StateMachine.States
             Ctx.UpgradeReloadSpeedButton.onClick.RemoveAllListeners();
             Ctx.UpgradeDamageButton.onClick.RemoveAllListeners();
             Ctx.UpgradeBulletSpeedButton.onClick.RemoveAllListeners();
+            Ctx.ResetStatsButton.onClick.RemoveAllListeners();
+            Ctx.ExitGameButton.onClick.RemoveAllListeners();
             GameEvents.OnTotalGearAmountChanged.RemoveListener(GameEvents_Item_OnTotalGearAmountChanged);
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnWaveStarted);
             GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Upgrade_OnStatUpg);
