@@ -37,7 +37,7 @@ public abstract class PoolerBase<T> : MonoBehaviour where T : MonoBehaviour
     protected virtual T CreateSetup() => Instantiate(_prefab);
     protected virtual void GetSetup(T obj) => obj.gameObject.SetActive(true);
     protected virtual void ReleaseSetup(T bullet) => bullet.gameObject.SetActive(false);
-    protected virtual void DestroySetup(T obj) => Destroy(obj);
+    protected virtual void DestroySetup(T obj) => Destroy(obj.gameObject);
     #endregion
 
     #region Getters

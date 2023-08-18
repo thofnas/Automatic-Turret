@@ -35,7 +35,7 @@ public class CameraShake : MonoBehaviour
         GameEvents.OnTurretShoot.RemoveListener(GameEvents_Turret_OnShoot);
         GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
         GameEvents.OnEnemyDestroyed.RemoveListener(GameEvents_Enemy_OnDestroyed);
-        GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
+        GameEvents.OnTurretDamaged.RemoveListener(GameEvents_Turret_OnDamaged);
     }
 
     private IEnumerator ShakeCamera(float intensity)

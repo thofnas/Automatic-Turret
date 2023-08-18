@@ -24,13 +24,15 @@ namespace Item
             GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
             GameEvents.OnEnemyKilled.AddListener(GameEvents_Enemy_OnKilled);
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
+            //GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
         }
 
         private void OnDestroy()
         {
             GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
             GameEvents.OnEnemyKilled.RemoveListener(GameEvents_Enemy_OnKilled);
-            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
+            GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
+            //GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
         }
 
         private void DropGears(int amount)
@@ -83,11 +85,10 @@ namespace Item
 
             DropGears(enemy.GearsToDrop);
         }
-        
+
         private void GameEvents_Wave_OnLost()
         {
             _isDroppingItemsLocked = true;
-            Pool.Clear();
         }
     }
 }

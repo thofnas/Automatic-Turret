@@ -1,6 +1,5 @@
 ﻿using Events;
 using Managers;
-using UnityEngine;
 
 namespace UserInterface.StateMachine.States
 {
@@ -10,7 +9,6 @@ namespace UserInterface.StateMachine.States
 
         public override void EnterState()
         {
-            PrepareElementsForAnimation();
             UIEvents.OnResultsScreenClosed.AddListener(UIEvents_Results_OnScreenClosed);
             GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_OnCollectedGearAmountChanged);
             Ctx.ReturnToLobbyButton.onClick.AddListener(() =>
@@ -48,17 +46,7 @@ namespace UserInterface.StateMachine.States
             Ctx.WaveLostScreenUITransform.gameObject.SetActive(false);
             Ctx.WaveWonScreenUITransform.gameObject.SetActive(false);
         }
-        
-        public void PrepareElementsForAnimation()
-        {
-            // Utilities.TryGetComponentInChildren(ReturnToLobbyButton.gameObject, out TextMeshProUGUI btnText, true);
-            // Color btnColor = ReturnToLobbyButton.GetComponent<Image>().color;
-            // btnColor = new Color(btnColor.r, btnColor.g, btnColor.b, Color.clear.a);
-            // ReturnToLobbyButton.GetComponent<Image>().color = btnColor;
-            // btnText.color = Color.clear;
-        }
-        
-        
+
         private void GameEvents_OnCollectedGearAmountChanged() =>
             Ctx.CollectedGearsAmountInResults.text = GameManager.Instance.CollectedGearAmount.ToString();
 

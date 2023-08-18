@@ -4,8 +4,6 @@ using CustomEventArgs;
 using Events;
 using Turret;
 using UnityEngine;
-using UnityEngine.Internal;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Managers
@@ -94,9 +92,9 @@ namespace Managers
 
         private void GameEvents_Enemy_OnSpawned(Enemy.Enemy enemy) => PlaySound(Sounds.EnemySpawned, enemy.transform.position, 0.3f);
         
-        private void GameEvents_Enemy_OnKilled(Enemy.Enemy enemy) => PlaySound(Sounds.EnemyKilled, enemy.transform.position);
+        private void GameEvents_Enemy_OnKilled(Enemy.Enemy enemy) => PlaySound(Sounds.EnemyKilled, enemy.transform.position, 0.5f);
 
-        private void GameEvents_Turret_OnDamaged() => PlaySound(Sounds.TurretDamaged);
+        private void GameEvents_Turret_OnDamaged() => PlaySound(Sounds.TurretDamaged, 0.2f);
     
         private void GameEvents_Wave_OnStarted() => PlaySound(Sounds.WaveStarted, 0.2f);
         

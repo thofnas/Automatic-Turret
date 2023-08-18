@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Events;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -20,6 +21,18 @@ namespace Item
             _materialPropertyBlock = new MaterialPropertyBlock();
         }
 
+        private void OnEnable()
+        {
+            GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
+            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
+        }
+
         public void SetPool(IObjectPool<Gear> pool) => _pool = pool;
 
         public void PickUp()
@@ -31,6 +44,11 @@ namespace Item
 
             GameEvents.OnItemPicked.Invoke();
 
+            AnimateAndRelease();
+        }
+        
+        private void AnimateAndRelease()
+        {
             transform.DOMoveY(Vector3.up.y, ANIMATION_DURATION)
                 .SetEase(Ease.OutSine)
                 .OnComplete(() => _pool.Release(this))
@@ -48,6 +66,16 @@ namespace Item
             _isPicked = false;
             _materialPropertyBlock.SetFloat(Opacity, 0f);
             _gearMesh.SetPropertyBlock(_materialPropertyBlock);
+        }
+        
+        private void GameEvents_Wave_OnLost()
+        {
+            AnimateAndRelease();
+        }
+        
+        private void GameEvents_Wave_OnEnded()
+        {
+            PickUp();
         }
     }
 }
