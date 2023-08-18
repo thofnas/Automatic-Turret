@@ -13,7 +13,6 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnCollectedGearAmountChanged.AddListener(GameEvents_OnCollectedGearAmountChanged);
             Ctx.ReturnToLobbyButton.onClick.AddListener(() =>
             {
-                GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_OnCollectedGearAmountChanged);
                 UIEvents.OnReturnToLobbyButtonClicked.Invoke();
             });
             Ctx.CollectedGearsAmountInResults.text = GameManager.Instance.CollectedGearAmount.ToString();
@@ -22,6 +21,7 @@ namespace UserInterface.StateMachine.States
         public override void ExitState()
         {
             UIEvents.OnResultsScreenClosed.RemoveListener(UIEvents_Results_OnScreenClosed);
+            GameEvents.OnCollectedGearAmountChanged.RemoveListener(GameEvents_OnCollectedGearAmountChanged);
             Ctx.ReturnToLobbyButton.onClick.RemoveAllListeners();
         }
 
@@ -47,8 +47,10 @@ namespace UserInterface.StateMachine.States
             Ctx.WaveWonScreenUITransform.gameObject.SetActive(false);
         }
 
-        private void GameEvents_OnCollectedGearAmountChanged() =>
-            Ctx.CollectedGearsAmountInResults.text = GameManager.Instance.CollectedGearAmount.ToString();
+        private void GameEvents_OnCollectedGearAmountChanged(int collectedGearAmount)
+        {
+            Ctx.CollectedGearsAmountInResults.text = collectedGearAmount.ToString();
+        }
 
         private void UIEvents_Results_OnScreenClosed() => SwitchState(Factory.UILobby());
     }

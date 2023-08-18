@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections;
+using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Events;
@@ -9,14 +10,20 @@ namespace Waves.StateMachine.States
     public class WaitingToFinishWaveState : WaveState
     {
         public WaitingToFinishWaveState(WaveStateMachine currentContext, WaveStateFactory turretStateFactory) : base(currentContext, turretStateFactory) { }
+        
+        private const float TIME_TO_WAIT_FOR_CLOSE_ANIMATION_END = 5f;
 
+        private IEnumerator _proceedToLobbyRoutine;
         private TweenerCore<float, float, FloatOptions> _slowMo;
+        
         public override void EnterState()
         {
             const float timeScaleStopDuration = 0.5f;
             _slowMo = DOTween.To(() => Time.timeScale, x => Time.timeScale = x,  0f, timeScaleStopDuration).SetEase(Ease.Linear);
 
+            UIEvents.OnResultsScreenClosed.AddListener(UIEvents_Results_OnScreenClosed);
             UIEvents.OnReturnToLobbyButtonClicked.AddListener(UIEvents_Results_OnReturnToLobbyButtonClicked);
+            _proceedToLobbyRoutine = ProceedToLobbyRoutine();
         }
 
         public override void ExitState()
@@ -24,13 +31,27 @@ namespace Waves.StateMachine.States
             _slowMo.Kill();
             Time.timeScale = 0;
             GameEvents.OnWaveEnded.Invoke();
-            UIEvents.OnReturnToLobbyButtonClicked.RemoveListener(UIEvents_Results_OnReturnToLobbyButtonClicked);
+            UIEvents.OnResultsScreenClosed.RemoveListener(UIEvents_Results_OnScreenClosed);
+            UIEvents.OnReturnToLobbyButtonClicked.AddListener(UIEvents_Results_OnReturnToLobbyButtonClicked);
+            Ctx.StopCoroutine(_proceedToLobbyRoutine);
         }
 
         public override void UpdateState() => CheckSwitchStates();
 
         public override void CheckSwitchStates() { }
 
-        private void UIEvents_Results_OnReturnToLobbyButtonClicked() => SwitchState(Factory.WaitingToStartWave());
+        // switch state if results ui didn't close for some reason
+        private IEnumerator ProceedToLobbyRoutine()
+        {
+            yield return new WaitForSeconds(TIME_TO_WAIT_FOR_CLOSE_ANIMATION_END);
+            
+            SwitchState(Factory.WaitingToStartWave());
+            
+            Debug.LogWarning("Results UI took too long to close.");
+        }
+
+        private void UIEvents_Results_OnScreenClosed() => SwitchState(Factory.WaitingToStartWave());
+        
+        private void UIEvents_Results_OnReturnToLobbyButtonClicked() => Ctx.StartCoroutine(_proceedToLobbyRoutine);
     }
 }

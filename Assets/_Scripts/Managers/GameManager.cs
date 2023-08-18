@@ -37,7 +37,7 @@ namespace Managers
             {
                 _collectedGearAmount = value;
                 
-                GameEvents.OnCollectedGearAmountChanged.Invoke();
+                GameEvents.OnCollectedGearAmountChanged.Invoke(_collectedGearAmount);
                 
                 if (IsPlaying) return;
                 

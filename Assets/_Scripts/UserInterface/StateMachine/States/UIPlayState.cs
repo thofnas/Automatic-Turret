@@ -62,13 +62,14 @@ namespace UserInterface.StateMachine.States
         private void UpdateHealthBar()
         {
             if (Ctx.HealthBarFillImage == null) return;
-            Ctx.HealthBarFillImage.gameObject.SetActive(true);
+            Ctx.HealthBarFillImage.gameObject.SetActive(false);
             
             int health = GameManager.Instance.TurretStateMachine.TurretHealth;
             Ctx.HealthBarForegroundTransform.sizeDelta = 
                 new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
 
             Ctx.HealthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, health);
+            Ctx.HealthBarFillImage.gameObject.SetActive(true);
         }
 
         private void GameEvents_Wave_OnWaveStarted()
@@ -87,8 +88,8 @@ namespace UserInterface.StateMachine.States
 
         private void GameEvents_Wave_OnSubWaveEnded() => UpdateGameUIText();
         
-        private void GameEvents_Item_OnCollectedGearAmountChanged() =>
-            Ctx.CollectedGearsAmount.text = GameManager.Instance.CollectedGearAmount.ToString();
+        private void GameEvents_Item_OnCollectedGearAmountChanged(int collectedGearAmount) =>
+            Ctx.CollectedGearsAmount.text = collectedGearAmount.ToString();
 
         private void GameEvents_Wave_OnLost() => SwitchState(Factory.UIResults());
 

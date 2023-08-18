@@ -40,6 +40,6 @@ namespace Events {
         
         public static readonly EventRecorder OnItemPicked = new();
         public static readonly EventRecorder OnTotalGearAmountChanged = new();
-        public static readonly EventRecorder OnCollectedGearAmountChanged = new();
+        public static readonly EventRecorder<int> OnCollectedGearAmountChanged = new();
     }
 }

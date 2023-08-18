@@ -24,13 +24,13 @@ namespace Item
         private void OnEnable()
         {
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
-            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
+            UIEvents.OnReturnToLobbyButtonClicked.AddListener(GameEvents_OnReturnToLobbyButtonClicked);
         }
 
         private void OnDisable()
         {
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
-            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
+            UIEvents.OnReturnToLobbyButtonClicked.RemoveListener(GameEvents_OnReturnToLobbyButtonClicked);
         }
 
         public void SetPool(IObjectPool<Gear> pool) => _pool = pool;
@@ -73,7 +73,7 @@ namespace Item
             AnimateAndRelease();
         }
         
-        private void GameEvents_Wave_OnEnded()
+        private void GameEvents_OnReturnToLobbyButtonClicked()
         {
             PickUp();
         }
