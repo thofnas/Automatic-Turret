@@ -1,4 +1,5 @@
 using System;
+using CustomEventArgs;
 using Events;
 using Managers;
 using UnityEngine;
@@ -34,7 +35,9 @@ namespace Turret
             GameEvents.TurretOnReloadStart.AddListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.AddListener(GameEvents_Turret_OnReloadEnd);
             GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnGotHit);
-            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnWaveEnded);
+            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
+            GameEvents.OnWaveEnded.AddListener(GameEvents_Wave_OnEnded);
+            GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Turret_OnStatUpgraded);
         }
 
         private void OnDestroy()
@@ -44,7 +47,9 @@ namespace Turret
             GameEvents.TurretOnReloadStart.RemoveListener(GameEvents_Turret_OnReloadStart);
             GameEvents.TurretOnReloadEnd.RemoveListener(GameEvents_Turret_OnReloadEnd);
             GameEvents.OnTurretDamaged.RemoveListener(GameEvents_Turret_OnGotHit);
-            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnWaveEnded);
+            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
+            GameEvents.OnWaveEnded.RemoveListener(GameEvents_Wave_OnEnded);
+            GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Turret_OnStatUpgraded);
         }
 
         private void ResetTurret()
@@ -68,7 +73,11 @@ namespace Turret
             if (TurretHealth <= 0) IsDestroyed = true;
         }
 
-        private void GameEvents_Wave_OnWaveEnded() => ResetTurret();
+        private void GameEvents_Wave_OnStarted() => ResetTurret();
+        
+        private void GameEvents_Wave_OnEnded() => ResetTurret();
+
+        private void GameEvents_Turret_OnStatUpgraded(OnStatUpgradeEventArgs obj) => ResetTurret();
         #endregion
     }
 }

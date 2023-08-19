@@ -14,6 +14,7 @@ namespace Waves.StateMachine.States
 
         public override void EnterState()
         {
+            Debug.Log("Spawning");
             Time.timeScale = 1;
             GameEvents.OnTurretDestroyed.AddListener(GameEvents_Turret_OnDestroyed);
             GameEvents.OnSubWaveStarted.Invoke();

@@ -16,7 +16,6 @@ namespace Turret.StateMachine.States
 
         public override void EnterState()
         {
-            Debug.Log("Entered Aiming State.");
             RotateTowardsClosestEnemy();
             GameEvents.OnEnemyDestroyed.AddListener(GameEvents_Enemy_OnEnemyDestroyed);
         }

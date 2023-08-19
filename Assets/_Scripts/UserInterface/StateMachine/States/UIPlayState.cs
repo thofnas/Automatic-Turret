@@ -25,7 +25,10 @@ namespace UserInterface.StateMachine.States
             GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
             
             _maxHealth = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.AmountOfHealth);
+            Debug.Log("max health" + _maxHealth);
             _healthBarSize = new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
+
+            UpdateHealthBar();
         }
 
         public override void ExitState()
@@ -62,14 +65,12 @@ namespace UserInterface.StateMachine.States
         private void UpdateHealthBar()
         {
             if (Ctx.HealthBarFillImage == null) return;
-            Ctx.HealthBarFillImage.gameObject.SetActive(false);
             
             int health = GameManager.Instance.TurretStateMachine.TurretHealth;
-            Ctx.HealthBarForegroundTransform.sizeDelta = 
-                new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
-
+            Ctx.HealthBarForegroundTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _maxHealth * Ctx.HealthBarOneHPSize);
             Ctx.HealthBarFillImage.fillAmount = Mathf.InverseLerp(0f, _maxHealth, health);
-            Ctx.HealthBarFillImage.gameObject.SetActive(true);
+            
+            ContentFitterRefresh.RefreshContentFitter(Ctx.HealthBarBackgroundTransform);
         }
 
         private void GameEvents_Wave_OnWaveStarted()

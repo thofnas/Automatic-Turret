@@ -1,5 +1,6 @@
 ﻿using Events;
 using Managers;
+using UnityEngine;
 
 namespace Waves.StateMachine.States
 {
@@ -9,6 +10,7 @@ namespace Waves.StateMachine.States
 
         public override void EnterState()
         {
+            Debug.Log("Waiting for enemies");
             GameEvents.OnTurretDestroyed.AddListener(GameEvents_Turret_OnDestroyed);
         }
 
@@ -22,15 +24,14 @@ namespace Waves.StateMachine.States
 
         public override void CheckSwitchStates()
         {
-            if (GameManager.Instance.TurretStateMachine.IsDestroyed) return;
-            
             //wave ends if all enemies defeated and it was the last subwave
             if (!EnemyManager.Instance.IsAnyEnemyExists() && WaveManager.Instance.CurrentSubWaveID >= WaveManager.Instance.CurrentSubWaveIDMax)
             {
                 GameEvents.OnWaveWon.Invoke();
                 SwitchState(Factory.WaitingToFinishWave());
+                return;
             }
-
+            
             // start new subwave if they should be
             if (!EnemyManager.Instance.IsAnyEnemyExists() && WaveManager.Instance.CurrentSubWaveID < WaveManager.Instance.CurrentSubWaveIDMax)
                 SwitchState(Factory.SpawningEnemies());
@@ -38,6 +39,8 @@ namespace Waves.StateMachine.States
         
         private void GameEvents_Turret_OnDestroyed()
         {
+            if (!EnemyManager.Instance.IsAnyEnemyExists() && WaveManager.Instance.CurrentSubWaveID >= WaveManager.Instance.CurrentSubWaveIDMax) return;
+            
             GameEvents.OnWaveLost.Invoke();
             SwitchState(Factory.WaitingToFinishWave());
         }

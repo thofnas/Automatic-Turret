@@ -8,7 +8,7 @@ namespace Turret.StateMachine.States
         public TurretIdleState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }
         
-        public override void EnterState() => Debug.Log("Entered Idle State.");
+        public override void EnterState() { }
 
         public override void ExitState() { }
 

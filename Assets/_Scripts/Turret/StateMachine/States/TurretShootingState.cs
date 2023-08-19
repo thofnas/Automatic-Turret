@@ -10,10 +10,7 @@ namespace Turret.StateMachine.States
         public TurretShootingState(TurretStateMachine context, TurretStateFactory turretStateFactory)
             : base(context, turretStateFactory) { }
 
-        public override void EnterState()
-        {
-            Debug.Log("Entered Shooting State.");
-        }
+        public override void EnterState() { }
 
         public override void ExitState() { }
 

@@ -9,6 +9,7 @@ namespace UserInterface.StateMachine
     {
         [Header("Play Screen")]
         [SerializeField] private RectTransform _playScreenUITransform;
+        public RectTransform HealthBarBackgroundTransform;
         public Image HealthBarFillImage;
         public RectTransform HealthBarForegroundTransform;
         public TextMeshProUGUI CurrentSubWaveCount;
@@ -56,6 +57,7 @@ namespace UserInterface.StateMachine
         
         public float HealthBarOneHPSize { get; private set; }
         public float HealthBarOneHPPosition { get; private set; }
+        public float HealthBarBackgroundOneHPSize { get; private set; }
 
         // state variables
         private UIStateFactory _states;
@@ -78,6 +80,7 @@ namespace UserInterface.StateMachine
             GameEvents.OnWaveLost.AddListener(GameEvents_Wave_OnLost);
             HealthBarOneHPSize = HealthBarForegroundTransform.sizeDelta.x;
             HealthBarOneHPPosition = HealthBarForegroundTransform.anchoredPosition.x;
+            HealthBarBackgroundOneHPSize = HealthBarBackgroundTransform.sizeDelta.x;
         }
 
         private void OnDestroy()

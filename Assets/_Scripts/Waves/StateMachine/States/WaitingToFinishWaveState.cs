@@ -21,8 +21,11 @@ namespace Waves.StateMachine.States
             const float timeScaleStopDuration = 0.5f;
             _slowMo = DOTween.To(() => Time.timeScale, x => Time.timeScale = x,  0f, timeScaleStopDuration).SetEase(Ease.Linear);
 
+            Debug.Log("Waiting to finish");
+
             UIEvents.OnResultsScreenClosed.AddListener(UIEvents_Results_OnScreenClosed);
             UIEvents.OnReturnToLobbyButtonClicked.AddListener(UIEvents_Results_OnReturnToLobbyButtonClicked);
+            
             _proceedToLobbyRoutine = ProceedToLobbyRoutine();
         }
 
@@ -33,7 +36,7 @@ namespace Waves.StateMachine.States
             GameEvents.OnWaveEnded.Invoke();
             UIEvents.OnResultsScreenClosed.RemoveListener(UIEvents_Results_OnScreenClosed);
             UIEvents.OnReturnToLobbyButtonClicked.AddListener(UIEvents_Results_OnReturnToLobbyButtonClicked);
-            Ctx.StopCoroutine(_proceedToLobbyRoutine);
+            if (Ctx != null) Ctx.StopCoroutine(_proceedToLobbyRoutine);
         }
 
         public override void UpdateState() => CheckSwitchStates();
@@ -52,6 +55,10 @@ namespace Waves.StateMachine.States
 
         private void UIEvents_Results_OnScreenClosed() => SwitchState(Factory.WaitingToStartWave());
         
-        private void UIEvents_Results_OnReturnToLobbyButtonClicked() => Ctx.StartCoroutine(_proceedToLobbyRoutine);
+        private void UIEvents_Results_OnReturnToLobbyButtonClicked()
+        {
+            if (Ctx != null) 
+                Ctx.StartCoroutine(_proceedToLobbyRoutine);
+        }
     }
 }
