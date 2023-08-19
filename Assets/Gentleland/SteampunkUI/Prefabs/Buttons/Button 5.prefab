@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1208536214747847106}
   - component: {fileID: 1208536214747847107}
   - component: {fileID: 1208536214747847104}
+  - component: {fileID: -3892953115478862560}
   m_Layer: 5
   m_Name: Button 5
   m_TagString: Untagged
@@ -67,7 +68,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7030827936845937725, guid: 9291b39306d4ce640bf255c16c6ddf5b, type: 3}
+  m_Sprite: {fileID: 7030827936845937725, guid: 9291b39306d4ce640bf255c16c6ddf5b,
+    type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -106,8 +108,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 7942636985899258196, guid: 9291b39306d4ce640bf255c16c6ddf5b, type: 3}
-    m_PressedSprite: {fileID: 7108429565997640284, guid: 9291b39306d4ce640bf255c16c6ddf5b, type: 3}
+    m_HighlightedSprite: {fileID: 7942636985899258196, guid: 9291b39306d4ce640bf255c16c6ddf5b,
+      type: 3}
+    m_PressedSprite: {fileID: 7108429565997640284, guid: 9291b39306d4ce640bf255c16c6ddf5b,
+      type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -121,3 +125,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3892953115478862560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208536214747847134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a192a79dee516794d8a6bd256dbca5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
