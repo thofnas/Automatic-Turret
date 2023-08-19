@@ -72,6 +72,9 @@ namespace Managers
             return total;
         }
         
+        
+        public bool IsCurrentSubwaveTheLast() => CurrentSubWaveID >= CurrentSubWaveIDMax;
+
         private void GameEvents_Waves_OnWaveEnded() => ResetWaveData();
 
         private void GameEvents_Waves_OnSubWaveEnded() => CurrentSubWaveID++;

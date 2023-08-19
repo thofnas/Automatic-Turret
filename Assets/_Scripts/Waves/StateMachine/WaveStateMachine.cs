@@ -15,6 +15,7 @@ namespace Waves.StateMachine
         // state variables
         private WaveStateFactory _states;
         
+        #region Unity methods
         private void Start()
         {
             _states = new WaveStateFactory(this);
@@ -25,8 +26,7 @@ namespace Waves.StateMachine
 
             WaveManager.Instance.ResetWaveData();
         }
-
-        #region Unity methods
+        
         private void Update() => CurrentState.UpdateState();
 
         private void OnEnable()
@@ -45,7 +45,7 @@ namespace Waves.StateMachine
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Waves_OnLost);
         }
         #endregion
-
+        
         private void GameEvents_Enemy_OnAllEnemiesSpawned() => OnAllEnemiesSpawned = true;
 
         private void GameEvents_Waves_OnSubWaveEnded() => OnAllEnemiesSpawned = false;

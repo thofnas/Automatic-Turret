@@ -1,12 +1,17 @@
+using System.Collections.Generic;
 using Events;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UserInterface.StateMachine
 {
     public class UIStateMachine : MonoBehaviour
     {
+        private UIStateFactory _states;
+        public UIState CurrentState { get; set; }
+        
         [Header("Play Screen")]
         [SerializeField] private RectTransform _playScreenUITransform;
         public RectTransform HealthBarBackgroundTransform;
@@ -14,6 +19,9 @@ namespace UserInterface.StateMachine
         public RectTransform HealthBarForegroundTransform;
         public TextMeshProUGUI CurrentSubWaveCount;
         public TextMeshProUGUI CollectedGearsAmount;
+        public Image WaveProgressBarFillImage;
+        public RectTransform SubwaveIconsContainerTransform;
+        public GameObject SubwaveIconPrefab;
         [Header("Lobby Screen")]
         [SerializeField] private RectTransform _lobbyScreenUITransform;
         public TextMeshProUGUI CurrentWaveCount;
@@ -59,9 +67,7 @@ namespace UserInterface.StateMachine
         public float HealthBarOneHPPosition { get; private set; }
         public float HealthBarBackgroundOneHPSize { get; private set; }
 
-        // state variables
-        private UIStateFactory _states;
-        public UIState CurrentState { get; set; }
+        private readonly List<GameObject> _subwaveIconsList = new();
         
         public void Initialize()
         {
@@ -87,6 +93,21 @@ namespace UserInterface.StateMachine
         {
             GameEvents.OnWaveWon.RemoveListener(GameEvents_Wave_OnWon);
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Wave_OnLost);
+        }
+
+        public void SpawnSubwaveIcons(int amount)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                GameObject subwaveSymbol = Instantiate(SubwaveIconPrefab, SubwaveIconsContainerTransform.transform);
+
+                _subwaveIconsList.Add(subwaveSymbol);
+            }
+        }
+        
+        public void DestroyAllSubwaveIcons()
+        {
+            _subwaveIconsList.ForEach(Destroy);
         }
 
         #region Unity methods
