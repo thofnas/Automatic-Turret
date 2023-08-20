@@ -17,10 +17,12 @@ MonoBehaviour:
   - NumberThatUpgradesBaseValue: 2
     UpgradePrice: 20
   - NumberThatUpgradesBaseValue: 5
-    UpgradePrice: 25
+    UpgradePrice: 35
   - NumberThatUpgradesBaseValue: 9
-    UpgradePrice: 30
+    UpgradePrice: 45
   - NumberThatUpgradesBaseValue: 15
-    UpgradePrice: 40
+    UpgradePrice: 60
   - NumberThatUpgradesBaseValue: 25
-    UpgradePrice: 55
+    UpgradePrice: 80
+  - NumberThatUpgradesBaseValue: 50
+    UpgradePrice: 100

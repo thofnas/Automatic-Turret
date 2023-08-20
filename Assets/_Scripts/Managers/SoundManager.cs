@@ -94,7 +94,7 @@ namespace Managers
         
         private void GameEvents_Enemy_OnKilled(Enemy.Enemy enemy) => PlaySound(Sounds.EnemyKilled, enemy.transform.position, 0.5f);
 
-        private void GameEvents_Turret_OnDamaged() => PlaySound(Sounds.TurretDamaged, 0.2f);
+        private void GameEvents_Turret_OnDamaged(bool b) => PlaySound(Sounds.TurretDamaged, 0.2f);
     
         private void GameEvents_Wave_OnStarted() => PlaySound(Sounds.WaveStarted, 0.2f);
         

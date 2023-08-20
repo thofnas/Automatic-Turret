@@ -20,14 +20,14 @@ namespace Waves.StateMachine.States
             GameEvents.OnSubWaveStarted.Invoke();
             
             _spawnEnemiesRoutine = SpawnEnemiesRoutine();
-            
             if (Ctx != null) Ctx.StartCoroutine(_spawnEnemiesRoutine);
         }
 
         public override void ExitState()
         {
             GameEvents.OnTurretDestroyed.RemoveListener(GameEvents_Turret_OnDestroyed);
-            if (Ctx != null) Ctx.StopCoroutine(_spawnEnemiesRoutine);
+            Ctx.StopCoroutine(_spawnEnemiesRoutine);
+            _spawnEnemiesRoutine = null;
         }
 
         public override void UpdateState() => CheckSwitchStates();

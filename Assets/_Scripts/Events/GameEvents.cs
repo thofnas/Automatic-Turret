@@ -11,7 +11,7 @@ namespace Events {
         public static readonly EventRecorder TurretOnAimEnd = new();
         public static readonly EventRecorder TurretOnReloadStart = new(); 
         public static readonly EventRecorder TurretOnReloadEnd = new();
-        public static readonly EventRecorder OnTurretDamaged = new();
+        public static readonly EventRecorder<bool> OnTurretDamaged = new();
         public static readonly EventRecorder OnTurretDestroyed = new();
         public static readonly EventRecorder<OnStatUpgradeEventArgs> OnTurretStatUpgraded = new();
         public static readonly EventRecorder<int> OnTurretStatsReset = new();

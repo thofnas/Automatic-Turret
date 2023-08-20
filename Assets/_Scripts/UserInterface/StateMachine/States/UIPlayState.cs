@@ -62,18 +62,19 @@ namespace UserInterface.StateMachine.States
 
         private void Setup()
         {
+            _subWavesProgresses.Clear();
+            _subWavesProgressesDefault.Clear();
+            
             _maxHealth = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.AmountOfHealth);
             _healthBarSize = new Vector2(_maxHealth * Ctx.HealthBarOneHPSize, Ctx.HealthBarForegroundTransform.sizeDelta.y);
 
-            _currentWaveData = WaveManager.Instance.GetCurrentWaveData();
-            
-            if (_currentWaveData == null) Debug.LogError("Wave data is null.");
+            if (!WaveManager.Instance.TryGetCurrentWaveData(out _currentWaveData)) Debug.LogError("Wave data is null.");
             
             _currentSubWaveIndex = 0;
             
             foreach (SubWave subWave in _currentWaveData.SubWaves)
             {
-                int progressAmount = 0; 
+                int progressAmount = 0;
                     
                 subWave.EnemiesData.ForEach(data => progressAmount += data.EnemyQuantity);
 
@@ -121,6 +122,9 @@ namespace UserInterface.StateMachine.States
         
         private void IncreaseCurrentSubWaveProgress(int amount)
         {
+            if (_subWavesProgresses == null) return;
+            if (_currentWaveData == null) return;
+            
             amount = Mathf.Abs(amount);
             _subWavesProgresses[_currentSubWaveIndex] -= amount;
             
@@ -140,7 +144,6 @@ namespace UserInterface.StateMachine.States
 
         private void GameEvents_Wave_OnWaveEnded()
         {
-            UpdatePlayScreenUI();
             SwitchState(Factory.UILobby());
         }
 
@@ -160,7 +163,7 @@ namespace UserInterface.StateMachine.States
 
         private void GameEvents_Wave_OnWon() => SwitchState(Factory.UIResults());
 
-        private void GameEvents_Turret_OnDamaged() => UpdateHealthBar();
+        private void GameEvents_Turret_OnDamaged(bool b) => UpdateHealthBar();
     
         private void GameEvents_Enemy_OnSpawned(Enemy.Enemy obj) => IncreaseCurrentSubWaveProgress(1);
 

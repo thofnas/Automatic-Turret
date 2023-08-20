@@ -75,5 +75,5 @@ public class CameraShake : MonoBehaviour
         StartCoroutine(ShakeCamera(UpgradeManager.Instance.GetTurretUpgradedStat(Stat.BulletSpeed) * 0.5f));
     }
     
-    private void GameEvents_Turret_OnDamaged() => StartCoroutine(ShakeCamera(2f));
+    private void GameEvents_Turret_OnDamaged(bool b) => StartCoroutine(ShakeCamera(2f));
 }

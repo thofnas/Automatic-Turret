@@ -67,8 +67,15 @@ namespace Turret
         
         private void GameEvents_Turret_OnReloadEnd() => _isReloading = false;
         
-        private void GameEvents_Turret_OnGotHit()
+        private void GameEvents_Turret_OnGotHit(bool isABoss)
         {
+            if (isABoss)
+            {
+                TurretHealth = 0;
+                IsDestroyed = true;
+                return;
+            }
+            
             TurretHealth--;
             if (TurretHealth <= 0) IsDestroyed = true;
         }

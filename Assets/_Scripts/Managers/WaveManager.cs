@@ -20,7 +20,9 @@ namespace Managers
             GameEvents.OnSubWaveEnded.AddListener(GameEvents_Waves_OnSubWaveEnded);
             GameEvents.OnWaveWon.AddListener(GameEvents_Waves_OnWon);
             GameEvents.OnWaveLost.AddListener(GameEvents_Waves_OnLost);
-            AmountOfGearsInCurrentWave = GetMaxAmountOfGearsFromAWave(GetCurrentWaveData());
+            
+            if (TryGetCurrentWaveData(out WaveSO waveSO))
+                AmountOfGearsInCurrentWave = GetMaxAmountOfGearsFromAWave(waveSO);
         }
         
         private void OnDestroy()
@@ -31,10 +33,24 @@ namespace Managers
             GameEvents.OnWaveLost.RemoveListener(GameEvents_Waves_OnLost);
         }
         
-        public WaveSO GetCurrentWaveData() => _waves[CurrentWaveID];
+        public bool TryGetCurrentWaveData(out WaveSO waveSO)
+        {
+            waveSO = null;
+            if (IsTheLastWave(CurrentWaveID)) return false;
+            
+            waveSO = _waves[CurrentWaveID];
+            return true;
+        }
 
-        public SubWave GetCurrentSubWaveData() => GetCurrentWaveData().SubWaves[CurrentSubWaveID];
+        public SubWave GetCurrentSubWaveData()
+        {
+            return !TryGetCurrentWaveData(out WaveSO waveSO) 
+                ? null 
+                : waveSO.SubWaves[CurrentSubWaveID];
+        }
 
+        public bool IsTheLastWave(int waveID) => CurrentWaveID >= _waves.Count - 1;
+        
         public int GetAmountOfGearsFromAllWaves()
         {
             int totalGears = 0;
@@ -50,8 +66,10 @@ namespace Managers
 
         public void ResetWaveData()
         {
+            if (!TryGetCurrentWaveData(out WaveSO waveSO)) return;
+            
             CurrentSubWaveID = 0;
-            CurrentSubWaveIDMax = GetCurrentWaveData().SubWaves.Count - 1;
+            CurrentSubWaveIDMax = waveSO.SubWaves.Count - 1;
         }
         
         private int GetMaxAmountOfGearsFromAWave(WaveSO wave)
@@ -81,8 +99,10 @@ namespace Managers
 
         private void GameEvents_Waves_OnWon()
         {
+            if (!TryGetCurrentWaveData(out WaveSO waveSO)) return;
+
             CurrentWaveID++;
-            AmountOfGearsInCurrentWave = GetMaxAmountOfGearsFromAWave(GetCurrentWaveData());
+            AmountOfGearsInCurrentWave = GetMaxAmountOfGearsFromAWave(waveSO);
         }
 
         private void GameEvents_Waves_OnLost() => ResetWaveData();

@@ -11,12 +11,12 @@ PrefabInstance:
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _rollSpeed
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _gearsToDrop
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
@@ -28,6 +28,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f059c6c2dcb3a0d47ad1994b1a010966, type: 2}
+    - target: {fileID: 1806279408625695878, guid: 806f5c979983afd4f82bde77fe498c53,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5155054147113448330, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: m_RootOrder

@@ -21,6 +21,7 @@ namespace Enemy
         [SerializeField, Min(0)] private int _gearsToDrop = 5;
         [SerializeField] private EnemyVisual _enemyVisual;
         [SerializeField] private Image _healthBarFillImage;
+        [SerializeField] private bool _isABoss;
 
         private GearSpawner _gearSpawner;
         private Vector3 _enemyAnchorPoint;
@@ -91,9 +92,14 @@ namespace Enemy
         {
             if (collision.gameObject.transform.parent != GameManager.Instance.TurretStateMachine.transform) return;
             
-            GameEvents.OnTurretDamaged.Invoke();
+            if (_isABoss) 
+                GameEvents.OnTurretDamaged.Invoke(true);
+            else
+            {
+                GameEvents.OnTurretDamaged.Invoke(false);
+                Kill();
+            }
             
-            Kill();
         }
 
         public void ApplyDamage(float damage)
