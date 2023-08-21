@@ -42,7 +42,5 @@ namespace Turret.StateMachine
 
             return hits.Any(hit => hit.collider.GetComponent<Enemy.Enemy>());
         }
-
-        public Transform GetTransform() => transform;
     }
 }

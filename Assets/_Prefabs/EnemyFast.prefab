@@ -16,12 +16,12 @@ PrefabInstance:
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _rollSpeed
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _gearsToDrop
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}

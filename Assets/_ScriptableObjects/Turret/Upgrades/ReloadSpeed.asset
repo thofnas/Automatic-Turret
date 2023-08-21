@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectedStat: 0
   _upgradesList:
-  - NumberThatUpgradesBaseValue: 2
+  - NumberThatUpgradesBaseValue: 0.25
     UpgradePrice: 10
-  - NumberThatUpgradesBaseValue: 3
+  - NumberThatUpgradesBaseValue: 0.5
     UpgradePrice: 20
-  - NumberThatUpgradesBaseValue: 4
+  - NumberThatUpgradesBaseValue: 0.75
     UpgradePrice: 35
-  - NumberThatUpgradesBaseValue: 5
+  - NumberThatUpgradesBaseValue: 1
     UpgradePrice: 45
-  - NumberThatUpgradesBaseValue: 6
+  - NumberThatUpgradesBaseValue: 1.5
     UpgradePrice: 60
-  - NumberThatUpgradesBaseValue: 8
+  - NumberThatUpgradesBaseValue: 2
     UpgradePrice: 90

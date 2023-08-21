@@ -15,18 +15,29 @@ namespace Turret
         private void Start()
         {
             GameEvents.OnTurretStatUpgraded.AddListener(GameEvents_Turret_OnStatUpgrade);
-            _scannerVisualEffect.SetFloat(Radius, UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange));
+            GameEvents.OnTurretStatsReset.AddListener(GameEvents_Turret_OnStatReset);
+            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
+            RefreshScanningRadius();
         }
 
         private void OnDestroy()
         {
             GameEvents.OnTurretStatUpgraded.RemoveListener(GameEvents_Turret_OnStatUpgrade);
+            GameEvents.OnTurretStatsReset.RemoveListener(GameEvents_Turret_OnStatReset);
+            GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
         }
-        
+
+        private void RefreshScanningRadius() => 
+            _scannerVisualEffect.SetFloat(Radius, UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange));
+
         private void GameEvents_Turret_OnStatUpgrade(OnStatUpgradeEventArgs obj)
         {
-            if (obj.Stat.Equals(Stat.ViewRange))
-                _scannerVisualEffect.SetFloat(Radius, UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange));
+            if (obj.Stat is Stat.ViewRange)
+                RefreshScanningRadius();
         }
+        
+        private void GameEvents_Turret_OnStatReset(int obj) => RefreshScanningRadius();
+
+        private void GameEvents_Wave_OnStarted() => RefreshScanningRadius();
     }
 }

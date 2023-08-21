@@ -38,7 +38,7 @@ namespace Managers
             float turretViewRange = UpgradeManager.Instance.GetTurretUpgradedStat(Stat.ViewRange);
 
             Vector3 spawnPosition = Utilities.GetRandomPositionAtDistance(
-                GameManager.Instance.TurretStateMachine.GetTransform().position,
+                GameManager.Instance.TurretStateMachine.transform.position,
                 MAX_DISTANCE_TO_SPAWN_ENEMY + enemyPrefab.transform.localScale.y + turretViewRange,
                 MIN_DISTANCE_TO_SPAWN_ENEMY + enemyPrefab.transform.localScale.y + turretViewRange);
             
@@ -69,7 +69,7 @@ namespace Managers
         #region Methods helpers for enemies in sight
         public Enemy.Enemy GetClosestSpottedEnemy()
         {
-            Transform turret = GameManager.Instance.TurretStateMachine.GetTransform();
+            Transform turret = GameManager.Instance.TurretStateMachine.transform;
             float closestDistance = float.PositiveInfinity;
             Enemy.Enemy closestEnemy = null;
 

@@ -31,12 +31,12 @@ namespace Managers
         private void OnDestroy()
         {
             GameEvents.OnTurretShoot.RemoveListener(GameEvents_Turret_OnShoot);
-            GameEvents.OnTurretDamaged.AddListener(GameEvents_Turret_OnDamaged);
+            GameEvents.OnTurretDamaged.RemoveListener(GameEvents_Turret_OnDamaged);
             GameEvents.OnEnemyDamaged.RemoveListener(GameEvents_Enemy_OnDamaged);
             GameEvents.OnItemPicked.RemoveListener(GameEvents_Item_OnPicked);
             GameEvents.OnEnemySpawned.RemoveListener(GameEvents_Enemy_OnSpawned);
             GameEvents.OnEnemyKilled.RemoveListener(GameEvents_Enemy_OnKilled);
-            GameEvents.OnWaveStarted.AddListener(GameEvents_Wave_OnStarted);
+            GameEvents.OnWaveStarted.RemoveListener(GameEvents_Wave_OnStarted);
             UIEvents.OnUpgradeButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
             UIEvents.OnResetUpgradesButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
             UIEvents.OnStartWaveButtonClicked.RemoveListener(UIEvents_OnButtonClicked);
