@@ -128,8 +128,6 @@ namespace UserInterface.StateMachine.States
             amount = Mathf.Abs(amount);
             _subWavesProgresses[_currentSubWaveIndex] -= amount;
             
-            Debug.Log(_subWavesProgresses[_currentSubWaveIndex]);
-            
             if (_subWavesProgresses[_currentSubWaveIndex] < 0) 
                 _subWavesProgresses[_currentSubWaveIndex] = 0;
 

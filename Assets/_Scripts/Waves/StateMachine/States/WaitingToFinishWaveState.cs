@@ -19,8 +19,6 @@ namespace Waves.StateMachine.States
             const float timeScaleStopDuration = 0.5f;
             _slowMo = DOTween.To(() => Time.timeScale, x => Time.timeScale = x,  0f, timeScaleStopDuration).SetEase(Ease.Linear);
 
-            Debug.Log("Waiting to finish");
-
             UIEvents.OnResultsScreenClosed.AddListener(UIEvents_Results_OnScreenClosed);
         }
 

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyBasic
-  m_Shader: {fileID: -6465566751694194690, guid: efebbb8b546902545bb3f170a9722ba0,
+  m_Shader: {fileID: -6465566751694194690, guid: 1090917b2914de043af3c7596c78368e,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -18,7 +18,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses: []
@@ -55,6 +55,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -104,7 +112,10 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0.5
+    - _NoiseScale: 1
+    - _NormalStrength: 1
     - _OcclusionStrength: 1
+    - _Opacity: 0
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -121,8 +132,9 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 0.8207547, g: 0.3445621, b: 0.3445621, a: 1}
-    - _Color: {r: 0.8207547, g: 0.34456208, b: 0.34456208, a: 1}
-    - _EmissionColor: {r: 0.745283, g: 0.2708631, b: 0.25663045, a: 1}
+    - _BaseMap: {r: 0.85882354, g: 0.14901961, b: 0.14901961, a: 1}
+    - _Color: {r: 0.8584906, g: 0.14983091, b: 0.14983091, a: 1}
+    - _EmissionColor: {r: 0.21698111, g: 0.070621215, b: 0.070621215, a: 1}
     - _EmmisionColor: {r: 0.735849, g: 0.32280168, b: 0.32280168, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -16,5 +16,5 @@ MonoBehaviour:
   - EnemiesData:
     - EnemyPrefab: {fileID: 9048452632724446888, guid: b6fd45ddd84ad8a4b8d1d2c0f4a31626,
         type: 3}
-      EnemyQuantity: 10
+      EnemyQuantity: 15
     SpawnDelay: 0.1

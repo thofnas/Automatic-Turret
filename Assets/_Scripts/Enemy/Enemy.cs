@@ -122,6 +122,7 @@ namespace Enemy
         private void Kill()
         {
             GameEvents.OnEnemyKilled.Invoke(this);
+            _enemyVisual.StartDeathEffect();
             Destroy(gameObject);
         }
 

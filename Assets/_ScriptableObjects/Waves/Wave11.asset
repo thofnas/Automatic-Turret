@@ -16,11 +16,11 @@ MonoBehaviour:
   - EnemiesData:
     - EnemyPrefab: {fileID: 9048452632724446888, guid: b6fd45ddd84ad8a4b8d1d2c0f4a31626,
         type: 3}
-      EnemyQuantity: 2
+      EnemyQuantity: 5
     - EnemyPrefab: {fileID: 5854122761247752302, guid: ec1f18bb9c1598d48a4a93559457339a,
         type: 3}
-      EnemyQuantity: 2
+      EnemyQuantity: 5
     - EnemyPrefab: {fileID: 6797874313239079280, guid: 0a09d8c4784e3ba4d83e214b2fda6a5b,
         type: 3}
-      EnemyQuantity: 4
+      EnemyQuantity: 6
     SpawnDelay: 2

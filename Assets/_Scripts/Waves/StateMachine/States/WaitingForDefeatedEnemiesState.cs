@@ -10,7 +10,6 @@ namespace Waves.StateMachine.States
 
         public override void EnterState()
         {
-            Debug.Log("Waiting for enemies");
             GameEvents.OnTurretDestroyed.AddListener(GameEvents_Turret_OnDestroyed);
         }
 
