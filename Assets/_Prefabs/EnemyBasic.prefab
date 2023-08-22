@@ -28,6 +28,11 @@ PrefabInstance:
       propertyPath: _rollDelayInSeconds
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1350856647833103308, guid: 806f5c979983afd4f82bde77fe498c53,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1802459955040017065, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

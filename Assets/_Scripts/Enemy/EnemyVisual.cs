@@ -18,6 +18,7 @@ namespace Enemy
         
         [SerializeField] private Color _damagedColor;
         [SerializeField] private VisualEffect _enemyDeathVFX;
+        [SerializeField] private Light _light;
 
         private MeshRenderer _enemyMesh;
         private Color _originalColor;
@@ -51,6 +52,8 @@ namespace Enemy
         {
             gameObject.transform.SetParent(null);
             _enemyDeathVFX.gameObject.SetActive(true);
+            _light.gameObject.SetActive(true);
+            
             transform.DOScale(transform.localScale * DEATH_SCALE_MULTIPLIER, DEATH_SCALE_TWEEN_DURATION);
 
             DOVirtual.Float(0.5f, 1f, DEATH_SCALE_TWEEN_DURATION, value =>

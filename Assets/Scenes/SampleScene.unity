@@ -12786,7 +12786,7 @@ MonoBehaviour:
   _turretStateMachine: {fileID: 1006642759}
   _waveStateMachine: {fileID: 0}
   _groundTransform: {fileID: 693649966}
-  _startingMoneyAmount: 10000
+  _startingMoneyAmount: 0
 --- !u!1 &1839022297
 GameObject:
   m_ObjectHideFlags: 0
