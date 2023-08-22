@@ -42,6 +42,8 @@ namespace UserInterface.StateMachine.States
         
         public override void DisableElement()
         {
+            if (Ctx == null) return;
+
             Ctx.WaveResultsParentScreenUITransform.gameObject.SetActive(false);
             Ctx.WaveLostScreenUITransform.gameObject.SetActive(false);
             Ctx.WaveWonScreenUITransform.gameObject.SetActive(false);

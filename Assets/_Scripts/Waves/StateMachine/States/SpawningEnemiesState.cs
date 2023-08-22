@@ -25,7 +25,7 @@ namespace Waves.StateMachine.States
         public override void ExitState()
         {
             GameEvents.OnTurretDestroyed.RemoveListener(GameEvents_Turret_OnDestroyed);
-            Ctx.StopCoroutine(_spawnEnemiesRoutine);
+            if (Ctx != null) Ctx.StopCoroutine(_spawnEnemiesRoutine);
             _spawnEnemiesRoutine = null;
         }
 

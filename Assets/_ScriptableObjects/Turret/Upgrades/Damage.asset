@@ -15,12 +15,12 @@ MonoBehaviour:
   _selectedStat: 4
   _upgradesList:
   - NumberThatUpgradesBaseValue: 5
-    UpgradePrice: 100
+    UpgradePrice: 75
   - NumberThatUpgradesBaseValue: 10
-    UpgradePrice: 150
+    UpgradePrice: 125
   - NumberThatUpgradesBaseValue: 15
-    UpgradePrice: 200
+    UpgradePrice: 175
   - NumberThatUpgradesBaseValue: 20
-    UpgradePrice: 250
+    UpgradePrice: 220
   - NumberThatUpgradesBaseValue: 25
-    UpgradePrice: 300
+    UpgradePrice: 220

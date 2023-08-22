@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3258558028258183627
+--- !u!1 &144
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6246627036039090750}
-  - component: {fileID: 3059351299394743152}
-  - component: {fileID: 4516303742396644921}
-  - component: {fileID: 2756852427453710736}
+  - component: {fileID: 325}
+  - component: {fileID: 287}
+  - component: {fileID: 429}
+  - component: {fileID: 414}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -19,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6246627036039090750
+--- !u!224 &325
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258558028258183627}
+  m_GameObject: {fileID: 144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -39,21 +39,21 @@ RectTransform:
   m_AnchoredPosition: {x: -0.1032, y: -0.0156}
   m_SizeDelta: {x: 0.3354, y: 0.1967}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3059351299394743152
+--- !u!222 &287
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258558028258183627}
+  m_GameObject: {fileID: 144}
   m_CullTransparentMesh: 1
---- !u!114 &4516303742396644921
+--- !u!114 &429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258558028258183627}
+  m_GameObject: {fileID: 144}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -78,13 +78,13 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 450
---- !u!114 &2756852427453710736
+--- !u!114 &414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3258558028258183627}
+  m_GameObject: {fileID: 144}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
@@ -114,7 +114,7 @@ PrefabInstance:
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       propertyPath: _maxHealth
-      value: 1500
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: -5276530449521385806, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
@@ -264,7 +264,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1021213467662014151, guid: 806f5c979983afd4f82bde77fe498c53,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6246627036039090750}
+      addedObject: {fileID: 325}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 806f5c979983afd4f82bde77fe498c53, type: 3}
 --- !u!224 &6825992691539517438 stripped
