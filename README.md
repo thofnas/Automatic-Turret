@@ -5,3 +5,5 @@ To add waves:
 - create wave's scriptable object
 - fill it with subwaves and enemies
 - drag it into WaveManager
+
+Unity verison: 2022.3.4f1
